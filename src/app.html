@@ -427,7 +427,7 @@ button,a,.chip,.hl,.row,.ev{-webkit-tap-highlight-color:transparent}
       <div class="panel" id="panel" role="tabpanel"></div>
     </section>
   </aside>
-  <div class="ov foot" id="foot"><span class="scale"><i id="scaleBar"></i><b id="scaleTxt">200 m</b></span><span data-i="indie">Inoffiziell · Nachbarschaftsprojekt</span><span><span data-i="byline">von</span> <a href="https://github.com/phideltaee" target="_blank" rel="noopener">Fidel Esquivel</a></span><span>© OpenStreetMap</span></div>
+  <div class="ov foot" id="foot"><span class="scale"><i id="scaleBar"></i><b id="scaleTxt">200 m</b></span><span data-i="indie">Inoffiziell · Nachbarschaftsprojekt</span><span><span data-i="byline">von</span> <a href="https://github.com/phideltaee" target="_blank" rel="noopener">Fidel Esquivel</a></span><span>© OpenStreetMap<span id="ftTer" hidden>, swisstopo</span></span></div>
 
   <article class="ov placecard card" id="card" hidden aria-live="polite"></article>
 
@@ -452,6 +452,7 @@ button,a,.chip,.hl,.row,.ev{-webkit-tap-highlight-color:transparent}
 <script id="scene-data" type="application/json">__SCENE__</script>
 <script id="content-data" type="application/json">__CONTENT__</script>
 <script id="routes-data" type="application/json">__ROUTES__</script>
+<script id="terrain-data" type="application/json">__TERRAIN__</script>
 
 <script>
 // If the 3D module cannot load (WebGL off, CDN blocked), say so instead of leaving a blank board.
@@ -494,6 +495,95 @@ const POIS = CONTENT.pois, EVENTS = CONTENT.events, TOURS = CONTENT.tours;
 const POI = Object.fromEntries(POIS.map(p => [p.id, p]));
 const W = (x, y, h = 0) => new THREE.Vector3(x, h, -y);       // model metres -> three.js (north = -z)
 
+// ---------------------------------------------------------------- terrain
+// data/terrain.json (build_terrain.py): swissALTI3D heights © swisstopo on a grid in model metres, relative to the
+// ground at Zelghalde 34. Without it (or with the relief switched off) the model sits on a flat board as before.
+// H0(x, y) is the terrain at full relief; ground(x, y) what the model shows now (0 with the relief off).
+// Between grid points the height is linear on the two triangles of each cell, exactly like the terrain mesh,
+// so draped streets and building bases agree with the surface that is drawn.
+const EXAG = 1.5;   // vertical exaggeration (1 = true heights); 1.5 so the Käferberg reads as a hill (Fidel, 27 Oct)
+const TER = (() => { try { return JSON.parse($('#terrain-data')?.textContent || 'null'); } catch { return null; } })();
+const SMOOTH = 0.5;   // share of a 3x3 binomial blur mixed in: softens the 15 m sampling of cuttings and embankments
+const TG = TER?.rows?.length ? (() => {
+  const { x0, y0, d, nx, ny, u } = TER, h = new Float32Array(nx * ny), real = new Uint8Array(nx * ny), span = [];
+  TER.rows.forEach((r, j) => {   // stored: the part of each row over the board, [i0, first, delta, delta, ...]
+    if (!r || r.length < 2) return;
+    const i0 = r[0]; let v = 0;
+    for (let k = 1; k < r.length; k++) { v += r[k]; h[j * nx + i0 + k - 1] = v * u * EXAG; real[j * nx + i0 + k - 1] = 1; }
+    span[j] = [i0, i0 + r.length - 2];
+  });
+  if (SMOOTH) {   // blur over the stored samples only
+    const t = h.slice(), W3 = [1, 2, 1];
+    for (let j = 0; j < ny; j++) for (let i = 0; i < nx; i++) {
+      const k = j * nx + i; if (!real[k]) continue;
+      let s = 0, w = 0;
+      for (let b = -1; b <= 1; b++) for (let a = -1; a <= 1; a++) {
+        const jj = j + b, ii = i + a, kk = jj * nx + ii;
+        if (jj < 0 || jj >= ny || ii < 0 || ii >= nx || !real[kk]) continue;
+        const ww = W3[a + 1] * W3[b + 1]; s += t[kk] * ww; w += ww;
+      }
+      h[k] = t[k] * (1 - SMOOTH) + s / w * SMOOTH;
+    }
+  }
+  for (let j = 0; j < ny; j++) if (span[j]) {   // beyond the board: extend each row ...
+    const [i0, i1] = span[j];
+    for (let i = 0; i < i0; i++) h[j * nx + i] = h[j * nx + i0];
+    for (let i = i1 + 1; i < nx; i++) h[j * nx + i] = h[j * nx + i1];
+  }
+  for (let j = 0; j < ny; j++) if (!span[j]) {   // ... and copy the nearest stored row into the rows outside it
+    let k = 1; while (!span[j - k] && !span[j + k] && k < ny) k++;
+    const src = span[j - k] ? j - k : j + k; if (span[src]) h.copyWithin(j * nx, src * nx, src * nx + nx);
+  }
+  const n = new Float32Array(nx * ny * 3);   // node normals (three.js axes: y up, z = -north)
+  for (let j = 0; j < ny; j++) for (let i = 0; i < nx; i++) {
+    const k = j * nx + i, gx = (h[j * nx + Math.min(nx - 1, i + 1)] - h[j * nx + Math.max(0, i - 1)]) / (2 * d), gy = (h[Math.min(ny - 1, j + 1) * nx + i] - h[Math.max(0, j - 1) * nx + i]) / (2 * d);
+    const l = Math.hypot(gx, gy, 1); n[3 * k] = -gx / l; n[3 * k + 1] = 1 / l; n[3 * k + 2] = gy / l;
+  }
+  return { x0, y0, d, nx, ny, h, n };
+})() : null;
+// the cell and barycentric weights of a map point: [k00, k10, k01 or k11..., w...] shared by H0 and N0
+function terW(x, y) {
+  let fx = (x - TG.x0) / TG.d, fy = (y - TG.y0) / TG.d;
+  fx = Math.min(Math.max(fx, 0), TG.nx - 1.0001); fy = Math.min(Math.max(fy, 0), TG.ny - 1.0001);
+  const i = fx | 0, j = fy | 0; fx -= i; fy -= j;
+  const k = j * TG.nx + i, nx = TG.nx;
+  return fx + fy <= 1 ? [k, k + 1, k + nx, 1 - fx - fy, fx, fy] : [k + nx + 1, k + nx, k + 1, fx + fy - 1, 1 - fx, 1 - fy];
+}
+function H0(x, y) {
+  if (!TG) return 0;
+  const [a, b, c, wa, wb, wc] = terW(x, y), h = TG.h;
+  return h[a] * wa + h[b] * wb + h[c] * wc;
+}
+function N0(x, y, out, o = 0) {   // smooth surface normal at a map point, written to out[o..o+2]
+  const [a, b, c, wa, wb, wc] = terW(x, y), n = TG.n;
+  const X = n[3 * a] * wa + n[3 * b] * wb + n[3 * c] * wc, Y = n[3 * a + 1] * wa + n[3 * b + 1] * wb + n[3 * c + 1] * wc, Z = n[3 * a + 2] * wa + n[3 * b + 2] * wb + n[3 * c + 2] * wc;
+  const l = Math.hypot(X, Y, Z) || 1; out[o] = X / l; out[o + 1] = Y / l; out[o + 2] = Z / l;
+}
+let reliefOn = TG ? 1 : 0;   // 1 while the model shows the terrain; geometry is built with it and shifted by setRelief
+const ground = (x, y) => reliefOn ? H0(x, y) : 0;
+const G = (x, y, h = 0) => W(x, y, ground(x, y) + h);          // a point h metres above the model's ground
+// lowest and highest terrain under a footprint (corners, points along the walls, grid points inside)
+function footRange(ring) {
+  if (!TG) return [0, 0];
+  let m = Infinity, M = -Infinity, x0 = Infinity, x1 = -Infinity, y0 = Infinity, y1 = -Infinity;
+  for (let i = 0; i < ring.length; i++) {
+    const a = ring[i], b = ring[(i + 1) % ring.length], n = Math.max(1, Math.ceil(Math.hypot(b[0] - a[0], b[1] - a[1]) / (TG.d * 0.4)));
+    for (let k = 0; k < n; k++) { const v = H0(a[0] + (b[0] - a[0]) * k / n, a[1] + (b[1] - a[1]) * k / n); m = Math.min(m, v); M = Math.max(M, v); }
+    x0 = Math.min(x0, a[0]); x1 = Math.max(x1, a[0]); y0 = Math.min(y0, a[1]); y1 = Math.max(y1, a[1]);
+  }
+  if (x1 - x0 > TG.d || y1 - y0 > TG.d) {
+    for (let gy = Math.ceil((y0 - TG.y0) / TG.d); TG.y0 + gy * TG.d <= y1; gy++) for (let gx = Math.ceil((x0 - TG.x0) / TG.d); TG.x0 + gx * TG.d <= x1; gx++) {
+      const px = TG.x0 + gx * TG.d, py = TG.y0 + gy * TG.d;
+      let inside = false;
+      for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) { const a = ring[i], b = ring[j]; if ((a[1] > py) !== (b[1] > py) && px < (b[0] - a[0]) * (py - a[1]) / (b[1] - a[1]) + a[0]) inside = !inside; }
+      if (inside) { const v = H0(px, py); m = Math.min(m, v); M = Math.max(M, v); }
+    }
+  }
+  return [m, M];
+}
+// buildings stand on the lowest ground under them, a hair lower so no wall shows a gap at its lowest corner
+const minUnder = ring => footRange(ring)[0] - 0.15;
+
 // ---------------------------------------------------------------- text
 const GROUPS = [
   { id: 'kita', de: 'Kitas', en: 'Childcare', v: '--c-kita' },
@@ -526,7 +616,7 @@ const T = {
     showWay: 'Weg ab Siedlung zeigen', hideWay: 'Weg ausblenden', website: 'Website', source: 'Quelle', showOnMap: 'Auf der Karte',
     close: 'Schliessen', zoomIn: 'Hineinzoomen', zoomOut: 'Herauszoomen', north: 'Norden oben', homeView: 'Zurück zur Binzmühle',
     layers: 'Ebenen', night: 'Nachtmodell', lyTrees: 'Bäume', lyFountains: 'Trinkbrunnen', lyRecycling: 'Sammelstellen', lyStops: 'Haltestellen',
-    lyLines: 'Buslinien ab Chaletweg', lySharing: 'Velo- und Autoteilen', lyRings: 'Gehminuten-Ringe', lyNames: 'Namen von Parks und Plätzen',
+    lyLines: 'Buslinien ab Chaletweg', lySharing: 'Velo- und Autoteilen', lyRings: 'Gehminuten-Ringe', lyNames: 'Namen von Parks und Plätzen', lyRelief: 'Relief',
     lgMap: 'Karte', lgCity: 'Stadt',
     ringLbl: m => `${m} Min.`, ringNote: 'Ringe: Luftlinie, ungefähr 5, 10 und 15 Minuten zu Fuss.',
     walksIntro: 'Wege durchs Quartier, auf echten Fusswegen berechnet. Starten Sie einen Rundgang, die Kamera folgt dem Weg.',
@@ -546,6 +636,7 @@ const T = {
     dPlaces: 'Orte und Anlässe', dPlacesV: 'Recherche bei Stadt Zürich, GISA, Gemeinschaftszentren und Vereinen. Jeder Eintrag hat eine Quelle.',
     dWalk: 'Gehzeiten', dWalkV: 'Fussweg-Routing (OSRM) ab Zelghalde 34. Die Wege durch die neue Siedlung fehlen noch, einzelne Zeiten sind 1 bis 3 Minuten zu lang.',
     dSite: 'Siedlung Binzmühle', dSiteV: 'Lageplan der GISA (binzmuehle.ch), eingepasst auf die Gebäudepunkte des eidgenössischen Gebäuderegisters. Vier Geschosse plus Attika; Viadukte, Balkontürme, Gassen und Gartenhöfe schematisch.',
+    dTerrain: 'Gelände', dTerrainV: (x, m, dt) => `Höhenmodell swissALTI3D, © swisstopo${dt ? `, abgefragt am ${dt}` : ''} (Gitter ${m} m, Profil-Dienst von geo.admin.ch). ${x === 1 ? 'Höhen nicht überhöht.' : `Höhen ${String(x).replace('.', ',')}-fach überhöht.`}`,
     dLicense: 'Lizenz', dLicenseV: 'Code MIT, Daten ODbL',
     flatTour: '3D-Rundgang durch die 3,5- und 4,5-Zimmer-Wohnungen', flatTourSub: 'Die Grundrisstypen der Bauetappe 1, möbliert.',
     lageTitle: 'Freie 3,5- und 4,5-Zimmer-Wohnungen', lageNote: 'Wohnungsliste binzmuehle.ch, Stand 24.10.2026, vor dem Start der Bewerbung am 27.10.2026. Frei von allen; «reserviert» zählt nicht.',
@@ -576,7 +667,7 @@ const T = {
     showWay: 'Show the way from the estate', hideWay: 'Hide the way', website: 'Website', source: 'Source', showOnMap: 'Show on the map',
     close: 'Close', zoomIn: 'Zoom in', zoomOut: 'Zoom out', north: 'North up', homeView: 'Back to Binzmühle',
     layers: 'Layers', night: 'Night model', lyTrees: 'Trees', lyFountains: 'Drinking fountains', lyRecycling: 'Recycling points', lyStops: 'Bus and tram stops',
-    lyLines: 'Bus lines from Chaletweg', lySharing: 'Bike and car sharing', lyRings: 'Walking-time rings', lyNames: 'Names of parks and squares',
+    lyLines: 'Bus lines from Chaletweg', lySharing: 'Bike and car sharing', lyRings: 'Walking-time rings', lyNames: 'Names of parks and squares', lyRelief: 'Terrain',
     lgMap: 'Map', lgCity: 'City',
     ringLbl: m => `${m} min`, ringNote: 'Rings: straight-line distance, roughly 5, 10 and 15 minutes on foot.',
     walksIntro: 'Routes through the quarter, calculated on real footpaths. Start a walk and the camera follows it.',
@@ -596,6 +687,7 @@ const T = {
     dPlaces: 'Places and events', dPlacesV: 'Research on City of Zürich, GISA, community centre and club pages. Every entry has a source.',
     dWalk: 'Walking times', dWalkV: 'Footpath routing (OSRM) from Zelghalde 34. Paths through the new estate are missing, so some times are 1 to 3 minutes too long.',
     dSite: 'Binzmühle estate', dSiteV: 'GISA’s site plan (binzmuehle.ch), fitted to the points of the federal building register. Four storeys plus an attic; walkways, balcony towers, lanes and courts are schematic.',
+    dTerrain: 'Terrain', dTerrainV: (x, m, dt) => `swissALTI3D elevation model, © swisstopo${dt ? `, retrieved ${dt}` : ''} (${m} m grid, geo.admin.ch profile service). ${x === 1 ? 'Heights are not exaggerated.' : `Heights exaggerated ${x}×.`}`,
     dLicense: 'Licence', dLicenseV: 'Code MIT, data ODbL',
     flatTour: '3D walkthrough of the 3.5- and 4.5-room flats', flatTourSub: 'The floor-plan types of stage 1, furnished.',
     lageTitle: 'Free 3.5- and 4.5-room flats', lageNote: 'Unit list on binzmuehle.ch as of 24 Oct 2026, before applications open on 27 Oct 2026. Free out of all; “reserved” does not count.',
@@ -735,7 +827,7 @@ const state = {
   query: '',
   sel: null,            // {kind:'poi'|'site'|'event'|'mark'|'idea', id, ...}
   hover: null,
-  layers: Object.assign({ trees: true, fountains: false, recycling: false, stops: true, lines: false, sharing: false, rings: true, names: true }, store.get('layers', {})),
+  layers: Object.assign({ trees: true, fountains: false, recycling: false, stops: true, lines: false, sharing: false, rings: true, names: true, relief: true }, store.get('layers', {})),
   night: !!store.get('night', false),   // the city by day unless the visitor switches it to night; the interface follows
   sheet: 'peek',        // phones: bottom sheet height, 'min' | 'peek' | 'full'
   month: null,
@@ -785,7 +877,7 @@ scene.add(siteGlow);
 // ---------------------------------------------------------------- palettes
 const PAL = {
   day: {
-    board: '#E6E2D9', edge: '#C9A877', bld: ['#FAF8F4', '#ECE9E3', '#F4EEE5', '#E0DCD4', '#F6F3EE', '#EEEAE3'],
+    board: '#E6E2D9', face: '#DDD6CA', edge: '#C9A877', bld: ['#FAF8F4', '#ECE9E3', '#F4EEE5', '#E0DCD4', '#F6F3EE', '#EEEAE3'],
     site: '#FFF6EA', garden: '#B7CB98', lane: '#EFE8DA', glass: '#9FC3C9',
     area: { farm: '#E4DEC6', grass: '#D3DDBF', rail: '#D9D2C4', constr: '#E3DBCB', cemetery: '#C9D6B8', allot: '#CCD8B2', forest: '#A9C196', scrub: '#BDCFA6', park: '#C3D5AA', garden: '#C9DAB3', sport: '#CFDDBD', pitch: '#B7D29C', play: '#E8DCB4', pool: '#A6CBE0', water: '#A9CADD' },
     road: ['#FFFFFF', '#FFFFFF', '#FDFCFA', '#FBFAF7', '#F8F6F1', '#F6F3EE', '#F3F0EA', '#EFEBE3'],
@@ -793,7 +885,7 @@ const PAL = {
     hemi: ['#FFFFFF', '#D8D2C6', 1.15], sun: ['#FFF3E2', 2.3], glow: 0, night: 0, exposure: 1.0,
   },
   night: {
-    board: '#171C1A', edge: '#4A3A27', bld: ['#434A47', '#3C4340', '#474D49', '#353B38', '#454B48', '#3F4643'],
+    board: '#171C1A', face: '#232A27', edge: '#4A3A27', bld: ['#434A47', '#3C4340', '#474D49', '#353B38', '#454B48', '#3F4643'],
     site: '#9C7446', garden: '#2E4231', lane: '#3B3933', glass: '#3C6A73',
     area: { farm: '#262A22', grass: '#223026', rail: '#2A2A25', constr: '#2A2823', cemetery: '#223026', allot: '#243024', forest: '#1E2E21', scrub: '#212F23', park: '#233427', garden: '#243628', sport: '#233226', pitch: '#223725', play: '#34302A', pool: '#1D3644', water: '#1B3240' },
     road: ['#5A5850', '#55534B', '#4F4D46', '#4A4842', '#45443E', '#403F3A', '#3B3A36', '#363632'],
@@ -816,9 +908,11 @@ function dec(a, i, n) {
 const area2 = r => { let s = 0; for (let i = 0; i < r.length; i++) { const a = r[i], b = r[(i + 1) % r.length]; s += a[0] * b[1] - b[0] * a[1]; } return s / 2; };
 
 class Acc {
-  constructor(opts = {}) { this.p = []; this.n = []; this.c = opts.color ? [] : null; this.u = opts.uv3 ? [] : null; this.d = opts.delay ? [] : null; this.cat = opts.cat ? [] : null; this.uv = opts.uv ? [] : null; }
+  // opts.base: also keep, per vertex, the ground the piece stands on (this.gv while it is added), for liftGeo(.., 'base')
+  constructor(opts = {}) { this.p = []; this.n = []; this.c = opts.color ? [] : null; this.u = opts.uv3 ? [] : null; this.d = opts.delay ? [] : null; this.cat = opts.cat ? [] : null; this.uv = opts.uv ? [] : null; this.g = opts.base ? [] : null; this.gv = 0; }
   v(x, y, z, nx, ny, nz, col, uvw, del, cat, uv) {
     this.p.push(x, y, z); this.n.push(nx, ny, nz);
+    if (this.g) this.g.push(this.gv);
     if (this.c) this.c.push(col, col, col);
     if (this.u) this.u.push(uvw[0], uvw[1], uvw[2]);
     if (this.d) this.d.push(del);
@@ -834,22 +928,37 @@ class Acc {
     if (this.d) g.setAttribute('aDelay', new THREE.Float32BufferAttribute(this.d, 1));
     if (this.cat) g.setAttribute('aCat', new THREE.Float32BufferAttribute(this.cat, 1));
     if (this.uv) g.setAttribute('uv', new THREE.Float32BufferAttribute(this.uv, 2));
+    if (this.g) g.userData.g = new Float32Array(this.g);
     g.computeBoundingSphere();
     return g;
   }
 }
 
-// flat polygon (with holes) at height y, facing up
+// flat polygon (with holes) at height y, facing up; extra.sub: split triangles until no edge is longer (for draping)
 function addFlat(acc, outer, holes, y, extra = {}) {
   let faces;
   try { faces = THREE.ShapeUtils.triangulateShape(outer.map(p => new THREE.Vector2(p[0], p[1])), holes.map(h => h.map(p => new THREE.Vector2(p[0], p[1])))); }
   catch { return; }
   const all = outer.concat(...holes);
+  const put = q => acc.v(q[0], y, -q[1], 0, 1, 0, extra.col ?? 1, extra.uvw ?? [0, -100, 0], extra.del ?? 0, extra.cat ?? 0, extra.uvScale ? [q[0] / extra.uvScale, q[1] / extra.uvScale] : [0, 0]);
+  const s2 = (extra.sub || 0) ** 2;
+  const tri = (a, b, c) => {   // longest-edge bisection keeps the winding
+    if (s2) {
+      const ab = (a[0] - b[0]) ** 2 + (a[1] - b[1]) ** 2, bc = (b[0] - c[0]) ** 2 + (b[1] - c[1]) ** 2, ca = (c[0] - a[0]) ** 2 + (c[1] - a[1]) ** 2, m = Math.max(ab, bc, ca);
+      if (m > s2) {
+        if (m === ab) { const p = [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2]; tri(a, p, c); tri(p, b, c); }
+        else if (m === bc) { const p = [(b[0] + c[0]) / 2, (b[1] + c[1]) / 2]; tri(a, b, p); tri(a, p, c); }
+        else { const p = [(c[0] + a[0]) / 2, (c[1] + a[1]) / 2]; tri(a, b, p); tri(p, b, c); }
+        return;
+      }
+    }
+    put(a); put(b); put(c);
+  };
   for (const f of faces) {
     let [a, b, c] = f.map(i => all[i]);
     if (!a || !b || !c) continue;
     if ((b[0] - a[0]) * (c[1] - a[1]) - (b[1] - a[1]) * (c[0] - a[0]) < 0) [b, c] = [c, b];
-    for (const q of [a, b, c]) acc.v(q[0], y, -q[1], 0, 1, 0, extra.col ?? 1, extra.uvw ?? [0, -100, 0], extra.del ?? 0, extra.cat ?? 0, extra.uvScale ? [q[0] / extra.uvScale, q[1] / extra.uvScale] : [0, 0]);
+    tri(a, b, c);
   }
 }
 
@@ -878,9 +987,19 @@ function addPrism(acc, outer, holes, h, mh, o = {}) {
   addFlat(acc, outer, holes, h, { col: (o.col ?? 1) * 1.03, uvw: [0, -100, o.seed ?? 0], del: o.del ?? 0, cat: o.cat ?? 0, uvScale: o.uvScale });
 }
 
-// ribbons for streets, rails, routes
-function addRibbon(acc, pts, w, y) {
+// ribbons for streets, rails, routes; sub: add points so no piece is longer (for draping)
+function densify(pts, sub) {
+  const out = [pts[0]];
+  for (let i = 1; i < pts.length; i++) {
+    const a = pts[i - 1], b = pts[i], n = Math.ceil(Math.hypot(b[0] - a[0], b[1] - a[1]) / sub);
+    for (let k = 1; k < n; k++) out.push([a[0] + (b[0] - a[0]) * k / n, a[1] + (b[1] - a[1]) * k / n]);
+    out.push(b);
+  }
+  return out;
+}
+function addRibbon(acc, pts, w, y, sub = SUB, gs = null) {   // gs: per point, the ground for an Acc with base
   if (pts.length < 2) return;
+  if (sub) pts = densify(pts, sub);
   const half = w / 2, L = [], Rr = [];
   for (let i = 0; i < pts.length; i++) {
     const p = pts[i], a = pts[Math.max(0, i - 1)], b = pts[Math.min(pts.length - 1, i + 1)];
@@ -894,9 +1013,43 @@ function addRibbon(acc, pts, w, y) {
     L.push([p[0] + nx * half * m, p[1] + ny * half * m]); Rr.push([p[0] - nx * half * m, p[1] - ny * half * m]);
   }
   for (let i = 0; i < pts.length - 1; i++) {
-    const q = [Rr[i], Rr[i + 1], L[i + 1], Rr[i], L[i + 1], L[i]];
-    for (const v of q) acc.v(v[0], y, -v[1], 0, 1, 0, 1, [0, -100, 0], 0, 0, [0, 0]);
+    const q = [Rr[i], Rr[i + 1], L[i + 1], Rr[i], L[i + 1], L[i]], qi = [i, i + 1, i + 1, i, i + 1, i];
+    q.forEach((v, k) => { if (gs) acc.gv = gs[qi[k]]; acc.v(v[0], y, -v[1], 0, 1, 0, 1, [0, -100, 0], 0, 0, [0, 0]); });
   }
+}
+// A bridge on the terrain gets a straight deck from the ground at one end to the ground at the other (never below the
+// ground), y metres above it; the flat model lifts it `lift` metres instead. Returns the points and their 'base' values.
+function bridgeDeck(pts, lift, y) {
+  const d = SUB ? densify(pts, SUB) : pts, cum = [0];
+  for (let i = 1; i < d.length; i++) cum.push(cum[i - 1] + Math.hypot(d[i][0] - d[i - 1][0], d[i][1] - d[i - 1][1]));
+  const Lt = cum[cum.length - 1] || 1, a = H0(d[0][0], d[0][1]), b = H0(d[d.length - 1][0], d[d.length - 1][1]);
+  return [d, d.map((p, i) => Math.max(a + (b - a) * cum[i] / Lt, H0(p[0], p[1])) + y - lift)];
+}
+
+// ---------------------------------------------------------------- draping on the terrain
+// Geometry is built flat (as without terrain) and then lifted: liftGeo marks it, and relift adds the ground under
+// every vertex. Modes: 'drape' = the terrain right under the vertex (ground layers, streets, lines), 'base' = a
+// stored height per vertex (geo.userData.g: buildings of the estate stand level on their lowest ground).
+// normals = true: the vertex normals follow the slope, so draped layers are shaded like the terrain under them.
+// setRelief(on) walks the scene and shifts every lifted geometry, so the switch needs no rebuild.
+// longest piece of a draped line / area edge, metres: draped layers are painted without depth test (as on the flat
+// board), so they need not follow every terrain cell; this keeps the triangle count close to the flat model's
+const SUB = TG ? TG.d * 1.5 : 0, SUB_AREA = TG ? TG.d * 2 : 0;
+function relift(geo, dOn, on = reliefOn) {
+  const L = geo.userData.lift, P = geo.attributes.position.array, N = L.normals && geo.attributes.normal ? geo.attributes.normal.array : null, B = L.mode === 'base' ? geo.userData.g : null;
+  if (!TG || (!dOn && !N)) return geo;
+  for (let i = 0, k = 0; k < P.length; i++, k += 3) {
+    const x = P[k], y = -P[k + 2];
+    if (dOn) P[k + 1] += dOn * (B ? B[i] : H0(x, y));
+    if (N) { if (on) N0(x, y, N, k); else { N[k] = 0; N[k + 1] = 1; N[k + 2] = 0; } }
+  }
+  geo.attributes.position.needsUpdate = true; if (N) geo.attributes.normal.needsUpdate = true;
+  geo.computeBoundingSphere(); geo.boundingBox = null;
+  return geo;
+}
+function liftGeo(geo, mode = 'drape', normals = false) {
+  geo.userData.lift = { mode, normals };
+  return reliefOn ? relift(geo, 1, 1) : geo;
 }
 
 function flatMat(color, order) {
@@ -942,14 +1095,79 @@ function shadowTexture() {
   return new THREE.CanvasTexture(c);
 }
 
-const boardTop = new THREE.Mesh(new THREE.CircleGeometry(R, 180), new THREE.MeshLambertMaterial({ color: P0.board }));
-boardTop.rotation.x = -Math.PI / 2; boardTop.position.copy(W(BC[0], BC[1], 0)); boardTop.renderOrder = -20; boardTop.receiveShadow = true;
+// With terrain the board top is the terrain surface: the grid cells inside the board circle, the cells on the rim
+// clipped to it. Around it the terrain block shows its cut face down to the plywood board, which sits just below the
+// lowest point of the rim. Without terrain (or with the relief off) it is the flat round board as before.
+const RIM = Array.from({ length: 360 }, (_, i) => [BC[0] + R * Math.cos(i * Math.PI / 180), BC[1] + R * Math.sin(i * Math.PI / 180)]);
+const RIM_LOW = TG ? Math.min(...RIM.map(p => H0(p[0], p[1]))) - 3 : 0;   // top of the plywood under the terrain block
+function clipToRim(poly) {   // Sutherland-Hodgman against the convex, counter-clockwise rim polygon
+  let out = poly;
+  for (let i = 0; i < RIM.length && out.length; i++) {
+    const A = RIM[i], B = RIM[(i + 1) % RIM.length], inp = out; out = [];
+    const side = p => (B[0] - A[0]) * (p[1] - A[1]) - (B[1] - A[1]) * (p[0] - A[0]);
+    const cut = (P, Q, sp, sq) => { const f = sp / (sp - sq); return [P[0] + (Q[0] - P[0]) * f, P[1] + (Q[1] - P[1]) * f]; };
+    for (let j = 0; j < inp.length; j++) {
+      const P = inp[j], Qp = inp[(j + 1) % inp.length], sp = side(P), sq = side(Qp);
+      if (sq >= 0) { if (sp < 0) out.push(cut(P, Qp, sp, sq)); out.push(Qp); } else if (sp >= 0) out.push(cut(P, Qp, sp, sq));
+    }
+  }
+  return out;
+}
+function terrainGeometry() {
+  const { x0, y0, d, nx, ny } = TG, pos = [], idx = [];
+  for (let j = 0; j < ny; j++) for (let i = 0; i < nx; i++) pos.push(x0 + i * d, 0, -(y0 + j * d));
+  const rIn = R * Math.cos(Math.PI / 360), r2 = p => (p[0] - BC[0]) ** 2 + (p[1] - BC[1]) ** 2;
+  for (let j = 0; j < ny - 1; j++) for (let i = 0; i < nx - 1; i++) {
+    const xa = x0 + i * d, ya = y0 + j * d, k = j * nx + i;
+    // the two triangles of the cell, counter-clockwise seen from above (the same split as terW)
+    for (const t of [[[xa, ya, k], [xa + d, ya, k + 1], [xa, ya + d, k + nx]], [[xa + d, ya, k + 1], [xa + d, ya + d, k + nx + 1], [xa, ya + d, k + nx]]]) {
+      const ds = t.map(r2);
+      if (Math.max(...ds) <= rIn * rIn) { idx.push(t[0][2], t[1][2], t[2][2]); continue; }
+      if (Math.min(...ds) > (R + d) ** 2) continue;
+      const poly = clipToRim(t.map(p => [p[0], p[1]]));
+      if (poly.length < 3) continue;
+      const base = pos.length / 3;
+      for (const p of poly) pos.push(p[0], 0, -p[1]);
+      for (let m = 1; m < poly.length - 1; m++) idx.push(base, base + m, base + m + 1);
+    }
+  }
+  const g = new THREE.BufferGeometry();
+  g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+  const nrm = new Float32Array(pos.length); for (let k = 1; k < nrm.length; k += 3) nrm[k] = 1;
+  g.setAttribute('normal', new THREE.BufferAttribute(nrm, 3));
+  g.setIndex(idx);
+  return liftGeo(g, 'drape', true);
+}
+const boardTop = new THREE.Mesh(TG ? terrainGeometry() : new THREE.CircleGeometry(R, 180), new THREE.MeshLambertMaterial({ color: P0.board }));
+if (!TG) { boardTop.rotation.x = -Math.PI / 2; boardTop.position.copy(W(BC[0], BC[1], 0)); }
+boardTop.renderOrder = -20; boardTop.receiveShadow = true;
 const edgeMat = new THREE.MeshStandardMaterial({ map: plyTexture(), roughness: 0.85 });
-const boardEdge = new THREE.Mesh(new THREE.CylinderGeometry(R, R, 16, 180, 1, true), edgeMat);
+const boardEdge = new THREE.Mesh(new THREE.CylinderGeometry(R, R, 16, 360, 1, true), edgeMat);
 boardEdge.position.copy(W(BC[0], BC[1], -8));
 const contact = new THREE.Mesh(new THREE.PlaneGeometry(R * 2.5, R * 2.5), new THREE.MeshBasicMaterial({ map: shadowTexture(), transparent: true, depthWrite: false }));
 contact.rotation.x = -Math.PI / 2; contact.position.copy(W(BC[0] + 140, BC[1] - 140, -16.5)); contact.renderOrder = -30;
 groups3.ground.add(contact, boardTop, boardEdge);
+// the cut face of the terrain block: from the plywood up to the terrain along the rim (only with the relief on)
+const faceMat = new THREE.MeshLambertMaterial({ color: P0.face });
+const cutFace = new THREE.Mesh(new THREE.BufferGeometry(), faceMat);
+if (TG) {
+  const pos = [], nrm = [], idx = [], n = RIM.length;
+  RIM.forEach(([x, y], i) => {
+    const a = i * Math.PI / 180;
+    pos.push(x, RIM_LOW, -y, x, H0(x, y), -y); nrm.push(Math.cos(a), 0, -Math.sin(a), Math.cos(a), 0, -Math.sin(a));
+    const i2 = (i + 1) % n; idx.push(2 * i, 2 * i2, 2 * i2 + 1, 2 * i, 2 * i2 + 1, 2 * i + 1);
+  });
+  cutFace.geometry.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+  cutFace.geometry.setAttribute('normal', new THREE.Float32BufferAttribute(nrm, 3));
+  cutFace.geometry.setIndex(idx);
+  cutFace.castShadow = false; cutFace.receiveShadow = true;
+  groups3.ground.add(cutFace);
+}
+function placeBoard() {   // the plywood, its shadow and the cut face follow the relief switch
+  const low = reliefOn ? RIM_LOW : 0;
+  boardEdge.position.y = low - 8; contact.position.y = low - 16.5; cutFace.visible = !!(TG && reliefOn);
+}
+placeBoard();
 
 // land use
 const AREA_ORDER = ['farm', 'grass', 'rail', 'constr', 'cemetery', 'allot', 'forest', 'scrub', 'park', 'garden', 'sport', 'pitch', 'play', 'pool', 'water'];
@@ -960,50 +1178,67 @@ AREA_ORDER.forEach((k, idx) => {
   for (const r of recs) {
     const nh = r[0]; let [outer, i] = dec(r, 2, r[1]); const holes = [];
     for (let h = 0; h < nh; h++) { const n = r[i]; const [hp, j] = dec(r, i + 1, n); holes.push(hp); i = j; }
-    addFlat(acc, outer, holes, 0.1);
+    addFlat(acc, outer, holes, 0.1, { sub: SUB_AREA });
   }
-  const me = groundMesh(acc.geo(), flatMat(P0.area[k], -19 + idx * 0.01), -19 + idx * 0.01);
+  const me = groundMesh(liftGeo(acc.geo(), 'drape', true), flatMat(P0.area[k], -19 + idx * 0.01), -19 + idx * 0.01);
   areaMeshes[k] = me; groups3.ground.add(me);
 });
 
 // rivers, streets, rails, tram
 const WIDTHS = [17, 13, 10.5, 9, 7, 5.5, 3.6, 2.1];
-const roadMeshes = [], bridgeAcc = new Acc();
+const roadMeshes = [], bridgeAcc = new Acc({ base: true });
 const roadAccs = WIDTHS.map(() => new Acc());
 for (const r of SCENE.roads) {
   const cls = r[0], layer = r[1]; const [pts] = dec(r, 3, r[2]);
-  if (layer > 0) addRibbon(bridgeAcc, pts, WIDTHS[cls], 6 * layer);
+  if (layer > 0) { const [d, gs] = bridgeDeck(pts, 6 * layer, 0.6); addRibbon(bridgeAcc, d, WIDTHS[cls], 6 * layer, 0, gs); }
   else addRibbon(roadAccs[cls], pts, WIDTHS[cls], 0.2);
 }
 for (let c = WIDTHS.length - 1; c >= 0; c--) {
-  const me = groundMesh(roadAccs[c].geo(), flatMat(P0.road[c], -10 + (7 - c) * 0.01), -10 + (7 - c) * 0.01);
+  const me = groundMesh(liftGeo(roadAccs[c].geo(), 'drape', true), flatMat(P0.road[c], -10 + (7 - c) * 0.01), -10 + (7 - c) * 0.01);
   roadMeshes[c] = me; groups3.ground.add(me);
 }
-const riverAcc = new Acc(), railAcc = new Acc(), tramAcc = new Acc();
+const riverAcc = new Acc(), railAcc = new Acc(), railBAcc = new Acc({ base: true }), tramAcc = new Acc();
 for (const r of SCENE.rivers) { const [pts] = dec(r, 2, r[1]); addRibbon(riverAcc, pts, r[0] ? 34 : 3.2, 0.2); }
-for (const r of SCENE.rails) { const [pts] = dec(r, 2, r[1]); addRibbon(railAcc, pts, 1.7, 0.25 + r[0] * 6); }
+for (const r of SCENE.rails) {
+  const [pts] = dec(r, 2, r[1]);
+  if (r[0] > 0) { const [d, gs] = bridgeDeck(pts, r[0] * 6, 0.25); addRibbon(railBAcc, d, 1.7, 0.25 + r[0] * 6, 0, gs); }
+  else addRibbon(railAcc, pts, 1.7, 0.25);
+}
 for (const r of SCENE.trams) { const [pts] = dec(r, 1, r[0]); addRibbon(tramAcc, pts, 1.3, 0.3); }
-const riverMesh = groundMesh(riverAcc.geo(), flatMat(P0.river, -11), -11);
-const railMesh = groundMesh(railAcc.geo(), flatMat(P0.rail, -2), -2);
-const tramMesh = groundMesh(tramAcc.geo(), flatMat(P0.tram, -1.9), -1.9);
+const riverMesh = groundMesh(liftGeo(riverAcc.geo(), 'drape', true), flatMat(P0.river, -11), -11);
+const railMesh = groundMesh(liftGeo(railAcc.geo(), 'drape', true), flatMat(P0.rail, -2), -2);
+const railBMesh = groundMesh(liftGeo(railBAcc.geo(), 'base'), railMesh.material, -2);   // rail bridges
+const tramMesh = groundMesh(liftGeo(tramAcc.geo(), 'drape', true), flatMat(P0.tram, -1.9), -1.9);
 const bridgeMat = new THREE.MeshLambertMaterial({ color: P0.road[1], side: THREE.DoubleSide });
-const bridgeMesh = new THREE.Mesh(bridgeAcc.geo(), bridgeMat); bridgeMesh.castShadow = true; bridgeMesh.receiveShadow = true;
-groups3.ground.add(riverMesh, railMesh, tramMesh, bridgeMesh);
+const bridgeMesh = new THREE.Mesh(liftGeo(bridgeAcc.geo(), 'base'), bridgeMat); bridgeMesh.castShadow = true; bridgeMesh.receiveShadow = true;
+groups3.ground.add(riverMesh, railMesh, railBMesh, tramMesh, bridgeMesh);
 
 // ---------------------------------------------------------------- buildings (one merged mesh, grows on load, lights up at night)
-const bUni = { uGrow: { value: reduced ? 9 : 0 }, uNight: { value: 0 }, uWin: { value: new THREE.Color('#FFC46B') }, uCat: { value: P0.bld.map(c => new THREE.Color(c)) } };
-const bAcc = new Acc({ color: true, uv3: true, delay: true, cat: true });
+// Each building stands on the lowest ground under its footprint (aBase, added on the GPU while the relief is on), so
+// none floats on a slope; on the uphill side its foot is in the ground. It keeps its height.
+const bUni = { uGrow: { value: reduced ? 9 : 0 }, uNight: { value: 0 }, uWin: { value: new THREE.Color('#FFC46B') }, uCat: { value: P0.bld.map(c => new THREE.Color(c)) }, uRelief: { value: reliefOn } };
+const bAcc = new Acc({ color: true, uv3: true, delay: true, cat: true, base: true });
 let nBuildings = 0;
 {
   let s = 12345; const rnd = () => (s = (s * 16807) % 2147483647) / 2147483647;
   for (const b of SCENE.b) {
     const h = b[0] / Q, mh = b[1] / Q, cat = b[2], nIn = b[3];
-    let [outer, i] = dec(b, 5, b[4]); const holes = [];
+    let [outer, i] = dec(b, 5, b[4]); let holes = [];
     for (let k = 0; k < nIn; k++) { const n = b[i]; const [hp, j] = dec(b, i + 1, n); holes.push(hp); i = j; }
+    if (outer.some(p => Math.hypot(p[0] - BC[0], p[1] - BC[1]) > R)) {   // reaches past the board: cut it at the rim like the land use
+      outer = clipToRim(outer); holes = holes.map(clipToRim).filter(hp => hp.length >= 3);
+      if (outer.length < 3 || Math.abs(area2(outer)) < 4) { rnd(); rnd(); rnd(); continue; }
+    }
     let cx = 0, cy = 0; for (const p of outer) { cx += p[0]; cy += p[1]; } cx /= outer.length; cy /= outer.length;
     const d = Math.hypot(cx, cy);
     const del = Math.min(1, d / 2100) * 0.85 + rnd() * 0.12;
+    // on steep ground the uphill wall would swallow a low building: lift its roof (with the relief only) so at least
+    // 2.5 m (or all of a smaller building) stays above the highest ground under it
+    const [g0, g1] = footRange(outer), lift = mh < 0.5 ? Math.max(0, (g1 - g0) + Math.min(h, 2.5) - h) : 0;
+    bAcc.gv = g0 - 0.15;
+    const v0 = bAcc.g.length;
     addPrism(bAcc, outer, holes, h, mh, { col: 0.97 + rnd() * 0.05, seed: rnd() * 97, del, cat, windows: cat !== 3 && h > 5 });
+    if (lift > 0.05) for (let k = v0; k < bAcc.g.length; k++) if (bAcc.p[3 * k + 1] > mh + 0.01) bAcc.g[k] += lift;
     nBuildings++;
   }
 }
@@ -1012,12 +1247,12 @@ bMat.onBeforeCompile = sh => {
   Object.assign(sh.uniforms, bUni);
   sh.vertexShader = sh.vertexShader
     .replace('#include <common>', `#include <common>
-      attribute vec3 aUV; attribute float aDelay; attribute float aCat; uniform float uGrow; uniform vec3 uCat[6];
+      attribute vec3 aUV; attribute float aDelay; attribute float aCat; attribute float aBase; uniform float uGrow; uniform float uRelief; uniform vec3 uCat[6];
       varying vec3 vUV; varying vec3 vCatCol;`)
     .replace('#include <begin_vertex>', `#include <begin_vertex>
       vUV = aUV; vCatCol = uCat[int(aCat + 0.5)];
       float gk = clamp((uGrow - aDelay) * 2.6, 0.0, 1.0); gk = gk * gk * (3.0 - 2.0 * gk);
-      transformed.y *= max(gk, 0.002);`);
+      transformed.y = transformed.y * max(gk, 0.002) + aBase * uRelief;`);
   sh.fragmentShader = sh.fragmentShader
     .replace('#include <common>', `#include <common>
       uniform float uNight; uniform vec3 uWin; varying vec3 vUV; varying vec3 vCatCol;
@@ -1039,13 +1274,14 @@ bMat.onBeforeCompile = sh => {
 };
 const bDepth = new THREE.MeshDepthMaterial({ depthPacking: THREE.RGBADepthPacking });
 bDepth.onBeforeCompile = sh => {
-  sh.uniforms.uGrow = bUni.uGrow;
+  sh.uniforms.uGrow = bUni.uGrow; sh.uniforms.uRelief = bUni.uRelief;
   sh.vertexShader = sh.vertexShader
-    .replace('#include <common>', '#include <common>\nattribute float aDelay; uniform float uGrow;')
+    .replace('#include <common>', '#include <common>\nattribute float aDelay; attribute float aBase; uniform float uGrow; uniform float uRelief;')
     .replace('#include <begin_vertex>', `#include <begin_vertex>
-      float gk = clamp((uGrow - aDelay) * 2.6, 0.0, 1.0); gk = gk * gk * (3.0 - 2.0 * gk); transformed.y *= max(gk, 0.002);`);
+      float gk = clamp((uGrow - aDelay) * 2.6, 0.0, 1.0); gk = gk * gk * (3.0 - 2.0 * gk); transformed.y = transformed.y * max(gk, 0.002) + aBase * uRelief;`);
 };
-const bMesh = new THREE.Mesh(bAcc.geo(), bMat);
+const bGeo = bAcc.geo(); bGeo.setAttribute('aBase', new THREE.BufferAttribute(bGeo.userData.g, 1)); delete bGeo.userData.g;
+const bMesh = new THREE.Mesh(bGeo, bMat);
 bMesh.castShadow = true; bMesh.receiveShadow = true; bMesh.customDepthMaterial = bDepth; bMesh.frustumCulled = false;
 groups3.city.add(bMesh);
 
@@ -1075,18 +1311,20 @@ const ghostMat = new THREE.MeshStandardMaterial({ map: woodTex, color: PAL.day.s
 const ghostEdge = new THREE.LineBasicMaterial({ color: '#A0703A', transparent: true, opacity: 0.55 });
 const podiumMat = new THREE.MeshStandardMaterial({ color: P0.garden, roughness: 0.95 });   // garden courts
 const laneMat = new THREE.MeshStandardMaterial({ color: P0.lane, roughness: 0.95 });       // lanes
-const siteMeshes = {}, siteRings = {}, siteCentroid = {}, siteHouses = {};
+const siteMeshes = {}, siteRings = {}, siteCentroid = {}, siteHouses = {}, siteBase = {}, ghostEdges = [];
 {
+  // every house, walkway and balcony tower stands level on the lowest ground under it (the rows step down the slope)
   const acc = {};
-  const get = (role, ghost) => (acc[role + (ghost ? ':g' : '')] ||= new Acc({ uv3: true, uv: true }));
+  const get = (role, ghost) => (acc[role + (ghost ? ':g' : '')] ||= new Acc({ uv3: true, uv: true, base: true }));
   const post = (a, x, y, s, h0, h1) => addPrism(a, [[x - s, y - s], [x + s, y - s], [x + s, y + s], [x - s, y + s]], [], h1, h0, { windows: false });
   for (const s of SCENE.site) {
     const [ring0] = dec(s.ring, 0, s.n); const r = area2(ring0) < 0 ? ring0.slice().reverse() : ring0;
     const role = 'z' + s.z, ghost = s.e === 2, a = get(role, ghost);
+    a.gv = minUnder(r);
     if (s.k === 'h') {
       addPrism(a, r, [], EAVE, 0, { uvScale: 7, seed: s.z * 7.3 + (s.i || 0), windows: !ghost });
       if (s.attic) { const [at0] = dec(s.attic, 0, s.an); const at = area2(at0) < 0 ? at0.slice().reverse() : at0; addPrism(a, at, [], ATTIC, EAVE, { uvScale: 7, seed: s.z * 3.1 + 40, windows: !ghost }); }
-      (siteHouses[role] ||= []).push(r);
+      (siteHouses[role] ||= []).push(r); (siteBase[role] ||= []).push(a.gv);
     } else {
       // open frame: a slab at every floor and posts at the corners (walkways and balcony towers)
       for (let f = 1; f <= 4; f++) addPrism(a, r, [], floorY(f) + 0.3, floorY(f) - 0.05, { windows: false });
@@ -1096,21 +1334,21 @@ const siteMeshes = {}, siteRings = {}, siteCentroid = {}, siteHouses = {};
   }
   for (const key in acc) {
     const [role, g] = key.split(':');
-    const geo = acc[key].geo();
+    const geo = liftGeo(acc[key].geo(), 'base');
     const me = new THREE.Mesh(geo, g ? ghostMat : siteMat);
     me.castShadow = !g; me.receiveShadow = true; me.userData.site = role; if (g) me.renderOrder = 2;
     groups3.site.add(me); siteMeshes[key] = me;
-    if (g) { const ed = new THREE.LineSegments(new THREE.EdgesGeometry(geo, 25), ghostEdge); ed.userData.site = role; groups3.site.add(ed); }
+    if (g) { const ed = new THREE.LineSegments(new THREE.EdgesGeometry(geo, 25), ghostEdge); ed.userData.site = role; groups3.site.add(ed); ghostEdges.push([ed, geo]); }
   }
   // lanes and courts
   const cAcc = new Acc(), lAcc = new Acc();
   for (const gp of SCENE.gaps) {
     const [r0] = dec(gp.ring, 0, gp.n); const r = area2(r0) < 0 ? r0.slice().reverse() : r0;
-    addFlat(gp.k === 'hof' ? cAcc : lAcc, r, [], 0.35);
+    addFlat(gp.k === 'hof' ? cAcc : lAcc, r, [], 0.35, { sub: SUB });
     (siteRings[gp.k] ||= []).push(r);
   }
-  const court = new THREE.Mesh(cAcc.geo(), podiumMat); court.receiveShadow = true; court.userData.site = 'hof'; groups3.site.add(court);
-  const lane = new THREE.Mesh(lAcc.geo(), laneMat); lane.receiveShadow = true; lane.userData.site = 'gasse'; groups3.site.add(lane);
+  const court = new THREE.Mesh(liftGeo(cAcc.geo(), 'drape', true), podiumMat); court.receiveShadow = true; court.userData.site = 'hof'; groups3.site.add(court);
+  const lane = new THREE.Mesh(liftGeo(lAcc.geo(), 'drape', true), laneMat); lane.receiveShadow = true; lane.userData.site = 'gasse'; groups3.site.add(lane);
   const cen = rs => { let x = 0, y = 0, n = 0; for (const r of rs) for (const p of r) { x += p[0]; y += p[1]; n++; } return [x / n, y / n]; };
   for (const k in siteRings) siteCentroid[k] = k === 'hof' || k === 'gasse' ? cen([siteRings[k][0]]) : cen(siteRings[k]);
   siteCentroid.siedlung = cen(['z1', 'z2', 'z3', 'z4', 'z5'].flatMap(k => siteHouses[k] || []));
@@ -1118,13 +1356,14 @@ const siteMeshes = {}, siteRings = {}, siteCentroid = {}, siteHouses = {};
 // floor lines on the stage 1 houses
 const floorLineMat = new THREE.LineBasicMaterial({ color: '#8E6332', transparent: true, opacity: 0.5 });
 {
-  const pts = [];
-  for (const role of ['z1', 'z2', 'z3']) for (const r of siteHouses[role] || []) {
+  const pts = [], gs = [];
+  for (const role of ['z1', 'z2', 'z3']) (siteHouses[role] || []).forEach((r, hi) => {
     let cx = 0, cy = 0; for (const p of r) { cx += p[0]; cy += p[1]; } cx /= r.length; cy /= r.length;
     const rr = r.map(p => { const dx = p[0] - cx, dy = p[1] - cy, l = Math.hypot(dx, dy) || 1; return [p[0] + dx / l * 0.1, p[1] + dy / l * 0.1]; });
-    for (let f = 1; f <= 4; f++) for (let i = 0; i < rr.length; i++) { const a = rr[i], b = rr[(i + 1) % rr.length]; pts.push(W(a[0], a[1], floorY(f)), W(b[0], b[1], floorY(f))); }
-  }
-  groups3.site.add(new THREE.LineSegments(new THREE.BufferGeometry().setFromPoints(pts), floorLineMat));
+    for (let f = 1; f <= 4; f++) for (let i = 0; i < rr.length; i++) { const a = rr[i], b = rr[(i + 1) % rr.length]; pts.push(W(a[0], a[1], floorY(f)), W(b[0], b[1], floorY(f))); gs.push(siteBase[role][hi], siteBase[role][hi]); }
+  });
+  const fg = new THREE.BufferGeometry().setFromPoints(pts); fg.userData.g = new Float32Array(gs);
+  groups3.site.add(new THREE.LineSegments(liftGeo(fg, 'base'), floorLineMat));
 }
 // free flats by floor: translucent shells around the houses of one row, shown on request
 const BAND_C = ['#E6C9A0', '#D2A367', '#B5813F', '#8A5E2A'];
@@ -1135,13 +1374,14 @@ function buildBands(role) {
   const U = CONTENT.units?.[role]; if (!U) return;
   U.levels.forEach((lv, i) => {
     const n = lv[0] + lv[1]; if (!n) return;
-    const acc = new Acc({ uv3: true, uv: true });
-    for (const r of siteHouses[role] || []) {
+    const acc = new Acc({ uv3: true, uv: true, base: true });
+    (siteHouses[role] || []).forEach((r, hi) => {
       let cx = 0, cy = 0; for (const p of r) { cx += p[0]; cy += p[1]; } cx /= r.length; cy /= r.length;
       const rr = r.map(p => { const dx = p[0] - cx, dy = p[1] - cy, l = Math.hypot(dx, dy) || 1; return [p[0] + dx / l * 0.8, p[1] + dy / l * 0.8]; });
+      acc.gv = siteBase[role][hi];
       addPrism(acc, rr, [], floorY(i + 1) - 0.15, floorY(i) + 0.15, { windows: false });
-    }
-    const me = new THREE.Mesh(acc.geo(), new THREE.MeshBasicMaterial({ color: bandCol(n), transparent: true, opacity: 0.66, depthWrite: false }));
+    });
+    const me = new THREE.Mesh(liftGeo(acc.geo(), 'base'), new THREE.MeshBasicMaterial({ color: bandCol(n), transparent: true, opacity: 0.66, depthWrite: false }));
     me.userData.site = role; bandGroup.add(me);
   });
 }
@@ -1153,15 +1393,22 @@ const trunkMat = new THREE.MeshStandardMaterial({ color: P0.trunk, roughness: 1 
 const nT = SCENE.trees.length;
 const trees = new THREE.InstancedMesh(treeGeo, treeMat, nT);
 const trunks = new THREE.InstancedMesh(new THREE.CylinderGeometry(0.22, 0.3, 1, 5), trunkMat, nT);
+const treeR = new Float32Array(nT), treeTh = new Float32Array(nT), treeG = new Float32Array(nT);
 {
   let s = 99; const rnd = () => (s = (s * 16807) % 2147483647) / 2147483647;
+  SCENE.trees.forEach((tr, i) => { treeR[i] = 2.4 + rnd() * 2.2; treeTh[i] = 2.6 + rnd() * 1.6; treeG[i] = H0(tr[0] / Q, tr[1] / Q); });
+}
+function placeTrees() {   // on the ground under the trunk; the trunk reaches a little into the ground on slopes
   const m = new THREE.Matrix4(), qn = new THREE.Quaternion(), sc = new THREE.Vector3(), ps = new THREE.Vector3();
   SCENE.trees.forEach((tr, i) => {
-    const x = tr[0] / Q, y = tr[1] / Q, r = 2.4 + rnd() * 2.2, th = 2.6 + rnd() * 1.6;
-    ps.copy(W(x, y, th + r * 0.85)); sc.set(r, r * 1.1, r); m.compose(ps, qn, sc); trees.setMatrixAt(i, m);
-    ps.copy(W(x, y, th / 2 + 0.2)); sc.set(1, th + 0.4, 1); m.compose(ps, qn, sc); trunks.setMatrixAt(i, m);
+    const x = tr[0] / Q, y = tr[1] / Q, r = treeR[i], th = treeTh[i], g = treeG[i] * reliefOn;
+    ps.copy(W(x, y, g + th + r * 0.85)); sc.set(r, r * 1.1, r); m.compose(ps, qn, sc); trees.setMatrixAt(i, m);
+    ps.copy(W(x, y, g + th / 2 + 0.05)); sc.set(1, th + 0.7, 1); m.compose(ps, qn, sc); trunks.setMatrixAt(i, m);
   });
+  trees.instanceMatrix.needsUpdate = true; trunks.instanceMatrix.needsUpdate = true;
+  trees.computeBoundingSphere(); trunks.computeBoundingSphere();
 }
+placeTrees();
 trees.castShadow = true; trees.receiveShadow = true; trunks.castShadow = false;
 groups3.city.add(trees, trunks);
 
@@ -1179,10 +1426,18 @@ function poiPos(p) {
   const dx = p.x - BC[0], dy = p.y - BC[1], l = Math.hypot(dx, dy);
   return [BC[0] + dx / l * (R - 45), BC[1] + dy / l * (R - 45)];
 }
+// ground under a point and the steepness there (rise per metre): markers sink by their radius times the slope
+function groundSlope(x, y) {
+  if (!TG) return [0, 0];
+  const e = 2, gx = (H0(x + e, y) - H0(x - e, y)) / (2 * e), gy = (H0(x, y + e) - H0(x, y - e)) / (2 * e);
+  return [H0(x, y), Math.hypot(gx, gy)];
+}
+const poiG = Float32Array.from(visPois.map(p => groundSlope(...poiPos(p))[0]));
 function layerMarks(list, geo, color, h, kind) {
   const me = new THREE.InstancedMesh(geo, new THREE.MeshStandardMaterial({ color, roughness: 0.6 }), Math.max(1, list.length));
-  const m = new THREE.Matrix4();
-  list.forEach((it, i) => { m.makeTranslation(it[0] / Q, h, -it[1] / Q); me.setMatrixAt(i, m); });
+  const m = new THREE.Matrix4(), gs = list.map(it => groundSlope(it[0] / Q, it[1] / Q));
+  me.userData.g = Float32Array.from(gs.map(g => g[0])); me.userData.slope = Float32Array.from(gs.map(g => g[1]));
+  list.forEach((it, i) => { m.makeTranslation(it[0] / Q, h + me.userData.g[i] * reliefOn, -it[1] / Q); me.setMatrixAt(i, m); });
   me.count = list.length; me.castShadow = true; me.userData.kind = kind; me.userData.list = list;
   me.computeBoundingSphere();
   groups3.marks.add(me); return me;
@@ -1198,7 +1453,7 @@ const lineGroup = new THREE.Group(); groups3.marks.add(lineGroup);
 const LINE_COL = { '80': '#2747A8', '64': '#7E55C4', '61': '#D2456E', '62': '#13948B', '32': '#DB8E12' };
 for (const ln of CONTENT.lines) {
   const acc = new Acc(); for (const s of ln.segs) addRibbon(acc, s, 3.2, 1.0);
-  const me = groundMesh(acc.geo(), flatMat(LINE_COL[ln.ref] || '#555', -1.5), -1.5);
+  const me = groundMesh(liftGeo(acc.geo(), 'drape', true), flatMat(LINE_COL[ln.ref] || '#555', -1.5), -1.5);
   lineGroup.add(me);
 }
 
@@ -1207,8 +1462,8 @@ const RINGS = [[300, 5], [600, 10], [900, 15]];
 const ringGroup = new THREE.Group(); groups3.marks.add(ringGroup);
 const ringMat = new THREE.LineDashedMaterial({ color: P0.ring, dashSize: 14, gapSize: 10, transparent: true, opacity: 0.85, depthTest: false });
 for (const [rad] of RINGS) {
-  const pts = []; for (let i = 0; i <= 200; i++) { const a = i / 200 * Math.PI * 2; pts.push(W(HOME.x + Math.cos(a) * rad, HOME.y + Math.sin(a) * rad, 0.5)); }
-  const ln = new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), ringMat); ln.computeLineDistances(); ln.renderOrder = -1;
+  const pts = []; for (let i = 0; i <= 400; i++) { const a = i / 400 * Math.PI * 2; pts.push(W(HOME.x + Math.cos(a) * rad, HOME.y + Math.sin(a) * rad, 0.5)); }
+  const ln = new THREE.Line(liftGeo(new THREE.BufferGeometry().setFromPoints(pts)), ringMat); ln.computeLineDistances(); ln.renderOrder = -1;
   ringGroup.add(ln);
 }
 
@@ -1227,7 +1482,7 @@ walker.visible = false; walker.castShadow = true; groups3.fx.add(walker);
 function applyPalette() {
   const night = isNight();
   const P = night ? PAL.night : PAL.day;
-  boardTop.material.color.set(P.board);
+  boardTop.material.color.set(P.board); faceMat.color.set(P.face);
   edgeMat.color.set(night ? '#5C4A33' : '#FFFFFF');
   for (const k in areaMeshes) areaMeshes[k].material.color.set(P.area[k]);
   roadMeshes.forEach((m, c) => m && m.material.color.set(P.road[c]));
@@ -1262,7 +1517,7 @@ function colorPins() {
 
 // ---------------------------------------------------------------- camera helpers
 const sphOff = (dist, polar, az) => new THREE.Vector3(Math.sin(polar) * Math.sin(az), Math.cos(polar), Math.sin(polar) * Math.cos(az)).multiplyScalar(dist);
-const siteAt = (h = 0) => { const c = siteCentroid.siedlung || [0, 0]; return W(c[0], c[1], h); };
+const siteAt = (h = 0) => { const c = siteCentroid.siedlung || [0, 0]; return G(c[0], c[1], h); };
 siteGlow.position.copy(siteAt(26));
 const DEFAULT = () => {   // the Binzmühle rows in the middle of the visible map
   const target = siteAt(0), dist = isPhone() ? 1900 : 1550;
@@ -1357,7 +1612,7 @@ function hideBubble() { bubble.hidden = true; bubble.classList.remove('open'); }
 function headOnScreen(p) {   // the pin head on screen; pins grow with distance, as in updatePins
   const [x, y] = poiPos(p);
   const s = THREE.MathUtils.clamp(camera.position.distanceTo(controls.target) / 560, 0.55, 3.6);
-  return vtmp.copy(W(x, y, pinH(p) * Math.min(s, 2.2) + 3 * s)).project(camera);
+  return vtmp.copy(G(x, y, pinH(p) * Math.min(s, 2.2) + 3 * s)).project(camera);
 }
 function freeBox() {   // where a bubble can sit: clear of the rail, the tools, the intro bar and the sheet
   const cr = canvas.getBoundingClientRect(), w = cr.width, h = cr.height;
@@ -1564,7 +1819,7 @@ function layoutLabels() {
   const maxN = isPhone() ? 26 : 60;
   for (const it of items) {
     if (placed.length >= maxN && it.pri < 900) break;
-    vtmp.copy(W(it.x, it.y, it.z)).project(camera);
+    vtmp.copy(G(it.x, it.y, it.z)).project(camera);
     if (vtmp.z > 1 || vtmp.x < -1.1 || vtmp.x > 1.1 || vtmp.y < -1.1 || vtmp.y > 1.1) continue;
     const sx = (vtmp.x + 1) / 2 * w, sy = (1 - vtmp.y) / 2 * h;
     const bw = it.est, bh = it.cls.startsWith('site') && !it.cls.startsWith('sites') ? 40 : 22;
@@ -1592,18 +1847,18 @@ function updatePins(force) {
   visPois.forEach((p, i) => {
     const on = state.groups.has(p.g) || (state.sel?.kind === 'poi' && state.sel.id === p.id);
     const big = (state.sel?.kind === 'poi' && state.sel.id === p.id) || (state.hover?.kind === 'poi' && state.hover.id === p.id) ? 1.45 : 1;
-    const [x, y] = poiPos(p);
+    const [x, y] = poiPos(p), g = poiG[i] * reliefOn;
     const hh = pinH(p) * Math.min(s, 2.2);
     const r = (on ? 2.9 * s * big : 0.0001);
-    ptmp.copy(W(x, y, hh)); stmp.set(r, r, r); mtmp.compose(ptmp, qtmp, stmp); headMesh.setMatrixAt(i, mtmp);
-    ptmp.copy(W(x, y, 0)); stmp.set(on ? Math.max(1, s * 0.9) : 0.0001, on ? hh : 0.0001, on ? Math.max(1, s * 0.9) : 0.0001); mtmp.compose(ptmp, qtmp, stmp); stemMesh.setMatrixAt(i, mtmp);
+    ptmp.copy(W(x, y, g + hh)); stmp.set(r, r, r); mtmp.compose(ptmp, qtmp, stmp); headMesh.setMatrixAt(i, mtmp);
+    ptmp.copy(W(x, y, g - 1)); stmp.set(on ? Math.max(1, s * 0.9) : 0.0001, on ? hh + 1 : 0.0001, on ? Math.max(1, s * 0.9) : 0.0001); mtmp.compose(ptmp, qtmp, stmp); stemMesh.setMatrixAt(i, mtmp);
   });
   headMesh.instanceMatrix.needsUpdate = true; stemMesh.instanceMatrix.needsUpdate = true;
   headMesh.computeBoundingSphere(); stemMesh.computeBoundingSphere();
   const ms = THREE.MathUtils.clamp(dist / 700, 0.7, 3.5);
   for (const me of [fountainMesh, recycMesh, stopMesh, shareMesh]) {
-    const list = me.userData.list;
-    list.forEach((it, i) => { ptmp.set(it[0] / Q, me === stopMesh ? 0.6 : 1.4 * ms, -it[1] / Q); stmp.set(ms, ms, ms); mtmp.compose(ptmp, qtmp, stmp); me.setMatrixAt(i, mtmp); });
+    const list = me.userData.list, G0 = me.userData.g, SL = me.userData.slope;
+    list.forEach((it, i) => { ptmp.set(it[0] / Q, (me === stopMesh ? 0.6 : 1.4 * ms) + (G0[i] - SL[i] * 3 * ms) * reliefOn, -it[1] / Q); stmp.set(ms, ms, ms); mtmp.compose(ptmp, qtmp, stmp); me.setMatrixAt(i, mtmp); });
     me.instanceMatrix.needsUpdate = true; me.computeBoundingSphere();
   }
   halo.scale.setScalar(Math.max(1, s * 0.9));
@@ -1635,7 +1890,8 @@ function groundAt(cx, cy) {
   ndc.set(((cx - rect.left) / rect.width) * 2 - 1, -((cy - rect.top) / rect.height) * 2 + 1);
   ray.setFromCamera(ndc, camera);
   const p = new THREE.Vector3();
-  if (!ray.ray.intersectPlane(new THREE.Plane(new THREE.Vector3(0, 1, 0), 0), p)) return null;
+  if (TG && reliefOn) { const hit = ray.intersectObject(boardTop, false)[0]; if (!hit) return null; p.copy(hit.point); }   // the terrain surface
+  else if (!ray.ray.intersectPlane(new THREE.Plane(new THREE.Vector3(0, 1, 0), 0), p)) return null;
   const x = p.x, y = -p.z;
   if (Math.hypot(x - BC[0], y - BC[1]) > R) return null;
   return [x, y];
@@ -1697,7 +1953,7 @@ function clearSel() {
   state.sel = null; card.hidden = true; halo.visible = false; clearRoute(); labelsDirty = true; updatePins(true); needsRender = true;
   $$('.row.sel').forEach(r => r.classList.remove('sel'));
 }
-function setHalo(x, y) { halo.position.copy(W(x, y, 0.6)); halo.visible = true; }
+function setHalo(x, y) { halo.userData.p = [x, y]; halo.position.copy(G(x, y, 0.6)); halo.visible = true; }
 const fmtWalk = p => p.out ? `${t('outside')}` : (p.w != null ? `${p.w} ${t('walkMin')}` : '');
 function compass(dx, dy) {
   const a = (Math.atan2(dx, dy) * 180 / Math.PI + 360) % 360;
@@ -1731,7 +1987,7 @@ function selectPoi(id, opts = {}) {
       ${p.s && p.s !== p.u ? `<a class="btn" href="${esc(p.s)}" target="_blank" rel="noopener">${t('source')}</a>` : ''}
     </div>`);
   clearRoute();
-  if (!opts.noFly) flyTo(W(x, y, 0), p.out ? 1300 : Math.min(camera.position.distanceTo(controls.target), 760));
+  if (!opts.noFly) flyTo(G(x, y, 0), p.out ? 1300 : Math.min(camera.position.distanceTo(controls.target), 760));
   labelsDirty = true; updatePins(true); needsRender = true;
   $$('.row').forEach(r => r.classList.toggle('sel', r.dataset.id === id));
 }
@@ -1762,7 +2018,7 @@ function selectSite(role, opts = {}) {
     ${extra}
     ${K.ghost ? `<p class="note">${t('ghostNote')}</p>` : ''}${K.schem ? `<p class="note">${t('schematic')}</p>` : ''}
     <div class="btnrow"><a class="btn" href="${esc(K.url)}" target="_blank" rel="noopener">${ico('ext')}${t('source')}</a></div>`);
-  if (!opts.noFly) flyTo(W(c[0], c[1], 6), role === 'siedlung' ? 560 : 330, { polar: 1.02 });
+  if (!opts.noFly) flyTo(G(c[0], c[1], 6), role === 'siedlung' ? 560 : 330, { polar: 1.02 });
   labelsDirty = true; updatePins(true); needsRender = true;
 }
 const RECYC = { glass: ['Glas', 'glass'], glass_bottles: ['Glasflaschen', 'glass bottles'], cans: ['Dosen', 'cans'], aluminium: ['Alu', 'aluminium'], scrap_metal: ['Altmetall', 'scrap metal'], metal: ['Metall', 'metal'], clothes: ['Kleider', 'clothes'], shoes: ['Schuhe', 'shoes'], paper: ['Papier', 'paper'], cardboard: ['Karton', 'cardboard'], batteries: ['Batterien', 'batteries'], cooking_oil: ['Speiseöl', 'cooking oil'], engine_oil: ['Motoröl', 'engine oil'], PET: ['PET', 'PET'], plastic_bottles: ['PET-Flaschen', 'PET bottles'], green_waste: ['Grüngut', 'green waste'], electrical_appliances: ['Elektrogeräte', 'electrical appliances'], small_appliances: ['Kleingeräte', 'small appliances'], tins: ['Konserven', 'tins'], plastic: ['Kunststoff', 'plastic'], waste: ['Abfall', 'waste'] };
@@ -1780,7 +2036,7 @@ function selectMark(kind, idx) {
   state.sel = { kind: 'mark', title, x, y };
   setHalo(x, y);
   openCard(`<div class="kick"><i style="background:var(--accent)"></i>${esc(kick)}</div><h2>${esc(title)}</h2>${body ? `<p class="desc">${esc(body)}</p>` : ''}<p class="note">OpenStreetMap</p>`);
-  flyTo(W(x, y, 0), Math.min(camera.position.distanceTo(controls.target), 600));
+  flyTo(G(x, y, 0), Math.min(camera.position.distanceTo(controls.target), 600));
   labelsDirty = true; needsRender = true;
 }
 function selectEvent(id) {
@@ -1798,7 +2054,7 @@ function selectEvent(id) {
     const inBoard = Math.hypot(e.x - BC[0], e.y - BC[1]) < R;
     const x = inBoard ? e.x : BC[0] + (e.x - BC[0]) / Math.hypot(e.x - BC[0], e.y - BC[1]) * (R - 40), y = inBoard ? e.y : BC[1] + (e.y - BC[1]) / Math.hypot(e.x - BC[0], e.y - BC[1]) * (R - 40);
     if (!inBoard) setHalo(x, y);
-    flyTo(W(x, y, 0), inBoard ? 700 : 1500);
+    flyTo(G(x, y, 0), inBoard ? 700 : 1500);
   }
   labelsDirty = true; needsRender = true;
 }
@@ -1809,11 +2065,11 @@ function showRoute(id) {
   clearRoute();
   const r = ROUTES[id]; if (!r) return;
   const acc = new Acc(); addRibbon(acc, r.p, 4.5, 1.2);
-  routeMesh = new THREE.Mesh(acc.geo(), routeMat); routeMesh.renderOrder = 4; groups3.fx.add(routeMesh);
+  routeMesh = new THREE.Mesh(liftGeo(acc.geo()), routeMat); routeMesh.renderOrder = 4; groups3.fx.add(routeMesh);
   let minx = 1e9, maxx = -1e9, miny = 1e9, maxy = -1e9;
   for (const [x, y] of r.p) { minx = Math.min(minx, x); maxx = Math.max(maxx, x); miny = Math.min(miny, y); maxy = Math.max(maxy, y); }
   const span = Math.max(maxx - minx, maxy - miny);
-  flyTo(W((minx + maxx) / 2, (miny + maxy) / 2, 0), Math.max(620, span * 2.6), { polar: 0.72 });
+  flyTo(G((minx + maxx) / 2, (miny + maxy) / 2, 0), Math.max(620, span * 2.6), { polar: 0.72 });
   needsRender = true;
 }
 const ACTIONS = {
@@ -1954,6 +2210,7 @@ function renderAbout(el) {
       <div><dt>${t('dPlaces')}</dt><dd>${t('dPlacesV')}</dd></div>
       <div><dt>${t('dWalk')}</dt><dd>${t('dWalkV')}</dd></div>
       <div><dt>${t('dSite')}</dt><dd>${t('dSiteV')}</dd></div>
+      ${TG ? `<div><dt>${t('dTerrain')}</dt><dd>${T[lang].dTerrainV(EXAG, TG.d, TER.date ? new Intl.DateTimeFormat(lang === 'en' ? 'en-GB' : 'de-CH', { day: 'numeric', month: lang === 'en' ? 'short' : '2-digit', year: 'numeric' }).format(new Date(TER.date + 'T12:00:00')) : '')}</dd></div>` : ''}
       <div><dt>${t('dAuthor')}</dt><dd><a href="https://github.com/phideltaee" target="_blank" rel="noopener">Fidel Esquivel (@phideltaee)</a></dd></div>
       <div><dt>${t('dCode')}</dt><dd><a href="https://github.com/phideltaee/binzmuehle-atlas" target="_blank" rel="noopener">github.com/phideltaee/binzmuehle-atlas</a></dd></div>
       <div><dt>${t('dLicense')}</dt><dd>${t('dLicenseV')}</dd></div>
@@ -1965,7 +2222,7 @@ function runIdea(id) {
   if (i.to.site) selectSite(i.to.site);
   else if (i.to.poi && POI[i.to.poi]) selectPoi(i.to.poi);
   else if (i.to.event && EVENTS.some(e => e.id === i.to.event)) selectEvent(i.to.event);
-  else if (i.to.layer) { state.layers[i.to.layer] = true; store.set('layers', state.layers); applyLayers(); renderLayers(); flyTo(W(HOME.x, HOME.y, 0), 1500); }
+  else if (i.to.layer) { state.layers[i.to.layer] = true; store.set('layers', state.layers); applyLayers(); renderLayers(); flyTo(G(HOME.x, HOME.y, 0), 1500); }
 }
 
 // suggest-a-place
@@ -1975,11 +2232,12 @@ function endPick() { state.pick = null; canvas.classList.remove('pick'); showPic
 
 // ---------------------------------------------------------------- layers popover
 function renderLayers() {
-  const rows = [['trees', 'lyTrees', SCENE.trees.length], ['names', 'lyNames'], ['rings', 'lyRings'], ['stops', 'lyStops', SCENE.stops.length], ['lines', 'lyLines'], ['fountains', 'lyFountains', SCENE.fountains.length], ['recycling', 'lyRecycling', SCENE.recycling.length], ['sharing', 'lySharing', sharingList.length]];
+  const rows = [...(TG ? [['relief', 'lyRelief']] : []), ['trees', 'lyTrees', SCENE.trees.length], ['names', 'lyNames'], ['rings', 'lyRings'], ['stops', 'lyStops', SCENE.stops.length], ['lines', 'lyLines'], ['fountains', 'lyFountains', SCENE.fountains.length], ['recycling', 'lyRecycling', SCENE.recycling.length], ['sharing', 'lySharing', sharingList.length]];
   $('#layers').innerHTML = `<div class="lgrp">${t('layers')}</div>` + rows.map(([k, lbl, n]) => `<label><input type="checkbox" id="ly-${k}" data-ly="${k}" ${state.layers[k] ? 'checked' : ''}><span>${t(lbl)}</span>${n ? `<small>${n}</small>` : ''}</label>`).join('') + `<p class="note" style="margin:6px 4px 0">${t('ringNote')}</p>`;
   $$('#layers input').forEach(i => i.onchange = () => { state.layers[i.dataset.ly] = i.checked; store.set('layers', state.layers); applyLayers(); });
 }
 function applyLayers() {
+  if (TG) setRelief(state.layers.relief !== false);
   trees.visible = trunks.visible = state.layers.trees;
   fountainMesh.visible = state.layers.fountains; recycMesh.visible = state.layers.recycling; stopMesh.visible = state.layers.stops; shareMesh.visible = state.layers.sharing;
   lineGroup.visible = state.layers.lines; ringGroup.visible = state.layers.rings;
@@ -2000,14 +2258,14 @@ function startTour(id) {
   const cum = [0]; for (let i = 1; i < pts.length; i++) cum.push(cum[i - 1] + Math.hypot(pts[i][0] - pts[i - 1][0], pts[i][1] - pts[i - 1][1]));
   for (let li = 0; li < tr.legs.length; li++) {
     const l = tr.legs[li]; const acc = new Acc(); addRibbon(acc, l.p, l.mode === 'bus' ? 7 : 4.5, 1.3 + li * 0.01);
-    const me = new THREE.Mesh(acc.geo(), l.mode === 'bus' ? busMat : routeMat); me.renderOrder = 4; tourGroup.add(me);
+    const me = new THREE.Mesh(liftGeo(acc.geo()), l.mode === 'bus' ? busMat : routeMat); me.renderOrder = 4; tourGroup.add(me);
   }
   const total = cum[cum.length - 1];
   const duration = THREE.MathUtils.clamp(total / 1000 * 9000, 14000, 34000);
   state.tour = { tr, pts, cum, legEnd, stops, total, t: 0, duration, playing: true, last: performance.now(), leg: -1 };
   walker.visible = true;
   if (isPhone()) setSheet('min');
-  flyTo(W(HOME.x, HOME.y, 0), 1050, { polar: 0.85, dur: 900 });
+  flyTo(G(HOME.x, HOME.y, 0), 1050, { polar: 0.85, dur: 900 });
   renderTourbar(); labelsDirty = true; needsRender = true;
 }
 function stopTour() {
@@ -2042,12 +2300,12 @@ function stepTour(now) {
   const dt = Math.min(64, now - T0.last); T0.last = now;
   T0.t = Math.min(1, T0.t + dt / T0.duration);
   const d = T0.t * T0.total, pos = tourPos(d);
-  walker.position.copy(W(pos.x, pos.y, 8));
+  walker.userData.p = [pos.x, pos.y]; walker.position.copy(G(pos.x, pos.y, 8));
   let leg = 0; while (leg < T0.legEnd.length - 1 && pos.i > T0.legEnd[leg]) leg++;
   if (leg !== T0.leg || T0.t >= 1) { const ch = leg !== T0.leg; T0.leg = leg; if (ch || T0.t >= 1) renderTourbar(); }
   const pr = $('#tbProg'); if (pr) pr.style.width = (T0.t * 100).toFixed(1) + '%';
   if (!fly) {   // camera follows the walker, keeping the user's angle
-    const tgt = W(pos.x, pos.y, 0);
+    const tgt = G(pos.x, pos.y, 0);
     camOff.copy(camera.position).sub(controls.target);
     controls.target.lerp(tgt, 0.06); camera.position.copy(controls.target).add(camOff);
   }
@@ -2158,7 +2416,41 @@ controls.addEventListener('change', () => { labelsDirty = true; needsRender = tr
 let growStart = Infinity;   // set on the first rendered frame
 function clampTarget() {
   const tx = controls.target.x, ty = -controls.target.z, dx = tx - BC[0], dy = ty - BC[1], d = Math.hypot(dx, dy);
-  if (d > R * 0.92) { const k = R * 0.92 / d; const nx = BC[0] + dx * k, ny = BC[1] + dy * k; const off = camera.position.clone().sub(controls.target); controls.target.set(nx, 0, -ny); camera.position.copy(controls.target).add(off); }
+  if (d > R * 0.92) { const k = R * 0.92 / d; const nx = BC[0] + dx * k, ny = BC[1] + dy * k; const off = camera.position.clone().sub(controls.target); controls.target.set(nx, controls.target.y, -ny); camera.position.copy(controls.target).add(off); }
+}
+// Panning slides the target across the map at the height it had. Keep it at the same height above the ground, so the
+// view climbs the slopes instead of aiming into a hill. Flights, the intro and a running walk set the target themselves.
+const follow = { x: NaN, z: NaN, lift: 0 };
+function followGround() {
+  const tg = controls.target;
+  if (!TG || fly || intro || state.tour?.playing) { follow.x = NaN; return; }
+  if (tg.x === follow.x && tg.z === follow.z) return;
+  const gy = ground(tg.x, -tg.z);
+  if (Number.isNaN(follow.x)) follow.lift = tg.y - gy;
+  else { const d = gy + follow.lift - tg.y; tg.y += d; camera.position.y += d; }
+  follow.x = tg.x; follow.z = tg.z;
+}
+// The relief switch (layers): shift everything that stands on the terrain between the terrain and the flat board.
+function setRelief(on) {
+  on = TG && on ? 1 : 0;
+  if (on === reliefOn) return;
+  const tg = controls.target, g0 = ground(tg.x, -tg.z), dOn = on - reliefOn;
+  reliefOn = on;
+  const seen = new Set();
+  scene.traverse(o => {
+    const g = o.geometry; if (!g?.userData.lift || seen.has(g)) return;
+    seen.add(g); relift(g, dOn, on);
+    if (o.isLine && o.material?.isLineDashedMaterial) o.computeLineDistances();
+  });
+  for (const [ed, src] of ghostEdges) { ed.geometry.dispose(); ed.geometry = new THREE.EdgesGeometry(src, 25); }
+  bUni.uRelief.value = on;
+  placeTrees(); placeBoard();
+  siteGlow.position.copy(siteAt(26));
+  if (halo.visible && halo.userData.p) setHalo(...halo.userData.p);
+  if (walker.visible && walker.userData.p) walker.position.copy(G(...walker.userData.p, 8));
+  if (intro) intro.center.copy(siteAt(12));
+  const dy = ground(tg.x, -tg.z) - g0; tg.y += dy; camera.position.y += dy; fly = null; follow.x = NaN;   // stay on the same spot
+  updatePins(true); labelsDirty = true; needsRender = true;
 }
 let bootFly = false;   // the first view: drop in from above to the default view once the model is on screen
 function frame(now) {
@@ -2175,7 +2467,7 @@ function frame(now) {
   if (bUni.uGrow.value < 2.2) { bUni.uGrow.value = Math.max(0, (now - growStart) / 2600 * 1.6); active = true; }
   if (stepTour(now)) active = true;
   if (controls.update()) active = true;
-  clampTarget();
+  clampTarget(); followGround();
   if (active || needsRender) {
     camera.updateMatrixWorld(); updatePins(); if (labelsDirty) layoutLabels(); updateHud(); if (intro) placeBubble(); if (hcardId) placeHcard();
     renderer.render(scene, camera); needsRender = false;
@@ -2199,8 +2491,10 @@ function adapt(now) {
 }
 
 // ---------------------------------------------------------------- boot
-window.__kq = { camera, controls, state, selectPoi, selectSite, selectEvent, startTour, stopTour, flyTo, W, applyPalette, setNight, setDark: setNight, setSheet, endIntro, startIntro, perf, T: () => state.tour, intro: () => intro };
+// W in the test hooks is ground-relative (h metres above the model's ground); Wabs is the raw mapping
+window.__kq = { camera, controls, scene, renderer, state, selectPoi, selectSite, selectEvent, startTour, stopTour, flyTo, W: G, Wabs: W, ground, setRelief, relief: () => reliefOn, applyPalette, setNight, setDark: setNight, setSheet, endIntro, startIntro, perf, T: () => state.tour, intro: () => intro };
 applyTheme();
+$('#ftTer').hidden = !TG;
 if (isPhone()) setSheet('peek');
 applyLang();
 applyLayers();
@@ -2209,7 +2503,7 @@ resize();
 {
   const d = DEFAULT();
   if (reduced || /[#&?]nointro\b/.test(location.href)) { controls.target.copy(d.target); camera.position.copy(d.pos); }
-  else { controls.target.copy(W(BC[0], BC[1], 0)); camera.position.copy(W(BC[0] + 300, BC[1] - 900, 5200)); bootFly = true; }
+  else { controls.target.copy(G(BC[0], BC[1], 0)); camera.position.copy(W(BC[0] + 300, BC[1] - 900, 5200)); bootFly = true; }
   $('#bFly').onclick = startIntro;
 }
 controls.update();

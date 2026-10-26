@@ -1,12 +1,15 @@
 """Inject data into the app template.
 
 Usage: python3 -I assemble.py <template> <scene> <content> <routes> <out> [--standalone | --public] [--overlay <file.json>]
+                                [--terrain <file.json> | --no-terrain]
   (none)        body only, for a host page that supplies <html> and <head>
   --standalone  full HTML page for local preview, with test hooks
   --public      full HTML page for GitHub Pages, without test hooks and without the free-flat snapshot
   --overlay     JSON merged over the default texts: {"de": {...}, "en": {...}, "ideas": {id: {...}}, "walkthrough": url}
+  --terrain     terrain grid from build_terrain.py; default: terrain.json next to the scene file, if it exists
+  --no-terrain  leave the terrain out (the model sits on a flat board)
 """
-import sys, json
+import sys, json, os
 tpl, scene, content, routes, out = sys.argv[1:6]
 public = '--public' in sys.argv
 standalone = '--standalone' in sys.argv or public
@@ -18,7 +21,9 @@ CONTENT = j(content)
 if public:  # the public atlas is for neighbours: no free-flat snapshot (it goes stale and is applicant-only)
     c = json.load(open(content)); c.pop('units', None)
     CONTENT = json.dumps(c, ensure_ascii=False, separators=(',', ':')).replace('</', '<\\/')
-s = s.replace('__SCENE__', j(scene)).replace('__CONTENT__', CONTENT).replace('__ROUTES__', j(routes))
+terrain = sys.argv[sys.argv.index('--terrain') + 1] if '--terrain' in sys.argv else os.path.join(os.path.dirname(scene), 'terrain.json')
+TERRAIN = j(terrain) if '--no-terrain' not in sys.argv and os.path.exists(terrain) else 'null'
+s = s.replace('__SCENE__', j(scene)).replace('__CONTENT__', CONTENT).replace('__ROUTES__', j(routes)).replace('__TERRAIN__', TERRAIN)
 TEST = '''
 <script>
 // local test hooks (not part of the public build): #overview, #poi-<id>, #site-<role>, #tour-<id>, #event-<id>, #day
@@ -48,4 +53,4 @@ if standalone:  # local preview / GitHub Pages: add the document skeleton a host
          'body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style></head><body>\n'
          + s + ('' if public else TEST) + '\n</body></html>')
 open(out, 'w').write(s)
-print('wrote', out, round(len(s.encode()) / 1024), 'KB')
+print('wrote', out, round(len(s.encode()) / 1024), 'KB', '(with terrain)' if TERRAIN != 'null' else '(flat, no terrain)')

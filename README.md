@@ -27,6 +27,7 @@ Rundgänge machen, Anlässe finden und Fehlendes ergänzen.*
 | Events | 35, November 2026 – October 2027, with a month strip and regular events |
 | Layers | trees, place names, walking-time rings, stops, bus lines 80 and 64, drinking fountains, recycling points, bike and car sharing |
 | Contribute | ideas for the estate plus "Fehlt ein Ort?": drop a pin and get a record to copy |
+| Terrain | swissALTI3D heights (© swisstopo) on a 15 m grid, shown 1.5× exaggerated; "Relief" switch in the layers menu |
 | Modes | German/English, light and dark UI, day and night model, phone layout |
 
 ## How it's built
@@ -41,6 +42,7 @@ src/build_site.py     GISA site plan + federal building register points -> data/
 src/build_geo.py      Overpass JSON + site.json -> data/scene.json
 src/build_content.py  research JSON -> data/content.json (places, events, routed walks, lines)
 src/build_routes.py   OSRM walking routes from the estate -> data/routes.json (cached)
+src/build_terrain.py  swisstopo profile service (swissALTI3D) -> data/terrain.json (height grid in model metres)
 src/queries/*.txt     the Overpass queries (buildings in 4×4 tiles, land, points, bus routes)
 data/research/*.json  researched places, events and walk suggestions, each with a source
 ```
@@ -65,6 +67,7 @@ attic set back 2 m. Walkways, balcony towers, lanes and courts follow the drawin
 ## Credits and data
 
 - Map data © OpenStreetMap contributors, ODbL. Routing: OSRM (routing.openstreetmap.de). Building points: GWR / swisstopo.
+- Terrain: swissALTI3D, © swisstopo (geo.admin.ch profile service).
 - Estate: Baugenossenschaft GISA, binzmuehle.ch (project and site plan, October 2026).
 - Places and events: City of Zürich open data, GISA, community centres and associations (each record has a `source`).
   Opening hours and dates change; check the source before you go.
