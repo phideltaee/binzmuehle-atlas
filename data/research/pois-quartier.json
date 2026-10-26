@@ -1,0 +1,1956 @@
+[
+ {
+  "id": "binzmuehle-siedlung",
+  "name": "Siedlung Binzmühle (Baugenossenschaft GISA)",
+  "cat": "landmark",
+  "lat": 47.41381,
+  "lon": 8.52935,
+  "address": "Zelghalde 30–39 / Kügeliloostrasse 65–69, 8046 Zürich",
+  "walk_min": 0,
+  "desc_de": "Neue autoarme GISA-Siedlung: 243 Wohnungen (1,5–5,5 Zimmer) in fünf Häuserzeilen aus Holz und Beton mit zwei grünen Gartenhöfen, Gassen und Spielplätzen, dazu 13 Jokerzimmer, Atelier, zwei Gemeinschaftsräume und ein städtischer Kindergarten. Ersetzt die GISA-Siedlung von 1948; 1. Etappe (drei Zeilen im Osten an der Kügeliloostrasse) Bezug ca. Q4 2027, 2. Etappe bis Q4 2029.",
+  "desc_en": "New low-car GISA estate: 243 flats (1.5–5.5 rooms) in five rows of timber-and-concrete buildings around two green garden courtyards, lanes and playgrounds, plus 13 extra 'joker' rooms, a studio, two community rooms and a city kindergarten. Replaces GISA's 1948 estate; phase 1 (three rows in the east along Kügeliloostrasse) move-in approx. Q4 2027, phase 2 by Q4 2029.",
+  "url": "https://www.binzmuehle.ch/",
+  "tags": [
+   "home",
+   "cooperative",
+   "car-free",
+   "new",
+   "landmark"
+  ],
+  "details": {
+   "operator": "Baugenossenschaft GISA, Kirchenackerweg 29, 8050 Zürich",
+   "architects": "SERA – Studio Esch Rickenbacher Architektur AG, Masswerk Architekten AG; landscape: KOLB Landschaftsarchitektur",
+   "parking": "91 car spaces for 243 flats (max. one per flat, prioritised), many bike rooms with charging",
+   "history": "Predecessor: GISA colony of 1948 north of Binzmühlestrasse (92 units, terraced houses + two blocks; ISOS Affoltern: 'mustergültig erhalten'), demolished from March 2025. The street name recalls the Binzmühle, a mill on the Leutschenbach in Seebach that has since been demolished (ISOS Seebach: farmhouse Tannenhof built 1678 as its extension).",
+   "note": "Application window for phase 1: 27.10.–3.11.2026 (online only). Bus 64/80 stop Chaletweg in front of the estate; Kita Hürststrasse 56 reachable without crossing a road (GISA).",
+   "walk_m": 0,
+   "crow_m": 0,
+   "walk_method": "osrm",
+   "sources": [
+    "https://www.binzmuehle.ch/",
+    "https://www.binzmuehle.ch/projekt",
+    "https://www.binzmuehle.ch/lage-u-baubeschrieb",
+    "https://www.bg-gisa.ch/projekt-binzmuehle",
+    "https://api.isos.bak.admin.ch/ob/5800/doc/ISOS_5800_Affoltern.pdf",
+    "https://api.isos.bak.admin.ch/ob/5800/doc/ISOS_5800_Seebach.pdf"
+   ]
+  },
+  "source": "https://www.binzmuehle.ch/projekt"
+ },
+ {
+  "id": "bus-chaletweg",
+  "name": "Bus Chaletweg (64, 80)",
+  "cat": "transport",
+  "lat": 47.413373,
+  "lon": 8.531219,
+  "address": "Binzmühlestrasse / Chaletweg, 8046 Zürich",
+  "walk_min": 2,
+  "desc_de": "Haltestelle direkt vor der Siedlung: Bus 80 fährt in 3 Minuten zum Bahnhof Oerlikon Nord (morgens etwa alle 6 Minuten) und in die andere Richtung via ETH Hönggerberg nach Altstetten bzw. zum Triemlispital; Bus 64 ebenfalls nach Oerlikon.",
+  "desc_en": "Stop right in front of the estate: bus 80 reaches Oerlikon station (north side) in 3 minutes (about every 6 minutes in the morning) and in the other direction runs via ETH Hönggerberg to Altstetten or Triemli hospital; bus 64 also goes to Oerlikon.",
+  "url": "https://www.zvv.ch",
+  "tags": [
+   "public-transport",
+   "nearest",
+   "commute"
+  ],
+  "details": {
+   "lines": "Bus 64, 80",
+   "stop_id": 8591108,
+   "note": "Timetable check Mon 26 Oct 2026: departures 07:33, 07:39, 07:45, 07:51 → Oerlikon Bahnhof Nord 3 min later. GISA: 'Die Haltestelle Chaletweg befindet sich direkt vor der Haustüre'.",
+   "sources": [
+    "https://transport.opendata.ch/v1/stationboard?id=8591108&datetime=2026-10-26%2007:30",
+    "https://transport.opendata.ch/v1/connections?from=8591108&to=8503006&date=2026-10-26&time=07:30",
+    "https://www.binzmuehle.ch/lage-u-baubeschrieb"
+   ],
+   "walk_m": 153,
+   "crow_m": 149,
+   "walk_method": "osrm"
+  },
+  "source": "https://transport.opendata.ch/v1/stationboard?id=8591108&datetime=2026-10-26%2007:30"
+ },
+ {
+  "id": "velo-route-affoltern-oerlikon",
+  "name": "Velo-Route Affoltern – Oerlikon",
+  "cat": "transport",
+  "lat": 47.413674,
+  "lon": 8.527263,
+  "address": "via Kügeliloo / Binzmühlestrasse, 8046/8050 Zürich",
+  "walk_min": 2,
+  "desc_de": "Städtische Velo-Route, die nur rund 150 m an der Siedlung vorbeiführt; die Binzmühlestrasse hat seit 2025 zudem eine Velospur – mit Kindersitz oder Anhänger in wenigen Minuten in Oerlikon.",
+  "desc_en": "City cycle route passing only about 150 m from the estate; Binzmühlestrasse has also had a cycle lane since 2025 – a few minutes to Oerlikon with a child seat or trailer.",
+  "url": "https://www.openstreetmap.org/relation/18168676",
+  "tags": [
+   "bike",
+   "bike-route"
+  ],
+  "details": {
+   "note": "Pin = centre of OSM route relation 18168676 (network lcn), not an exact point on the route.",
+   "sources": [
+    "https://www.openstreetmap.org/relation/18168676",
+    "https://www.binzmuehle.ch/lage-u-baubeschrieb"
+   ],
+   "walk_m": 180,
+   "crow_m": 158,
+   "walk_method": "osrm"
+  },
+  "source": "https://www.openstreetmap.org/relation/18168676",
+  "approx": true
+ },
+ {
+  "id": "bus-moetteliweg",
+  "name": "Bus Mötteliweg (80)",
+  "cat": "transport",
+  "lat": 47.413956,
+  "lon": 8.526458,
+  "address": "Binzmühlestrasse / Mötteliweg, 8046 Zürich",
+  "walk_min": 3,
+  "desc_de": "Westliche Haltestelle an der Binzmühlestrasse, Bus 80 Richtung Oerlikon bzw. ETH Hönggerberg – nah bei den Kitas Mariakäfer und globegarden Hürstwald.",
+  "desc_en": "Western stop on Binzmühlestrasse, bus 80 towards Oerlikon or ETH Hönggerberg – close to the Mariakäfer and globegarden Hürstwald Kitas.",
+  "url": "https://www.zvv.ch",
+  "tags": [
+   "public-transport"
+  ],
+  "details": {
+   "lines": "Bus 80",
+   "stop_id": 8591280,
+   "walk_m": 228,
+   "crow_m": 218,
+   "walk_method": "osrm"
+  },
+  "source": "https://transport.opendata.ch/v1/stationboard?id=8591280&datetime=2026-10-26%2007:30"
+ },
+ {
+  "id": "bus-arnikahof",
+  "name": "Bus Arnikahof (64)",
+  "cat": "transport",
+  "lat": 47.415604,
+  "lon": 8.530977,
+  "address": "Neunbrunnenstrasse, 8050 Zürich",
+  "walk_min": 4,
+  "desc_de": "Bus 64 an der Neunbrunnenstrasse Richtung Bahnhof Oerlikon Nord, bei den Kindergärten Arnikahof und Neunbrunnen.",
+  "desc_en": "Bus 64 on Neunbrunnenstrasse towards Oerlikon station north, by the Arnikahof and Neunbrunnen kindergartens.",
+  "url": "https://www.zvv.ch",
+  "tags": [
+   "public-transport"
+  ],
+  "details": {
+   "lines": "Bus 64",
+   "stop_id": 8511223,
+   "walk_m": 315,
+   "crow_m": 234,
+   "walk_method": "osrm"
+  },
+  "source": "https://transport.opendata.ch/v1/stationboard?id=8511223&datetime=2026-10-26%2007:30"
+ },
+ {
+  "id": "food-noerd-kantine",
+  "name": "Nœrd Kantine",
+  "cat": "food",
+  "lat": 47.413611,
+  "lon": 8.533627,
+  "address": "Binzmühlestrasse 170, 8050 Zürich",
+  "walk_min": 4,
+  "desc_de": "Kantine im Gewerbehaus der Kreativen «Noerd», rund 300 m von der Siedlung: Mo–Fr 11:30–13 Uhr drei frisch gekochte Mittagsmenüs (dienstags ganz vegetarisch, meist mit veganer Option), Tische online reservierbar; mit Dachterrasse.",
+  "desc_en": "Canteen in the 'Noerd' creative-industries building, about 300 m from the estate: Mon–Fri 11:30am–1pm three freshly cooked lunch menus (all-vegetarian on Tuesdays, usually a vegan option), tables bookable online; has a roof terrace.",
+  "url": "https://www.noerdkantine.ch/",
+  "tags": [
+   "lunch",
+   "local",
+   "vegetarian"
+  ],
+  "details": {
+   "hours": "Mo–Fr 11:30–13 (Mittag)",
+   "operator": "Noerd Kantine AG",
+   "sources": [
+    "https://www.noerdkantine.ch/",
+    "https://www.openstreetmap.org/node/2172011599"
+   ],
+   "walk_m": 346,
+   "crow_m": 323,
+   "walk_method": "osrm"
+  },
+  "source": "https://www.noerdkantine.ch/"
+ },
+ {
+  "id": "shop-spar-regensbergstrasse",
+  "name": "SPAR Supermarkt Regensbergstrasse",
+  "cat": "shop",
+  "lat": 47.41155,
+  "lon": 8.52803,
+  "address": "Regensbergstrasse 300, 8050 Zürich",
+  "walk_min": 4,
+  "desc_de": "Nächster Supermarkt, nur rund 270 m von der Siedlung, mit langen Öffnungszeiten: Mo–Sa 6–21 Uhr (laut OSM, geprüft Aug. 2025); stufenloser Zugang für den Kinderwagen.",
+  "desc_en": "Nearest supermarket, only about 270 m from the estate, with long opening hours: Mon–Sat 6am–9pm (per OSM, checked Aug 2025); step-free access for the pram.",
+  "url": "https://www.spar.ch/standorte/detail/spar-supermarkt-zuerich-regensbergstrasse",
+  "tags": [
+   "groceries",
+   "daily"
+  ],
+  "details": {
+   "hours": "Mo–Sa 6–21",
+   "operator": "SPAR",
+   "sources": [
+    "https://www.openstreetmap.org/node/452160401",
+    "https://www.spar.ch/standorte/detail/spar-supermarkt-zuerich-regensbergstrasse"
+   ],
+   "walk_m": 350,
+   "crow_m": 270,
+   "walk_method": "osrm"
+  },
+  "source": "https://www.openstreetmap.org/node/452160401"
+ },
+ {
+  "id": "share-mobility-huerststrasse",
+  "name": "Mobility-Standort Hürststrasse",
+  "cat": "sharing",
+  "lat": 47.4119202,
+  "lon": 8.525948,
+  "address": "Hürststrasse (bei Nr. 3–6), 8046 Zürich",
+  "walk_min": 5,
+  "desc_de": "Mobility-Parkplatz (1 Auto) an der Hürststrasse, rund 330 m von der Siedlung – von der Siedlungs-Website als zweiter nahegelegener Standort genannt. Der Stationsname ist in OpenStreetMap nicht erfasst; Fahrzeug in der Mobility-App prüfen.",
+  "desc_en": "Mobility car-sharing spot (1 car) on Hürststrasse, about 330 m from the estate – named on the estate website as the second nearby location. The station name isn't recorded in OpenStreetMap; check the car in the Mobility app.",
+  "url": "https://www.mobility.ch/",
+  "tags": [
+   "car-free",
+   "sharing"
+  ],
+  "details": {
+   "operator": "Mobility Genossenschaft",
+   "sources": [
+    "https://www.binzmuehle.ch/lage-u-baubeschrieb",
+    "https://www.openstreetmap.org/node/12002684955"
+   ],
+   "walk_m": 400,
+   "crow_m": 331,
+   "walk_method": "osrm"
+  },
+  "source": "https://www.binzmuehle.ch/lage-u-baubeschrieb"
+ },
+ {
+  "id": "share-mobility-neunbrunnenstrasse",
+  "name": "Mobility «Zürich Oerlikon / Neunbrunnenstrasse»",
+  "cat": "sharing",
+  "lat": 47.4156368,
+  "lon": 8.5298823,
+  "address": "Neunbrunnenstrasse, 8046 Zürich",
+  "walk_min": 5,
+  "desc_de": "Nächster Mobility-Standort (1 Auto, Station 3156), rund 200 m von der Siedlung – von der Siedlungs-Website ausdrücklich als Carsharing-Option genannt; rund um die Uhr per App buchbar.",
+  "desc_en": "Nearest Mobility car-sharing spot (1 car, station 3156), about 200 m from the estate – named on the estate website as a car-sharing option; bookable 24/7 via the app.",
+  "url": "https://www.mobility.ch/",
+  "tags": [
+   "car-free",
+   "sharing"
+  ],
+  "details": {
+   "operator": "Mobility Genossenschaft",
+   "note": "Genaue Parkplatzlage in OSM unsicher (fixme)",
+   "sources": [
+    "https://www.binzmuehle.ch/lage-u-baubeschrieb",
+    "https://www.openstreetmap.org/node/335568995"
+   ],
+   "walk_m": 369,
+   "crow_m": 207,
+   "walk_method": "osrm"
+  },
+  "source": "https://www.binzmuehle.ch/lage-u-baubeschrieb",
+  "approx": true
+ },
+ {
+  "id": "share-zuerivelo-arnikahof",
+  "name": "Züri Velo Station Arnikahof",
+  "cat": "sharing",
+  "lat": 47.416067,
+  "lon": 8.530681,
+  "address": "Neunbrunnenstrasse 180, 8046 Zürich",
+  "walk_min": 5,
+  "desc_de": "Nächste Station des städtischen Veloverleihs Züri Velo (Velos und E-Bikes, betrieben von PubliBike), rund 270 m von der Siedlung; Ausleihe über die PubliBike-App.",
+  "desc_en": "Nearest station of the city's Züri Velo bike share (bikes and e-bikes, operated by PubliBike), about 270 m from the estate; rent via the PubliBike app.",
+  "url": "https://www.publibike.ch/",
+  "tags": [
+   "bike",
+   "car-free",
+   "sharing"
+  ],
+  "details": {
+   "operator": "PubliBike (Züri Velo)",
+   "sources": [
+    "https://ckan.opendata.swiss/dataset/standorte-zurivelo",
+    "Stadt Zürich Open Data view_zuerivelo_publibike (id_publibike 491127, Stand 24.10.2026)"
+   ],
+   "walk_m": 385,
+   "crow_m": 270,
+   "walk_method": "osrm"
+  },
+  "source": "https://ckan.opendata.swiss/dataset/standorte-zurivelo"
+ },
+ {
+  "id": "share-zuerivelo-neuaffoltern",
+  "name": "Züri Velo Station Neuaffoltern",
+  "cat": "sharing",
+  "lat": 47.412058,
+  "lon": 8.52615,
+  "address": "Hürststrasse 6, 8046 Zürich",
+  "walk_min": 5,
+  "desc_de": "Züri-Velo-Station an der Hürststrasse nahe Wehntalerstrasse, rund 310 m von der Siedlung; Velos und E-Bikes über die PubliBike-App.",
+  "desc_en": "Züri Velo station on Hürststrasse near Wehntalerstrasse, about 310 m from the estate; bikes and e-bikes via the PubliBike app.",
+  "url": "https://www.publibike.ch/",
+  "tags": [
+   "bike",
+   "car-free",
+   "sharing"
+  ],
+  "details": {
+   "operator": "PubliBike (Züri Velo)",
+   "sources": [
+    "https://ckan.opendata.swiss/dataset/standorte-zurivelo",
+    "Stadt Zürich Open Data view_zuerivelo_publibike (id_publibike 491130, Stand 24.10.2026)"
+   ],
+   "walk_m": 379,
+   "crow_m": 310,
+   "walk_method": "osrm"
+  },
+  "source": "https://ckan.opendata.swiss/dataset/standorte-zurivelo"
+ },
+ {
+  "id": "shop-aoz-brockito",
+  "name": "AOZ Brockito",
+  "cat": "shop",
+  "lat": 47.414632,
+  "lon": 8.533316,
+  "address": "Robert-Maillart-Strasse 12, 8050 Zürich",
+  "walk_min": 5,
+  "desc_de": "Brockenhaus der AOZ rund 300 m von der Siedlung: gebrauchte Möbel, Haushaltwaren, Kleider, Bücher, Platten und Trouvaillen, dazu Abhol-, Liefer- und Räumungsdienst; Mo–Fr 9–18, Sa 9–17 Uhr.",
+  "desc_en": "AOZ second-hand store about 300 m from the estate: used furniture, household goods, clothes, books, records and curiosities, plus pick-up, delivery and clearance service; Mon–Fri 9am–6pm, Sat 9am–5pm.",
+  "url": "https://www.aoz-brockito.ch/",
+  "tags": [
+   "second-hand",
+   "circular",
+   "sustainability"
+  ],
+  "details": {
+   "hours": "Mo–Fr 9–18, Sa 9–17; Warenannahme 9–17",
+   "operator": "AOZ",
+   "sources": [
+    "https://www.aoz-brockito.ch/",
+    "https://www.openstreetmap.org/node/4445429235"
+   ],
+   "walk_m": 413,
+   "crow_m": 312,
+   "walk_method": "osrm"
+  },
+  "source": "https://www.aoz-brockito.ch/"
+ },
+ {
+  "id": "bus-neuaffoltern",
+  "name": "Bus Neuaffoltern (32, 61, 62)",
+  "cat": "transport",
+  "lat": 47.411847,
+  "lon": 8.52503,
+  "address": "Wehntalerstrasse, 8046 Zürich",
+  "walk_min": 6,
+  "desc_de": "Haltestelle an der Wehntalerstrasse: Bus 61/62 zum Zehntenhausplatz und Bahnhof Affoltern bzw. nach Oerlikon, Bus 32 bis Holzerhurd (Katzensee) oder Richtung Hardplatz.",
+  "desc_en": "Stop on Wehntalerstrasse: buses 61/62 to Zehntenhausplatz and Affoltern station or to Oerlikon, bus 32 to Holzerhurd (Katzensee) or towards Hardplatz.",
+  "url": "https://www.zvv.ch",
+  "tags": [
+   "public-transport",
+   "katzensee"
+  ],
+  "details": {
+   "lines": "Bus 32, 61, 62",
+   "stop_id": 8591285,
+   "walk_m": 483,
+   "crow_m": 392,
+   "walk_method": "osrm"
+  },
+  "source": "https://transport.opendata.ch/v1/stationboard?id=8591285&datetime=2026-10-26%2007:30"
+ },
+ {
+  "id": "food-nata-cafe",
+  "name": "Nata & Café (Pastelaria)",
+  "cat": "food",
+  "lat": 47.41156,
+  "lon": 8.525875,
+  "address": "Regensbergstrasse 309, 8050 Zürich",
+  "walk_min": 6,
+  "desc_de": "Portugiesische Pastelaria rund 350 m von der Siedlung, spezialisiert auf hausgemachte Pastéis de Nata und weitere portugiesische Backwaren; laut OSM Di–So 8–21 Uhr. Praktischer Kaffee-Stopp beim Einkauf – der Denner ist im selben Haus.",
+  "desc_en": "Portuguese pastry shop about 350 m from the estate, specialising in home-made pastéis de nata and other Portuguese baking; per OSM open Tue–Sun 8am–9pm. Handy coffee stop while shopping – the Denner is in the same building.",
+  "url": "https://www.nataecafe.ch/",
+  "tags": [
+   "bakery",
+   "breakfast",
+   "local"
+  ],
+  "details": {
+   "hours": "Di–So 8–21 (laut OSM, geprüft Jan. 2026)",
+   "note": "Eingang laut OSM nicht stufenlos – Kinderwagen evtl. tragen",
+   "sources": [
+    "https://www.nataecafe.ch/",
+    "https://www.openstreetmap.org/node/11951664398"
+   ],
+   "walk_m": 444,
+   "crow_m": 362,
+   "walk_method": "osrm"
+  },
+  "source": "https://www.nataecafe.ch/"
+ },
+ {
+  "id": "shop-denner-regensbergstrasse",
+  "name": "Denner Regensbergstrasse",
+  "cat": "shop",
+  "lat": 47.411426,
+  "lon": 8.52653,
+  "address": "Regensbergstrasse 309, 8050 Zürich",
+  "walk_min": 6,
+  "desc_de": "Discounter rund 350 m von der Siedlung, Mo–Sa 7:30–20 Uhr, stufenlos zugänglich (laut OSM, geprüft Juli 2025). Im selben Haus die Pastelaria Nata & Café.",
+  "desc_en": "Discount supermarket about 350 m from the estate, Mon–Sat 7:30am–8pm, step-free (per OSM, checked July 2025). The Nata & Café pastry shop is in the same building.",
+  "url": "https://www.denner.ch",
+  "tags": [
+   "groceries",
+   "daily"
+  ],
+  "details": {
+   "hours": "Mo–Sa 7:30–20",
+   "operator": "Denner",
+   "walk_m": 495,
+   "crow_m": 340,
+   "walk_method": "osrm"
+  },
+  "source": "https://www.openstreetmap.org/node/312012094"
+ },
+ {
+  "id": "bus-birchstrasse",
+  "name": "Bus Birchstrasse (64, 80)",
+  "cat": "transport",
+  "lat": 47.413045,
+  "lon": 8.535855,
+  "address": "Binzmühlestrasse / Birchstrasse, 8050 Zürich",
+  "walk_min": 7,
+  "desc_de": "Nächste Haltestelle Richtung Neu-Oerlikon; von hier zu Fuss in wenigen Minuten zum Oerliker Park.",
+  "desc_en": "Next stop towards Neu-Oerlikon; from here a few minutes' walk to Oerliker Park.",
+  "url": "https://www.zvv.ch",
+  "tags": [
+   "public-transport"
+  ],
+  "details": {
+   "lines": "Bus 64, 80",
+   "stop_id": 8591088,
+   "walk_m": 548,
+   "crow_m": 497,
+   "walk_method": "osrm"
+  },
+  "source": "https://transport.opendata.ch/v1/stationboard?id=8591088&datetime=2026-10-26%2007:30"
+ },
+ {
+  "id": "bus-althoos",
+  "name": "Bus Althoos (40)",
+  "cat": "transport",
+  "lat": 47.410704,
+  "lon": 8.52406,
+  "address": "Althoosstrasse, 8046 Zürich",
+  "walk_min": 8,
+  "desc_de": "Bus 40 quer durch den Norden nach Seebach bzw. zum Bucheggplatz; beim Spielplatz Althoos.",
+  "desc_en": "Bus 40 across the north to Seebach or Bucheggplatz; next to the Althoos playground.",
+  "url": "https://www.zvv.ch",
+  "tags": [
+   "public-transport"
+  ],
+  "details": {
+   "lines": "Bus 40",
+   "stop_id": 8591041,
+   "walk_m": 637,
+   "crow_m": 527,
+   "walk_method": "osrm"
+  },
+  "source": "https://transport.opendata.ch/v1/stationboard?id=8591041&datetime=2026-10-26%2007:30"
+ },
+ {
+  "id": "shop-chind-chegel",
+  "name": "Chind & Chegel – Secondhand für Kinder",
+  "cat": "shop",
+  "lat": 47.410456,
+  "lon": 8.533537,
+  "address": "Regensbergstrasse 216, 8050 Zürich",
+  "walk_min": 8,
+  "desc_de": "Laden für gebrauchte und neue Kinderartikel – Kleider, Spielsachen und Zubehör – rund 500 m von der Siedlung; laut OSM Mo–Fr 10–17:30, Sa 10–16 Uhr, stufenlos. 2026 neu als «New Chind & Chegel GmbH» eingetragen – Öffnungszeiten vor dem Besuch prüfen.",
+  "desc_en": "Shop for second-hand and new children's items – clothes, toys and accessories – about 500 m from the estate; per OSM Mon–Fri 10am–5:30pm, Sat 10am–4pm, step-free. Re-registered in 2026 as 'New Chind & Chegel GmbH' – check hours before going.",
+  "url": "https://www.openstreetmap.org/node/10083257302",
+  "tags": [
+   "second-hand",
+   "kids",
+   "circular",
+   "sustainability"
+  ],
+  "details": {
+   "hours": "Mo–Fr 10–17:30, Sa 10–16 (laut OSM, Stand 2024)",
+   "note": "Website chind-und-chegel.ch war im Okt. 2026 nicht erreichbar",
+   "sources": [
+    "https://business-monitor.ch/de/companies/1345718-new-chind-chegel-gmbh",
+    "https://www.openstreetmap.org/node/10083257302"
+   ],
+   "walk_m": 645,
+   "crow_m": 488,
+   "walk_method": "osrm"
+  },
+  "source": "https://business-monitor.ch/de/companies/1345718-new-chind-chegel-gmbh"
+ },
+ {
+  "id": "comm-pfarrei-allerheiligen",
+  "name": "Katholische Pfarrei Allerheiligen",
+  "cat": "community",
+  "lat": 47.409074,
+  "lon": 8.529405,
+  "address": "Wehntalerstrasse 224, 8057 Zürich",
+  "walk_min": 9,
+  "desc_de": "Nächste katholische Pfarrei, rund 550 m von der Siedlung: St.-Martins-Feier mit Laternenbasteln im Pfarreisaal und Umzug durchs Quartier am Mi 11.11.2026 (16:30 Uhr), «Kinderkirche» mit Geschichte und Liedern am Sa 14.11.2026 (11 Uhr). Weitere Gruppen wie der Mütterclub treffen sich im Pfarreizentrum.",
+  "desc_en": "Nearest Catholic parish, about 550 m from the estate: St Martin's celebration with lantern-making in the parish hall and a procession through the neighbourhood on Wed 11 Nov 2026 (4:30pm), and 'Kinderkirche' with a story and songs on Sat 14 Nov 2026 (11am). Other groups such as the mothers' club meet in the parish centre.",
+  "url": "https://www.allerheiligen-zh.ch/",
+  "tags": [
+   "family",
+   "tradition",
+   "free"
+  ],
+  "details": {
+   "hours": "Sekretariat Mo, Di, Fr 9–12 und 13–16; Mi, Do 9–12",
+   "sources": [
+    "https://www.allerheiligen-zh.ch/",
+    "https://www.openstreetmap.org/way/42692466"
+   ],
+   "walk_m": 741,
+   "crow_m": 527,
+   "walk_method": "osrm"
+  },
+  "source": "https://www.allerheiligen-zh.ch/"
+ },
+ {
+  "id": "hist-krokodil-oerlikon",
+  "name": "«Krokodil»-Lokomotive Ce 6/8 II 14270",
+  "cat": "history",
+  "lat": 47.412119,
+  "lon": 8.5381,
+  "address": "Ecke Birchstrasse / Binzmühlestrasse, 8050 Zürich",
+  "walk_min": 9,
+  "desc_de": "Überdachtes Freiluft-Denkmal: die berühmte Gotthard-Güterzuglok der Baureihe von 1919–1922 (Mechanik SLM, Elektrik Maschinenfabrik Oerlikon) steht seit dem 15. Juni 2020 wieder in Oerlikon – rund 700 m von der Siedlung und ein Magnet für zugbegeisterte Kleinkinder. Betreut vom Verein Oerlikon Industriegeschichten, mit Info-Touchscreen.",
+  "desc_en": "Covered open-air monument: the famous Gotthard freight locomotive of the 1919–1922 class (mechanics by SLM, electrics by Maschinenfabrik Oerlikon) has been back in Oerlikon since 15 June 2020 – about 700 m from the estate and a magnet for train-loving toddlers. Looked after by the Oerlikon Industriegeschichten association, with an info touchscreen.",
+  "url": "https://www.krokodil-oerlikon.ch/",
+  "tags": [
+   "history",
+   "free",
+   "family",
+   "trains"
+  ],
+  "details": {
+   "operator": "Verein Oerlikon Industriegeschichten",
+   "sources": [
+    "https://www.krokodil-oerlikon.ch/",
+    "https://de.wikipedia.org/wiki/SBB_Ce_6/8_II",
+    "https://www.openstreetmap.org/node/7624765655"
+   ],
+   "walk_m": 759,
+   "crow_m": 685,
+   "walk_method": "osrm"
+  },
+  "source": "https://www.krokodil-oerlikon.ch/"
+ },
+ {
+  "id": "bus-glaubtenstrasse",
+  "name": "Bus Glaubtenstrasse (32, 40, 61, 62, 80)",
+  "cat": "transport",
+  "lat": 47.414169,
+  "lon": 8.518939,
+  "address": "Wehntalerstrasse / Glaubtenstrasse, 8046 Zürich",
+  "walk_min": 11,
+  "desc_de": "Umsteigeknoten in Affoltern mit fünf Buslinien; nächste Haltestelle zum Bauspielplatz (Glaubtenstrasse Nord).",
+  "desc_en": "Interchange in Affoltern with five bus lines; nearest stop for the building playground (Glaubtenstrasse Nord).",
+  "url": "https://www.zvv.ch",
+  "tags": [
+   "public-transport"
+  ],
+  "details": {
+   "lines": "Bus 32, 40, 61, 62, 80 (42 an Glaubtenstrasse Nord)",
+   "stop_id": 8591160,
+   "walk_m": 871,
+   "crow_m": 784,
+   "walk_method": "osrm"
+  },
+  "source": "https://transport.opendata.ch/v1/stationboard?id=8591160&datetime=2026-10-26%2007:30"
+ },
+ {
+  "id": "comm-ref-kirche-glaubten",
+  "name": "Reformierte Kirche Glaubten (Kirchenkreis elf)",
+  "cat": "community",
+  "lat": 47.414576,
+  "lon": 8.518637,
+  "address": "Riedenhaldenstrasse 1, 8046 Zürich",
+  "walk_min": 11,
+  "desc_de": "Hauptstandort des reformierten Kirchenkreises elf (Affoltern & Seebach), rund 800 m von der Siedlung; Kirche Mo–Fr 8:30–16 Uhr offen. «Fiire mit de Chliine» für Kinder bis 6 (Sa 9:30–11, ohne Anmeldung) wechselt zwischen Glaubten, Markuskirche und «Fiire mobil» in Neubausiedlungen – nächste Daten 31.10., 21.11. und 12.12.2026; dazu der Mütterabend «Mama Uszit» (30.10. und 20.11.2026).",
+  "desc_en": "Main site of the reformed church district 'elf' (Affoltern & Seebach), about 800 m from the estate; church open Mon–Fri 8:30am–4pm. 'Fiire mit de Chliine' services for under-6s (Sat 9:30–11, no sign-up) rotate between Glaubten, the Markuskirche and 'Fiire mobil' in new housing estates – next dates 31 Oct, 21 Nov and 12 Dec 2026; plus 'Mama Uszit' evenings for mothers (30 Oct and 20 Nov 2026).",
+  "url": "https://reformiert-zuerich.ch/kirchenkreise/elf/angebot/familien-und-kinder/",
+  "tags": [
+   "family",
+   "free",
+   "tradition"
+  ],
+  "details": {
+   "hours": "Kirche Mo–Fr 8:30–16",
+   "operator": "Reformierte Kirche Zürich, Kirchenkreis elf",
+   "sources": [
+    "https://reformiert-zuerich.ch/kirchenkreise/elf/angebot/familien-und-kinder/",
+    "https://reformiert-zuerich.ch/kirchenkreise/elf/",
+    "https://www.openstreetmap.org/relation/283676"
+   ],
+   "walk_m": 892,
+   "crow_m": 811,
+   "walk_method": "osrm"
+  },
+  "source": "https://reformiert-zuerich.ch/kirchenkreise/elf/angebot/familien-und-kinder/"
+ },
+ {
+  "id": "food-glueckbar",
+  "name": "Glückbar Café • Konditorei • Bar",
+  "cat": "food",
+  "lat": 47.413609,
+  "lon": 8.520172,
+  "address": "Wehntalerstrasse 363, 8046 Zürich",
+  "walk_min": 11,
+  "desc_de": "Café mit eigener Konditorei in Neuaffoltern: Frühstück, Mittagsmenü (Di–Sa 11:30–13:30), Sonntagsbrunch und hausgemachtes Gebäck; Di–Fr 7:30–18, Sa 8–18, So 8–17 Uhr, Mo geschlossen. Tische bis 6 Personen online reservierbar – gut für den Brunch mit Kleinkind.",
+  "desc_en": "Café with its own patisserie in Neuaffoltern: breakfast, weekday lunch menu (Tue–Sat 11:30–1:30), Sunday brunch and home-made pastries; Tue–Fri 7:30am–6pm, Sat 8am–6pm, Sun 8am–5pm, closed Mon. Tables for up to 6 can be booked online – good for brunch with a toddler.",
+  "url": "https://xn--glckbar-o2a.ch/",
+  "tags": [
+   "breakfast",
+   "brunch",
+   "cake",
+   "local"
+  ],
+  "details": {
+   "hours": "Di–Fr 7:30–18, Sa 8–18, So 8–17, Mo zu",
+   "sources": [
+    "https://xn--glckbar-o2a.ch/",
+    "https://www.openstreetmap.org/node/11965365869"
+   ],
+   "walk_m": 888,
+   "crow_m": 691,
+   "walk_method": "osrm"
+  },
+  "source": "https://xn--glckbar-o2a.ch/"
+ },
+ {
+  "id": "shop-center-eleven",
+  "name": "Center Eleven (Coop, Jumbo) & ALDI Binzmühlestrasse",
+  "cat": "shop",
+  "lat": 47.413365,
+  "lon": 8.540449,
+  "address": "Sophie-Taeuber-Strasse 4, 8050 Zürich",
+  "walk_min": 11,
+  "desc_de": "Einkaufszentrum in Neu-Oerlikon mit Coop-Supermarkt (Mo–Sa 7:30–21), Coop Restaurant, Coop Vitality, Interdiscount und Jumbo; der ALDI an der Binzmühlestrasse 102 liegt gleich daneben (Mo–Sa 7:30–20). Rund 850 m von der Siedlung, Züri-Velo-Station vor der Tür.",
+  "desc_en": "Shopping centre in Neu-Oerlikon with a Coop supermarket (Mon–Sat 7:30am–9pm), Coop restaurant, Coop Vitality, Interdiscount and Jumbo; the ALDI at Binzmühlestrasse 102 is right next door (Mon–Sat 7:30am–8pm). About 850 m from the estate, Züri Velo station at the entrance.",
+  "url": "https://center-eleven-oerlikon.ch/",
+  "tags": [
+   "groceries",
+   "shopping-centre"
+  ],
+  "details": {
+   "hours": "Coop Mo–Sa 7:30–21; ALDI Mo–Sa 7:30–20",
+   "operator": "Coop Genossenschaft",
+   "sources": [
+    "https://center-eleven-oerlikon.ch/",
+    "https://www.openstreetmap.org/way/494719538",
+    "https://www.openstreetmap.org/node/482763774"
+   ],
+   "walk_m": 878,
+   "crow_m": 837,
+   "walk_method": "osrm"
+  },
+  "source": "https://center-eleven-oerlikon.ch/"
+ },
+ {
+  "id": "food-cafe-max-bill",
+  "name": "Café Max Bill (Buchmann Beck)",
+  "cat": "food",
+  "lat": 47.414347,
+  "lon": 8.540143,
+  "address": "Max-Bill-Platz 13, 8050 Zürich",
+  "walk_min": 12,
+  "desc_de": "Bäckerei-Café der Walter Buchmann AG mit grosser Terrasse auf dem autofreien Max-Bill-Platz in Neu-Oerlikon: Brot, Gipfeli, Sandwiches, Zmorge-Teller und Zmittag aus eigener Manufaktur; Mo–Sa 7–17, So 8–17 Uhr. Gleich beim Center Eleven – mit dem Kinderwagen gut erreichbar.",
+  "desc_en": "Bakery café of Walter Buchmann AG with a large terrace on car-free Max-Bill-Platz in Neu-Oerlikon: bread, croissants, sandwiches, build-your-own breakfast plates and lunch from their own bakery; Mon–Sat 7am–5pm, Sun 8am–5pm. Right next to Center Eleven – easy with a pram.",
+  "url": "https://www.walterbuchmann.ch/max-bill",
+  "tags": [
+   "bakery",
+   "breakfast",
+   "terrace"
+  ],
+  "details": {
+   "hours": "Mo–Sa 7–17, So 8–17",
+   "operator": "Walter Buchmann AG",
+   "sources": [
+    "https://www.walterbuchmann.ch/max-bill",
+    "https://www.openstreetmap.org/node/482762339"
+   ],
+   "walk_m": 945,
+   "crow_m": 814,
+   "walk_method": "osrm"
+  },
+  "source": "https://www.walterbuchmann.ch/max-bill"
+ },
+ {
+  "id": "cult-laboer",
+  "name": "Labör",
+  "cat": "culture",
+  "lat": 47.410851,
+  "lon": 8.53876,
+  "address": "Affolternstrasse 76, 8050 Zürich",
+  "walk_min": 13,
+  "desc_de": "Experimenteller Treffpunkt für Nachhaltigkeit, Kultur und Gemeinschaft in einer ehemaligen Kupferschmiede beim Bahnhof Oerlikon (rund 800 m); Mi 12–17, Do 15–20, Fr 12–17 Uhr, Anlässe meist gratis oder Kollekte. Für Familien z.B. Räbeliechtli-Schnitzen am Do 5.11.2026 (15–19 Uhr) und Töpfern am Sa 7.11.2026 – Kinder in Begleitung Erwachsener.",
+  "desc_en": "Experimental meeting place for sustainability, culture and community in a former copper forge near Oerlikon station (about 800 m); Wed noon–5pm, Thu 3–8pm, Fri noon–5pm, events mostly free or by donation. For families e.g. turnip-lantern carving on Thu 5 Nov 2026 (3–7pm) and pottery on Sat 7 Nov 2026 – children with an adult.",
+  "url": "https://www.laboer.ch/",
+  "tags": [
+   "community",
+   "sustainability",
+   "workshop",
+   "free",
+   "family"
+  ],
+  "details": {
+   "hours": "Mi 12–17, Do 15–20, Fr 12–17 (Schulferien nur Anlässe)",
+   "operator": "Verein Labör",
+   "sources": [
+    "https://www.laboer.ch/",
+    "https://www.openstreetmap.org/way/42757946"
+   ],
+   "walk_m": 1050,
+   "crow_m": 781,
+   "walk_method": "osrm"
+  },
+  "source": "https://www.laboer.ch/"
+ },
+ {
+  "id": "shop-veloplus-oerlikon",
+  "name": "Veloplus Oerlikon",
+  "cat": "shop",
+  "lat": 47.414288,
+  "lon": 8.541843,
+  "address": "Binzmühlestrasse 80, 8050 Zürich",
+  "walk_min": 13,
+  "desc_de": "Velofachgeschäft rund 950 m die Binzmühlestrasse hinunter, mit voll ausgerüsteter Werkstatt mitten im Laden und breitem Sortiment an Velos und Zubehör; Mo–Fr 9–18:30, Sa 9–17 Uhr.",
+  "desc_en": "Bike shop about 950 m down Binzmühlestrasse, with a fully equipped workshop in the middle of the store and a wide range of bikes and accessories; Mon–Fri 9am–6:30pm, Sat 9am–5pm.",
+  "url": "https://www.veloplus.ch/beratung-und-service/laeden/zuerich-oerlikon-5e1363bf79c9150007c134dd",
+  "tags": [
+   "bike",
+   "repair",
+   "workshop"
+  ],
+  "details": {
+   "hours": "Mo–Fr 9–18:30, Sa 9–17",
+   "operator": "Veloplus",
+   "sources": [
+    "https://www.veloplus.ch/beratung-und-service/laeden/zuerich-oerlikon-5e1363bf79c9150007c134dd",
+    "https://www.openstreetmap.org/node/700787537"
+   ],
+   "walk_m": 1009,
+   "crow_m": 942,
+   "walk_method": "osrm"
+  },
+  "source": "https://www.veloplus.ch/beratung-und-service/laeden/zuerich-oerlikon-5e1363bf79c9150007c134dd"
+ },
+ {
+  "id": "velo-route-katzensee-bucheggplatz",
+  "name": "Velo-Route Katzensee – Affoltern – Bucheggplatz",
+  "cat": "transport",
+  "lat": 47.416695,
+  "lon": 8.5172,
+  "address": "via Affoltern, 8046 Zürich",
+  "walk_min": 13,
+  "desc_de": "Städtische Velo-Route (Stadt Zürich) durch Affoltern – die Velo-Verbindung zum Katzensee im Norden und Richtung Bucheggplatz im Süden.",
+  "desc_en": "City of Zürich cycle route through Affoltern – the bike link to Katzensee in the north and towards Bucheggplatz in the south.",
+  "url": "https://www.openstreetmap.org/relation/19202985",
+  "tags": [
+   "bike",
+   "bike-route",
+   "katzensee"
+  ],
+  "details": {
+   "operator": "Stadt Zürich",
+   "note": "Pin = centre of OSM route relation 19202985, not an exact point on the route.",
+   "walk_m": 1051,
+   "crow_m": 969,
+   "walk_method": "osrm"
+  },
+  "source": "https://www.openstreetmap.org/relation/19202985",
+  "approx": true
+ },
+ {
+  "id": "hist-mfo-gebaeude",
+  "name": "MFO-Gebäude (ehem. Verwaltungsbau der Maschinenfabrik Oerlikon)",
+  "cat": "history",
+  "lat": 47.4105575,
+  "lon": 8.5403118,
+  "address": "Affolternstrasse 52, 8050 Zürich",
+  "walk_min": 14,
+  "desc_de": "Backstein-Verwaltungsbau der MFO von rund 1889 am Bahnhof Oerlikon: Für den Bahnhofausbau wurde das 80 m lange und 6200 t schwere Gebäude im Mai 2012 in einer zweitägigen Aktion um 60 m verschoben – europaweit einzigartig. Die 1876 angesiedelte MFO machte Oerlikon zum Industriezentrum und ging später in BBC bzw. ABB auf.",
+  "desc_en": "MFO's brick administration building of around 1889 at Oerlikon station: to make room for the station expansion the 80 m long, 6,200-tonne building was moved 60 m in a two-day operation in May 2012 – unique in Europe. MFO, founded here in 1876, turned Oerlikon into an industrial hub and later became part of BBC and ABB.",
+  "url": "https://www.srf.ch/news/zuerich-schaffhausen-hausverschiebung-als-zweitaegiges-spektakel",
+  "tags": [
+   "history",
+   "free",
+   "architecture"
+  ],
+  "details": {
+   "sources": [
+    "https://www.srf.ch/news/zuerich-schaffhausen-hausverschiebung-als-zweitaegiges-spektakel",
+    "https://zop.zb.uzh.ch/bitstreams/5a9b2297-b1c9-4726-ad20-8852da30173a/download",
+    "https://hls-dhs-dss.ch/de/articles/003122/",
+    "https://www.openstreetmap.org/way/70711378"
+   ],
+   "walk_m": 1100,
+   "crow_m": 901,
+   "walk_method": "osrm"
+  },
+  "source": "https://www.srf.ch/news/zuerich-schaffhausen-hausverschiebung-als-zweitaegiges-spektakel"
+ },
+ {
+  "id": "sport-zuerifit-neunbrunnenstrasse",
+  "name": "Zürifit Neunbrunnenstrasse",
+  "cat": "sport",
+  "lat": 47.417474,
+  "lon": 8.541442,
+  "address": "Neunbrunnenstrasse 34 (beim Bahnhof Seebach), 8050 Zürich",
+  "walk_min": 15,
+  "desc_de": "Frei zugängliche Outdoor-Fitnessanlage der Stadt beim Bahnhof Seebach, rund 1 km von der Siedlung. Direkt daneben liegt der Spielplatz Neunbrunnenanlage am Bach – praktisch, um zu trainieren, während das Kind spielt.",
+  "desc_en": "Free public outdoor gym run by the city near Seebach station, about 1 km from the estate. The Neunbrunnenanlage playground by the stream is right next to it – handy for a workout while the little one plays.",
+  "url": "http://www.sportamt.ch/zuerifit",
+  "tags": [
+   "sport",
+   "free",
+   "outdoor"
+  ],
+  "details": {
+   "operator": "Stadt Zürich, Sportamt",
+   "sources": [
+    "http://www.sportamt.ch/zuerifit",
+    "Stadt Zürich Open Data poi_zuerifit_view zfa8802"
+   ],
+   "walk_m": 1189,
+   "crow_m": 997,
+   "walk_method": "osrm"
+  },
+  "source": "http://www.sportamt.ch/zuerifit"
+ },
+ {
+  "id": "food-enzian-vegane-baeckerei",
+  "name": "Enzian Vegane Bäckerei & Café",
+  "cat": "food",
+  "lat": 47.413735,
+  "lon": 8.545272,
+  "address": "Binzmühlestrasse 41, 8050 Zürich",
+  "walk_min": 16,
+  "desc_de": "Vegane Bäckerei mit gemütlichem Café nördlich des Bahnhofs Oerlikon, betrieben von der Stiftung Enzian (Ausbildung und Integration): Gebäck, Sandwiches und täglich ein Mittagsmenü, vor Ort oder zum Mitnehmen; Mo–Fr 7–18, Sa 7–15 Uhr.",
+  "desc_en": "Vegan bakery with a cosy café north of Oerlikon station, run by the Stiftung Enzian foundation (vocational training and integration): pastries, sandwiches and a daily lunch dish to eat in or take away; Mon–Fri 7am–6pm, Sat 7am–3pm.",
+  "url": "https://stiftung-enzian.ch/baeckerei/",
+  "tags": [
+   "vegan",
+   "bakery",
+   "breakfast",
+   "social"
+  ],
+  "details": {
+   "hours": "Mo–Fr 7–18, Sa 7–15",
+   "operator": "Stiftung Enzian",
+   "sources": [
+    "https://stiftung-enzian.ch/baeckerei/",
+    "https://www.openstreetmap.org/node/4927011254"
+   ],
+   "walk_m": 1274,
+   "crow_m": 1198,
+   "walk_method": "osrm"
+  },
+  "source": "https://stiftung-enzian.ch/baeckerei/"
+ },
+ {
+  "id": "bahnhof-oerlikon",
+  "name": "Bahnhof Zürich Oerlikon",
+  "cat": "transport",
+  "lat": 47.411531,
+  "lon": 8.544137,
+  "address": "Hofwiesenstrasse / Affolternstrasse, 8050 Zürich",
+  "walk_min": 17,
+  "desc_de": "Grosser Bahnknoten mit über zehn S-Bahn-Linien sowie IC/IR-Zügen; mit Bus 80 ab Chaletweg 3 Minuten bis Bahnhof Nord. Bahnhof-Apotheke täglich 7–22 Uhr.",
+  "desc_en": "Major rail hub with more than ten S-Bahn lines plus IC/IR trains; 3 minutes by bus 80 from Chaletweg to the north exit. Station pharmacy open daily 7am–10pm.",
+  "url": "https://www.zvv.ch",
+  "tags": [
+   "public-transport",
+   "commute",
+   "train"
+  ],
+  "details": {
+   "lines": "S2, S3, S6, S7, S8, S9, S14, S15, S16, S19, S21, S24, IC/IR/RE; Bus 64/80 ab Bahnhof Nord; Tram ab Bahnhof Ost",
+   "stop_id": 8503006,
+   "stop_id_bus": "8591062 (Zürich Oerlikon, Bahnhof Nord)",
+   "sources": [
+    "https://transport.opendata.ch/v1/stationboard?id=8503006&datetime=2026-10-26%2007:30",
+    "https://transport.opendata.ch/v1/stationboard?id=8591062&datetime=2026-10-26%2007:30"
+   ],
+   "walk_m": 1348,
+   "crow_m": 1141,
+   "walk_method": "osrm"
+  },
+  "source": "https://transport.opendata.ch/v1/stationboard?id=8503006&datetime=2026-10-26%2007:30"
+ },
+ {
+  "id": "shop-neumarkt-oerlikon",
+  "name": "Neumarkt Oerlikon (Migros, Lidl, Denner)",
+  "cat": "shop",
+  "lat": 47.410414,
+  "lon": 8.542956,
+  "address": "Hofwiesenstrasse 350, 8050 Zürich",
+  "walk_min": 17,
+  "desc_de": "Einkaufszentrum direkt an der Südseite des Bahnhofs Oerlikon: Migros Mo–Sa 8–20, Lidl und Denner Mo–Sa 7:30–20, übrige Läden Mo–Fr 9–20, Sa 9–18 Uhr. Gut für den grossen Wocheneinkauf auf dem Weg zum Zug.",
+  "desc_en": "Shopping centre right on the south side of Oerlikon station: Migros Mon–Sat 8am–8pm, Lidl and Denner Mon–Sat 7:30am–8pm, other shops Mon–Fri 9am–8pm, Sat 9am–6pm. Good for the big weekly shop on the way to the train.",
+  "url": "https://www.neumarkt-oerlikon.ch/",
+  "tags": [
+   "groceries",
+   "shopping-centre"
+  ],
+  "details": {
+   "hours": "Migros Mo–Sa 8–20; Lidl/Denner Mo–Sa 7:30–20; Läden Mo–Fr 9–20, Sa 9–18",
+   "sources": [
+    "https://www.neumarkt-oerlikon.ch/",
+    "https://www.openstreetmap.org/way/42922204"
+   ],
+   "walk_m": 1390,
+   "crow_m": 1091,
+   "walk_method": "osrm"
+  },
+  "source": "https://www.neumarkt-oerlikon.ch/"
+ },
+ {
+  "id": "comm-pfadi-st-luzi",
+  "name": "Pfadi St. Luzi",
+  "cat": "community",
+  "lat": 47.415725,
+  "lon": 8.512107,
+  "address": "bei der Kirche St. Katharina, Wehntalerstrasse 451, 8046 Zürich",
+  "walk_min": 18,
+  "desc_de": "Pfadiabteilung in Affoltern für Kinder und Jugendliche von 4 bis 16 Jahren: jeden Samstagnachmittag Aktivitäten in den Wäldern rund ums Quartier. Kontakt und Schnuppern über die Website.",
+  "desc_en": "Scout group in Affoltern for children and teens aged 4 to 16: activities in the woods around the neighbourhood every Saturday afternoon. Contact and taster sessions via the website.",
+  "url": "https://stluzi.ch/",
+  "tags": [
+   "family",
+   "outdoor",
+   "nature",
+   "volunteer"
+  ],
+  "details": {
+   "sources": [
+    "https://stluzi.ch/",
+    "https://www.openstreetmap.org/node/10067014490"
+   ],
+   "walk_m": 1448,
+   "crow_m": 1315,
+   "walk_method": "osrm"
+  },
+  "source": "https://stluzi.ch/"
+ },
+ {
+  "id": "comm-pfarrei-st-katharina",
+  "name": "Katholische Pfarrei St. Katharina",
+  "cat": "community",
+  "lat": 47.415548,
+  "lon": 8.512125,
+  "address": "Wehntalerstrasse 451, 8046 Zürich",
+  "walk_min": 18,
+  "desc_de": "Katholische Pfarrei von Affoltern mit Familiengottesdiensten, Familiengruppen und Familienwochenenden sowie dem «Sternenkafi»; nach der Sonntagsmesse gibt es z.B. Kaffee & Kuchen im Pfarreitreff «Käthy». Zur Pfarrei gehört die Pfadi St. Luzi.",
+  "desc_en": "Affoltern's Catholic parish with family services, family groups and family weekends plus the 'Sternenkafi'; after Sunday Mass there is e.g. coffee and cake in the 'Käthy' parish café. The Pfadi St. Luzi scout group belongs to the parish.",
+  "url": "https://www.st-katharina.ch/",
+  "tags": [
+   "family",
+   "tradition"
+  ],
+  "details": {
+   "sources": [
+    "https://www.st-katharina.ch/",
+    "https://www.openstreetmap.org/way/28583725"
+   ],
+   "walk_m": 1448,
+   "crow_m": 1310,
+   "walk_method": "osrm"
+  },
+  "source": "https://www.st-katharina.ch/"
+ },
+ {
+  "id": "comm-ref-markuskirche-seebach",
+  "name": "Markuskirche Seebach – Zwärgli-Singe & Spielgruppe Luftibus",
+  "cat": "community",
+  "lat": 47.420346,
+  "lon": 8.541194,
+  "address": "Höhenring 56, 8052 Zürich",
+  "walk_min": 18,
+  "desc_de": "Zweiter Hauptstandort des Kirchenkreises elf auf dem Buhnhügel: «Zwärgli-Singe» für Kinder von 0–4 Jahren mit Begleitperson jeweils Di und Do 9:45 Uhr im Unterrichtsgebäude neben der Kirche; im Kirchgemeindehaus Seebach die Spielgruppe Luftibus (ab 2½ Jahren, Di–Fr 8:30–11:30, max. 8 Kinder, CHF 320 pro Halbjahr und Wochentag). Am Sa 21.11.2026 «Fiire mit de Chliine» am Adventsbasar.",
+  "desc_en": "Second main site of the reformed district 'elf' on the Buhnhügel: 'Zwärgli-Singe' singing for 0–4-year-olds with a carer every Tue and Thu at 9:45am in the building next to the church; at the Seebach parish hall the Luftibus playgroup (from 2½ years, Tue–Fri 8:30–11:30am, max. 8 children, CHF 320 per half-year per weekday). 'Fiire mit de Chliine' at the Advent bazaar on Sat 21 Nov 2026.",
+  "url": "https://reformiert-zuerich.ch/kirchenkreise/elf/angebot/familien-und-kinder/",
+  "tags": [
+   "family",
+   "music",
+   "playgroup"
+  ],
+  "details": {
+   "hours": "Zwärgli-Singe Di/Do 9:45; Spielgruppe Di–Fr 8:30–11:30",
+   "operator": "Reformierte Kirche Zürich, Kirchenkreis elf",
+   "sources": [
+    "https://reformiert-zuerich.ch/kirchenkreise/elf/angebot/familien-und-kinder/",
+    "https://www.openstreetmap.org/way/12090437"
+   ],
+   "walk_m": 1470,
+   "crow_m": 1150,
+   "walk_method": "osrm"
+  },
+  "source": "https://reformiert-zuerich.ch/kirchenkreise/elf/angebot/familien-und-kinder/"
+ },
+ {
+  "id": "sport-velotrial-fronwald",
+  "name": "Velo-Trial-Übungsplatz Fronwald (Bike-Anlage)",
+  "cat": "sport",
+  "lat": 47.419108,
+  "lon": 8.514224,
+  "address": "Sportanlage Fronwald, Fronwaldstrasse 115, 8046 Zürich",
+  "walk_min": 18,
+  "desc_de": "Rund 800 m² grosser Trial-Parcours (2015 eröffnet) – laut städtischem Mountainbike-Konzept die nächstgelegene offizielle Bike-Anlage; einen offiziellen Bike-Trail gibt es im Hürstwald nicht. Der Velo-Trial-Club Zürich trainiert hier im Sommerhalbjahr (KW 19–40) Mo und Mi 19–20:30 sowie Sa 10–12 Uhr und bietet ein Frühlingslager für Kinder ab 10 Jahren.",
+  "desc_en": "A trial course of about 800 m² (opened 2015) – according to the city's mountain-bike concept the nearest official bike facility; there is no official bike trail in the Hürstwald. Velo Trial Club Zürich trains here in the summer half-year (weeks 19–40) Mon and Wed 7–8:30pm and Sat 10am–noon, and runs a spring camp for kids aged 10+.",
+  "url": "https://vtcz.ch/",
+  "tags": [
+   "bike",
+   "sport",
+   "outdoor"
+  ],
+  "details": {
+   "hours": "VTCZ-Training Mo/Mi 19–20:30, Sa 10–12 (KW 19–40)",
+   "operator": "Velo Trial Club Zürich (VTCZ)",
+   "note": "Kandidat für den «Bike-Trail in unmittelbarer Nähe» der Siedlungs-Website",
+   "sources": [
+    "https://www.stadt-zuerich.ch/content/dam/web/de/stadtleben/sport-und-erholung/dokumente/sportanlagen/mountainbike-konzept.pdf",
+    "https://vtcz.ch/",
+    "https://www.openstreetmap.org/way/1328666996"
+   ],
+   "walk_m": 1466,
+   "crow_m": 1282,
+   "walk_method": "osrm"
+  },
+  "source": "https://www.stadt-zuerich.ch/content/dam/web/de/stadtleben/sport-und-erholung/dokumente/sportanlagen/mountainbike-konzept.pdf"
+ },
+ {
+  "id": "comm-qv-oerlikon",
+  "name": "Quartierverein Oerlikon",
+  "cat": "community",
+  "lat": 47.4101582,
+  "lon": 8.5446005,
+  "address": "8050 Zürich (Anlässe im ganzen Quartier)",
+  "walk_min": 19,
+  "desc_de": "Vertritt Oerlikon gegenüber der Stadt und vernetzt die Vereine; organisiert u.a. den Räbeliechtli-Umzug (Fr 6.11.2026, 18:15 Uhr), die Ostereiersuche im Park der reformierten Kirche (2026 mit über 200 Teilnehmenden) und Adventsfenster – Anmeldung für ein eigenes Fenster bis 15.11.2026. Der Online-Kalender listet auch Kinderkonzerte und Bastelnachmittage im Quartier.",
+  "desc_en": "Represents Oerlikon towards the city and connects local clubs; organises the turnip-lantern parade (Fri 6 Nov 2026, 6:15pm), the Easter egg hunt in the reformed church's park (over 200 participants in 2026) and Advent windows – sign up your own window by 15 Nov 2026. Its online calendar also lists kids' concerts and craft afternoons in the area.",
+  "url": "https://www.qv-oerlikon.ch/",
+  "tags": [
+   "family",
+   "tradition",
+   "neighbours"
+  ],
+  "details": {
+   "sources": [
+    "https://www.qv-oerlikon.ch/",
+    "https://www.qv-oerlikon.ch/events"
+   ],
+   "walk_m": 1503,
+   "crow_m": 1217,
+   "walk_method": "osrm"
+  },
+  "source": "https://www.qv-oerlikon.ch/",
+  "approx": true
+ },
+ {
+  "id": "market-wochenmarkt-oerlikon",
+  "name": "Wochenmarkt Marktplatz Oerlikon",
+  "cat": "market",
+  "lat": 47.41023,
+  "lon": 8.544565,
+  "address": "Marktplatz Oerlikon, 8050 Zürich",
+  "walk_min": 19,
+  "desc_de": "Städtischer Lebensmittelmarkt jeden Mittwoch und Samstag, 6–11 Uhr (samstags bis 12 Uhr), mit Gemüse, Früchten, Blumen und weiteren Lebensmitteln auf dem Platz beim Sternen Oerlikon. Kein Markt am Samstag, 26.12.2026 (Stephanstag).",
+  "desc_en": "City food market every Wednesday and Saturday, 6–11am (Saturdays until noon), with vegetables, fruit, flowers and other food on the square near Sternen Oerlikon. No market on Saturday 26 Dec 2026 (St Stephen's Day).",
+  "url": "https://www.stadt-zuerich.ch/de/stadtleben/veranstaltungen-und-bewilligungen/gewerbe-und-maerkte/maerkte/lebensmittelmaerkte.html",
+  "tags": [
+   "market",
+   "local",
+   "family"
+  ],
+  "details": {
+   "hours": "Mi 6–11, Sa 6–12",
+   "operator": "Stadt Zürich",
+   "sources": [
+    "https://www.stadt-zuerich.ch/de/stadtleben/veranstaltungen-und-bewilligungen/gewerbe-und-maerkte/maerkte/lebensmittelmaerkte.html",
+    "https://www.openstreetmap.org/node/5291538868"
+   ],
+   "walk_m": 1494,
+   "crow_m": 1212,
+   "walk_method": "osrm"
+  },
+  "source": "https://www.stadt-zuerich.ch/de/stadtleben/veranstaltungen-und-bewilligungen/gewerbe-und-maerkte/maerkte/lebensmittelmaerkte.html"
+ },
+ {
+  "id": "bahnhof-seebach",
+  "name": "Bahnhof Zürich Seebach",
+  "cat": "transport",
+  "lat": 47.418752,
+  "lon": 8.544658,
+  "address": "Bahnhaldenstrasse, 8052 Zürich",
+  "walk_min": 21,
+  "desc_de": "Kleiner S6-Bahnhof in Seebach; in der Nähe Zürifit-Anlage, Emil-Oberhänsli-Spielplatz und die Stadtgeiss-Wiese.",
+  "desc_en": "Small S6 station in Seebach; nearby are a Zürifit outdoor gym, the Emil-Oberhänsli playground and the Stadtgeiss goat meadow.",
+  "url": "https://www.zvv.ch",
+  "tags": [
+   "public-transport",
+   "train"
+  ],
+  "details": {
+   "lines": "S6",
+   "stop_id": 8503007,
+   "walk_m": 1645,
+   "crow_m": 1276,
+   "walk_method": "osrm"
+  },
+  "source": "https://transport.opendata.ch/v1/stationboard?id=8503007&datetime=2026-10-26%2007:30"
+ },
+ {
+  "id": "comm-tv-seebach-elki",
+  "name": "Eltern-Kind-Turnen TV Seebach",
+  "cat": "community",
+  "lat": 47.420763,
+  "lon": 8.543359,
+  "address": "Sporthalle Buhnrain, Buhnrain 40, 8052 Zürich",
+  "walk_min": 21,
+  "desc_de": "Eltern-Kind-Turnen für Kinder ab 2½ Jahren mit Eltern, Grosseltern oder Gotte/Götti: montags 9–10 Uhr in der Sporthalle Buhnrain (z.B. 26.10., 2.11. und 9.11.2026), CHF 100 pro Halbjahr; Probelektion nach Absprache.",
+  "desc_en": "Parent-child gym for children from 2½ with parents, grandparents or godparents: Mondays 9–10am in the Buhnrain sports hall (e.g. 26 Oct, 2 Nov and 9 Nov 2026), CHF 100 per half-year; trial lesson on request.",
+  "url": "https://www.tvseebach.ch/Gruppen/Kinder-Jugend/elternkind",
+  "tags": [
+   "family",
+   "sport",
+   "indoor"
+  ],
+  "details": {
+   "hours": "Mo 9–10",
+   "operator": "Turnverein Seebach",
+   "sources": [
+    "https://www.tvseebach.ch/Gruppen/Kinder-Jugend/elternkind",
+    "https://www.openstreetmap.org/way/532894556"
+   ],
+   "walk_m": 1682,
+   "crow_m": 1307,
+   "walk_method": "osrm"
+  },
+  "source": "https://www.tvseebach.ch/Gruppen/Kinder-Jugend/elternkind"
+ },
+ {
+  "id": "shop-coop-city-oerlikon",
+  "name": "Coop City Oerlikon",
+  "cat": "shop",
+  "lat": 47.410399,
+  "lon": 8.546622,
+  "address": "Wallisellenstrasse 1, 8050 Zürich",
+  "walk_min": 21,
+  "desc_de": "Warenhaus beim Sternen Oerlikon mit Lebensmittelabteilung sowie Haushalt, Kosmetik und Mode; Mo–Fr 8–20, Sa 8–18 Uhr (laut OSM).",
+  "desc_en": "Department store at Sternen Oerlikon with a food hall plus household goods, cosmetics and fashion; Mon–Fri 8am–8pm, Sat 8am–6pm (per OSM).",
+  "url": "https://www.coop-city.ch/",
+  "tags": [
+   "shopping",
+   "groceries",
+   "department-store"
+  ],
+  "details": {
+   "hours": "Mo–Fr 8–20, Sa 8–18 (laut OSM)",
+   "operator": "Coop Genossenschaft",
+   "sources": [
+    "https://www.openstreetmap.org/node/310139080",
+    "https://zuri.net/de/zurich/lebensmittelmaerkte/coop-city-5743.htm"
+   ],
+   "walk_m": 1667,
+   "crow_m": 1354,
+   "walk_method": "osrm"
+  },
+  "source": "https://www.openstreetmap.org/node/310139080"
+ },
+ {
+  "id": "comm-tv-affoltern-elki",
+  "name": "ElKi-Turnen TV Zürich-Affoltern",
+  "cat": "community",
+  "lat": 47.420629,
+  "lon": 8.511947,
+  "address": "Sportzentrum Fronwald, Fronwaldstrasse 115, 8046 Zürich",
+  "walk_min": 22,
+  "desc_de": "Eltern-Kind-Turnen des Turnvereins Zürich-Affoltern für Kinder ab 3 Jahren mit Mami, Papi oder Grosseltern: montags 9–10 Uhr im Sportzentrum Fronwald. Ziel ist Freude an der Bewegung; der Verein bietet auch VaKi-Turnen, Geräteturnen und Mädchenriege.",
+  "desc_en": "Parent-child gym class of the Zürich-Affoltern gymnastics club for children aged 3+ with mum, dad or grandparents: Mondays 9–10am at the Fronwald sports centre. The focus is on enjoying movement; the club also offers dad-and-kid gym, apparatus gymnastics and a girls' section.",
+  "url": "https://www.tva-affoltern.ch/kinder-jugend-1/elki/",
+  "tags": [
+   "family",
+   "sport",
+   "indoor"
+  ],
+  "details": {
+   "hours": "Mo 9–10",
+   "operator": "Turnverein Zürich-Affoltern",
+   "sources": [
+    "https://www.tva-affoltern.ch/kinder-jugend-1/elki/",
+    "https://www.openstreetmap.org/way/23654930"
+   ],
+   "walk_m": 1791,
+   "crow_m": 1513,
+   "walk_method": "osrm"
+  },
+  "source": "https://www.tva-affoltern.ch/kinder-jugend-1/elki/"
+ },
+ {
+  "id": "food-restaurant-buergli",
+  "name": "Restaurant Bürgli",
+  "cat": "food",
+  "lat": 47.42287,
+  "lon": 8.541766,
+  "address": "Seebacherstrasse 65, 8052 Zürich",
+  "walk_min": 22,
+  "desc_de": "Quartierbeiz in Alt-Seebach mit Terrasse, Pergola und Garten; täglich 11–23 Uhr, warme Küche 11:30–14 und 17:30–22 Uhr. Mit Kinderkarte – Familien sind ausdrücklich willkommen.",
+  "desc_en": "Neighbourhood restaurant in old Seebach with terrace, pergola and garden; open daily 11am–11pm, hot food 11:30–2 and 5:30–10pm. Has a children's menu – families explicitly welcome.",
+  "url": "https://www.restaurant-buergli.ch",
+  "tags": [
+   "family",
+   "garden",
+   "regional"
+  ],
+  "details": {
+   "hours": "täglich 11–23 (Küche 11:30–14, 17:30–22)",
+   "note": "Betriebsferien auf der Website prüfen",
+   "sources": [
+    "https://www.restaurant-buergli.ch",
+    "https://www.openstreetmap.org/node/2528352535"
+   ],
+   "walk_m": 1750,
+   "crow_m": 1374,
+   "walk_method": "osrm"
+  },
+  "source": "https://www.restaurant-buergli.ch"
+ },
+ {
+  "id": "food-tibits-oerlikon",
+  "name": "tibits Oerlikon",
+  "cat": "food",
+  "lat": 47.409084,
+  "lon": 8.546696,
+  "address": "Tramstrasse 2, 8050 Zürich",
+  "walk_min": 22,
+  "desc_de": "Vegetarisch-veganes Buffet-Restaurant beim Sternen Oerlikon – Kinder können sich durchs Buffet probieren; Mo–Fr 6:30–22:30, Sa 8–22:30, So 9–21:30 Uhr mit Brunch bis 14:30. Laut Gästebewertungen gibt es im Untergeschoss eine grosse Spielecke; mit dem Kinderwagen ist der Weg dorthin etwas umständlich.",
+  "desc_en": "Vegetarian/vegan buffet restaurant at Sternen Oerlikon – kids can graze their way through the buffet; Mon–Fri 6:30am–10:30pm, Sat 8am–10:30pm, Sun 9am–9:30pm with brunch until 2:30pm. Reviews mention a large play corner downstairs; getting there with a pram is a bit awkward.",
+  "url": "https://www.tibits.ch/de/restaurants/oerlikon",
+  "tags": [
+   "vegetarian",
+   "family",
+   "brunch",
+   "indoor"
+  ],
+  "details": {
+   "hours": "Mo–Fr 6:30–22:30, Sa 8–22:30, So/Feiertag 9–21:30 (Brunch bis 14:30)",
+   "note": "Geschlossen 24.–26.12. und 1.–2.1.",
+   "sources": [
+    "https://www.tibits.ch/de/restaurants/oerlikon",
+    "https://zuri.net/de/zurich/essen/tibits-oerlikon-11944.htm",
+    "https://www.openstreetmap.org/node/4259128853"
+   ],
+   "walk_m": 1756,
+   "crow_m": 1407,
+   "walk_method": "osrm"
+  },
+  "source": "https://www.tibits.ch/de/restaurants/oerlikon"
+ },
+ {
+  "id": "sport-sportzentrum-fronwald",
+  "name": "Sportzentrum Fronwald",
+  "cat": "sport",
+  "lat": 47.420881,
+  "lon": 8.512024,
+  "address": "Fronwaldstrasse 115, 8046 Zürich",
+  "walk_min": 22,
+  "desc_de": "Städtisches Sportzentrum in Affoltern mit Rasenfeldern, Dreifachhalle, Rollsporthalle, Freestyle-/Skateanlage und Tennisplätzen; Hallen Mo–Fr 7–22 Uhr, mit Cafeteria. Hier turnt das ElKi des TV Zürich-Affoltern, gleich daneben trainiert der Velo-Trial-Club und steht die Zürifit-Anlage Fronwald.",
+  "desc_en": "City sports centre in Affoltern with grass pitches, a triple gym, a roller-sports hall, a freestyle/skate park and tennis courts; halls open Mon–Fri 7am–10pm, with a cafeteria. Home of TV Zürich-Affoltern's parent-child gym; the bike-trial club and the Zürifit outdoor gym are right next door.",
+  "url": "https://www.stadt-zuerich.ch/de/stadtleben/sport-und-erholung/sport-und-badeanlagen/sporthallen/fronwald.html",
+  "tags": [
+   "sport",
+   "indoor",
+   "outdoor",
+   "skate"
+  ],
+  "details": {
+   "hours": "Hallen Mo–Fr 7–22; Wochenende je nach Anlässen",
+   "operator": "Stadt Zürich, Sportamt",
+   "sources": [
+    "https://www.stadt-zuerich.ch/de/stadtleben/sport-und-erholung/sport-und-badeanlagen/sporthallen/fronwald.html",
+    "https://www.stadt-zuerich.ch/de/stadtleben/sport-und-erholung/sport-und-badeanlagen/freestyle.html",
+    "Stadt Zürich Open Data poi_fussballplatz_view fp008"
+   ],
+   "walk_m": 1791,
+   "crow_m": 1522,
+   "walk_method": "osrm"
+  },
+  "source": "https://www.stadt-zuerich.ch/de/stadtleben/sport-und-erholung/sport-und-badeanlagen/sporthallen/fronwald.html"
+ },
+ {
+  "id": "comm-qv-seebach",
+  "name": "Quartierverein Seebach",
+  "cat": "community",
+  "lat": 47.419858,
+  "lon": 8.547105,
+  "address": "8052 Zürich (Anlässe im ganzen Quartier)",
+  "walk_min": 23,
+  "desc_de": "Quartierverein mit aktuellem Agenda-Kalender: u.a. die Seebacher Räbeliechtliumzüge am Do 29.10.2026 (ab 18 Uhr), Vorträge und Kulturanlässe; Beitritt online, für Neuzugezogene gibt es die Rubrik «Neu hier?».",
+  "desc_en": "Neighbourhood association with an up-to-date events calendar: incl. the Seebach turnip-lantern parades on Thu 29 Oct 2026 (from 6pm), talks and cultural events; join online, with a 'Neu hier?' section for newcomers.",
+  "url": "https://seebach.ch/",
+  "tags": [
+   "family",
+   "tradition",
+   "neighbours"
+  ],
+  "details": {
+   "sources": [
+    "https://seebach.ch/",
+    "https://pfarrei-maria-lourdes.ch/"
+   ],
+   "walk_m": 1838,
+   "crow_m": 1496,
+   "walk_method": "osrm"
+  },
+  "source": "https://seebach.ch/",
+  "approx": true
+ },
+ {
+  "id": "cult-theater-11",
+  "name": "Theater 11",
+  "cat": "culture",
+  "lat": 47.410844,
+  "lon": 8.549425,
+  "address": "Thurgauerstrasse 7, 8050 Zürich",
+  "walk_min": 23,
+  "desc_de": "Grosses Musicaltheater neben Messe und Hallenstadion. Familientaugliche Gastspiele im Winter 2026/27: Mummenschanz (3.–13.12.2026), «Cinderella – Das Musical» (30.12.2026–3.1.2027), Disneys «Der Glöckner von Notre Dame» (19.–31.1.2027) und der Chinesische Nationalcircus (21.3.2027, 15 Uhr).",
+  "desc_en": "Large musical theatre next to the Messe and Hallenstadion. Family-friendly shows in winter 2026/27: Mummenschanz (3–13 Dec 2026), 'Cinderella – Das Musical' (30 Dec 2026–3 Jan 2027), Disney's 'The Hunchback of Notre Dame' (19–31 Jan 2027) and the Chinese National Circus (21 Mar 2027, 3pm).",
+  "url": "https://www.musical.ch/de/theater11zuerich",
+  "tags": [
+   "culture",
+   "indoor",
+   "family",
+   "music"
+  ],
+  "details": {
+   "sources": [
+    "https://www.musical.ch/de/theater11zuerich",
+    "https://www.openstreetmap.org/way/30963285"
+   ],
+   "walk_m": 1862,
+   "crow_m": 1546,
+   "walk_method": "osrm"
+  },
+  "source": "https://www.musical.ch/de/theater11zuerich"
+ },
+ {
+  "id": "hist-alte-kirche-seebach",
+  "name": "Alte Kirche Seebach (Niklauskirche)",
+  "cat": "history",
+  "lat": 47.4228753,
+  "lon": 8.542769,
+  "address": "Buhnrain 1, 8052 Zürich",
+  "walk_min": 23,
+  "desc_de": "Schlichter Barockbau von 1664 mit schlankem Dachreiter und Uhr (Vorbau von 1811) auf dem Buhnhügel, einem Relikt der Linth-Vergletscherung; schon 1370 ist im Oberdorf eine Kapelle St. Niklaus erwähnt. Seebach, 1212 erstmals erwähnt, ist nach dem heutigen Katzenbach benannt, der früher «Seebach» hiess.",
+  "desc_en": "Simple baroque church of 1664 with a slender ridge turret and clock (porch added 1811) on the Buhnhügel, a relic of the Linth glaciation; a chapel of St Nicholas is recorded in the upper village as early as 1370. Seebach, first mentioned in 1212, is named after today's Katzenbach stream, once called the 'Seebach'.",
+  "url": "https://reformiert-zuerich.ch/kirchenkreise/elf/",
+  "tags": [
+   "history",
+   "free"
+  ],
+  "details": {
+   "sources": [
+    "https://api.isos.bak.admin.ch/ob/5800/doc/ISOS_5800_Seebach.pdf",
+    "https://zop.zb.uzh.ch/bitstreams/e875ff9e-ee3d-4958-9aec-6cdbbf22a139/download",
+    "https://hls-dhs-dss.ch/de/articles/003127",
+    "https://www.openstreetmap.org/way/43051850"
+   ],
+   "walk_m": 1851,
+   "crow_m": 1427,
+   "walk_method": "osrm"
+  },
+  "source": "https://api.isos.bak.admin.ch/ob/5800/doc/ISOS_5800_Seebach.pdf"
+ },
+ {
+  "id": "market-hofladen-bio-waidhof",
+  "name": "Hofladen Bio Waidhof",
+  "cat": "market",
+  "lat": 47.423498,
+  "lon": 8.525619,
+  "address": "Heuweg 97 / Schwandenholzstrasse 157, 8052 Zürich",
+  "walk_min": 23,
+  "desc_de": "Bio-Hof nördlich des Hürstwalds (gut 1 km) mit Selbstbedienungs-Hofladen für eigene und regionale Bio-Produkte: Mi 13–19, Do–Sa 7–19 Uhr; dazu ein Milchautomat, der rund um die Uhr läuft. Bar oder Twint – ein schönes Spaziergangsziel durch den Wald.",
+  "desc_en": "Organic farm north of the Hürstwald (just over 1 km) with a self-service farm shop for its own and regional organic produce: Wed 1–7pm, Thu–Sat 7am–7pm; plus a milk vending machine that runs 24/7. Cash or Twint – a lovely walk through the woods.",
+  "url": "https://www.guidle.com/de/gewerbe/zuerich/detailhandel-lebensmittel--konsumgueter/waidhof_AMCfBWT",
+  "tags": [
+   "organic",
+   "local",
+   "sustainability",
+   "family"
+  ],
+  "details": {
+   "hours": "Mi 13–19, Do–Sa 7–19; Milchautomat 24/7",
+   "sources": [
+    "https://www.guidle.com/de/gewerbe/zuerich/detailhandel-lebensmittel--konsumgueter/waidhof_AMCfBWT",
+    "https://www.myfarm.ch/en/farm-shops/farm-store-bio-waidhof_AMCfBWT",
+    "https://www.openstreetmap.org/node/7900303386"
+   ],
+   "walk_m": 1879,
+   "crow_m": 1113,
+   "walk_method": "osrm"
+  },
+  "source": "https://www.guidle.com/de/gewerbe/zuerich/detailhandel-lebensmittel--konsumgueter/waidhof_AMCfBWT"
+ },
+ {
+  "id": "comm-qv-affoltern",
+  "name": "Quartierverein Zürich-Affoltern",
+  "cat": "community",
+  "lat": 47.4188202,
+  "lon": 8.5068322,
+  "address": "Postfach 29, 8046 Zürich (Anlässe u.a. am Zehntenhausplatz)",
+  "walk_min": 24,
+  "desc_de": "Politisch und konfessionell neutraler Verein, der die Anliegen von Affoltern vertritt und Anlässe organisiert: Räbeliechtliumzug am Sa 7.11.2026 (18 Uhr), Samichlaus-Aktion am Zehntenhausplatz am Sa 5.12.2026 (10 Uhr), Neujahrsapéro am 15.1.2027. Mitgliedschaft für Bewohnende von Affoltern zu bescheidenem Beitrag.",
+  "desc_en": "Politically and religiously neutral association representing Affoltern and organising events: turnip-lantern parade on Sat 7 Nov 2026 (6pm), Samichlaus visit on Zehntenhausplatz on Sat 5 Dec 2026 (10am), New Year's drinks on 15 Jan 2027. Membership open to Affoltern residents for a modest fee.",
+  "url": "https://www.qvaffoltern.ch/",
+  "tags": [
+   "family",
+   "tradition",
+   "neighbours",
+   "volunteer"
+  ],
+  "details": {
+   "sources": [
+    "https://www.qvaffoltern.ch/veranstaltungen",
+    "https://www.qvaffoltern.ch/"
+   ],
+   "walk_m": 1947,
+   "crow_m": 1784,
+   "walk_method": "osrm"
+  },
+  "source": "https://www.qvaffoltern.ch/veranstaltungen",
+  "approx": true
+ },
+ {
+  "id": "hist-zehntenhausplatz-oberdorf",
+  "name": "Zehntenhausplatz & Oberdorf Affoltern",
+  "cat": "history",
+  "lat": 47.4190942,
+  "lon": 8.5071741,
+  "address": "Zehntenhausplatz, 8046 Zürich",
+  "walk_min": 24,
+  "desc_de": "Hier lag das alte Oberdorf von «Afaltraha» (870 erstmals erwähnt, althochdeutsch für Apfelbaum – daher der Apfelzweig im Wappen): Reste ländlicher Bauten mit ehemaligem Zehntenhaus und dem klassizistischen Gasthof Löwen von 1827, daneben das Zentrum Kronenhof von 1970. Nach dem Ja von 1931 wurde Affoltern am 1. Januar 1934 mit Oerlikon, Seebach und Schwamendingen eingemeindet und bildete den neuen Kreis 11.",
+  "desc_en": "Site of the old upper village of 'Afaltraha' (first mentioned 870, Old High German for apple tree – hence the apple branch in the coat of arms): remnants of rural buildings incl. the former tithe house and the classicist Gasthof Löwen inn of 1827, next to the 1970 Kronenhof centre. After the 1931 vote, Affoltern was merged into Zürich on 1 January 1934 together with Oerlikon, Seebach and Schwamendingen, forming the new Kreis 11.",
+  "url": "https://api.isos.bak.admin.ch/ob/5800/doc/ISOS_5800_Affoltern.pdf",
+  "tags": [
+   "history",
+   "free",
+   "tradition"
+  ],
+  "details": {
+   "sources": [
+    "https://api.isos.bak.admin.ch/ob/5800/doc/ISOS_5800_Affoltern.pdf",
+    "https://zop.zb.uzh.ch/bitstreams/983cb3d8-8bba-41f4-8e24-cb87d4e68d36/download",
+    "https://www.openstreetmap.org/way/38937176"
+   ],
+   "walk_m": 1923,
+   "crow_m": 1769,
+   "walk_method": "osrm"
+  },
+  "source": "https://api.isos.bak.admin.ch/ob/5800/doc/ISOS_5800_Affoltern.pdf"
+ },
+ {
+  "id": "sport-vitaparcours-kaeferberg",
+  "name": "Vitaparcours Käferberg (Start)",
+  "cat": "sport",
+  "lat": 47.3998583,
+  "lon": 8.5294378,
+  "address": "Käferbergwald, oberhalb Kreuzung Waidstrasse / Käferholzstrasse, 8037 Zürich",
+  "walk_min": 24,
+  "desc_de": "2,3 km lange Fitnessrunde (rund 60 m Steigung) mit 14 Posten im Käferbergwald, betreut von Grün Stadt Zürich. Ein Abschnitt führt über rund 40 Treppenstufen – mit Kleinkind eher Trage statt Kinderwagen.",
+  "desc_en": "2.3 km fitness trail (about 60 m of climb) with 14 exercise stations in the Käferberg forest, maintained by Grün Stadt Zürich. One section has about 40 steps – better with a baby carrier than a pram.",
+  "url": "https://www.zuerich.com/de/sightseeing-aktivitaeten/sport-und-erholung/vitaparcours",
+  "tags": [
+   "sport",
+   "outdoor",
+   "free",
+   "nature"
+  ],
+  "details": {
+   "operator": "Grün Stadt Zürich",
+   "sources": [
+    "https://www.zuerich.com/de/sightseeing-aktivitaeten/sport-und-erholung/vitaparcours",
+    "https://www.openstreetmap.org/node/815963556",
+    "https://www.openstreetmap.org/relation/7886186"
+   ],
+   "walk_m": 1923,
+   "crow_m": 1551,
+   "walk_method": "osrm"
+  },
+  "source": "https://www.zuerich.com/de/sightseeing-aktivitaeten/sport-und-erholung/vitaparcours"
+ },
+ {
+  "id": "bahnhof-affoltern",
+  "name": "Bahnhof Zürich Affoltern",
+  "cat": "transport",
+  "lat": 47.42091,
+  "lon": 8.508582,
+  "address": "Zehntenhausstrasse / Bahnhof, 8046 Zürich",
+  "walk_min": 25,
+  "desc_de": "S-Bahn S6/S21 (u.a. direkt nach Zürich HB) mit Busanschluss am Bahnhofplatz; Treffpunkt des Clean-ups Affoltern.",
+  "desc_en": "S-Bahn S6/S21 (incl. direct to Zürich HB) with bus connections at the station square; meeting point of the Affoltern clean-up.",
+  "url": "https://www.zvv.ch",
+  "tags": [
+   "public-transport",
+   "train"
+  ],
+  "details": {
+   "lines": "S6, S21; Bus 37, 44, 61, 62, 492",
+   "stop_id": 8503008,
+   "sources": [
+    "https://transport.opendata.ch/v1/stationboard?id=8503008&datetime=2026-10-26%2007:30",
+    "https://transport.opendata.ch/v1/stationboard?id=8591054&datetime=2026-10-26%2007:30"
+   ],
+   "walk_m": 2037,
+   "crow_m": 1751,
+   "walk_method": "osrm"
+  },
+  "source": "https://transport.opendata.ch/v1/stationboard?id=8503008&datetime=2026-10-26%2007:30"
+ },
+ {
+  "id": "bus-zehntenhausplatz",
+  "name": "Zehntenhausplatz (Bus 32, 37, 44, 61, 62, 492)",
+  "cat": "transport",
+  "lat": 47.41922,
+  "lon": 8.506462,
+  "address": "Wehntalerstrasse 540, 8046 Zürich",
+  "walk_min": 25,
+  "desc_de": "Busknoten im alten Dorfkern von Affoltern mit dem Infocenter zum geplanten Tram Affoltern (Baustart frühestens 2028, Betrieb ca. 2031/32).",
+  "desc_en": "Bus hub in Affoltern's old village centre with the info centre for the planned Affoltern tram (construction from 2028 at the earliest, service around 2031/32).",
+  "url": "https://www.zvv.ch",
+  "tags": [
+   "public-transport",
+   "history",
+   "off-board"
+  ],
+  "details": {
+   "lines": "Bus 32, 37, 44, 61, 62, 492",
+   "stop_id": 8576262,
+   "sources": [
+    "https://transport.opendata.ch/v1/stationboard?id=8576262&datetime=2026-10-26%2007:30",
+    "https://www.stadt-zuerich.ch/vbz/de/mobilitaet-im-wandel/netzentwicklung/tram-affoltern.html"
+   ],
+   "walk_m": 2034,
+   "crow_m": 1824,
+   "walk_method": "osrm",
+   "off_board": true
+  },
+  "source": "https://transport.opendata.ch/v1/stationboard?id=8576262&datetime=2026-10-26%2007:30"
+ },
+ {
+  "id": "shop-migros-affoltern",
+  "name": "Migros Zürich-Affoltern",
+  "cat": "shop",
+  "lat": 47.42042,
+  "lon": 8.508217,
+  "address": "Jonas-Furrer-Strasse 21, 8046 Zürich",
+  "walk_min": 25,
+  "desc_de": "Migros-Supermarkt im Zentrum Affoltern zwischen Bahnhof Affoltern und Zehntenhausplatz, Mo–Sa 8–20 Uhr, stufenlos; im selben Komplex ein Migros-Restaurant, gleich daneben ein Denner (In Böden 174).",
+  "desc_en": "Migros supermarket in central Affoltern between Affoltern station and Zehntenhausplatz, Mon–Sat 8am–8pm, step-free; a Migros restaurant in the same complex and a Denner next door (In Böden 174).",
+  "url": "https://filialen.migros.ch/de/migros-supermarkt-zuerich-affoltern",
+  "tags": [
+   "groceries",
+   "shopping-centre"
+  ],
+  "details": {
+   "hours": "Mo–Sa 8–20",
+   "operator": "Genossenschaft Migros Zürich",
+   "sources": [
+    "https://www.openstreetmap.org/node/452715384",
+    "https://zuri.net/de/zurich/lebensmittelmaerkte/migros-5691.htm"
+   ],
+   "walk_m": 2016,
+   "crow_m": 1752,
+   "walk_method": "osrm"
+  },
+  "source": "https://www.openstreetmap.org/node/452715384"
+ },
+ {
+  "id": "sport-hallenstadion",
+  "name": "Hallenstadion",
+  "cat": "sport",
+  "lat": 47.4114253,
+  "lon": 8.5516855,
+  "address": "Wallisellenstrasse 45, 8050 Zürich",
+  "walk_min": 26,
+  "desc_de": "Bei der Eröffnung 1939 die grösste und modernste Halle ihrer Art in Europa, ursprünglich für Velorennen gebaut; heute Arena für Konzerte, Shows und Sportanlässe (im Herbst 2026 u.a. Swiss Cup im Kunstturnen und die Pferdeshow Cavalluna). Die ZSC Lions sind 2022 nach über 70 Jahren in ein neues Stadion in Altstetten gezogen.",
+  "desc_en": "When it opened in 1939 the largest and most modern hall of its kind in Europe, originally built for cycle racing; today an arena for concerts, shows and sports events (autumn 2026 incl. the Swiss Cup gymnastics and the Cavalluna horse show). The ZSC Lions moved to a new stadium in Altstetten in 2022 after more than 70 years.",
+  "url": "https://www.hallenstadion.ch/",
+  "tags": [
+   "events",
+   "indoor",
+   "sport",
+   "history"
+  ],
+  "details": {
+   "operator": "AG Hallenstadion Zürich",
+   "sources": [
+    "https://www.hallenstadion.ch/",
+    "https://zop.zb.uzh.ch/bitstreams/5a9b2297-b1c9-4726-ad20-8852da30173a/download",
+    "https://www.openstreetmap.org/way/10595518"
+   ],
+   "walk_m": 2090,
+   "crow_m": 1701,
+   "walk_method": "osrm"
+  },
+  "source": "https://www.hallenstadion.ch/"
+ },
+ {
+  "id": "sport-offene-rennbahn-oerlikon",
+  "name": "Offene Rennbahn Oerlikon",
+  "cat": "sport",
+  "lat": 47.409558,
+  "lon": 8.551364,
+  "address": "Thurgauerstrasse 2, 8050 Zürich",
+  "walk_min": 26,
+  "desc_de": "Open-Air-Velobahn von 1912, auf der bis in die 1980er-Jahre sieben Bahnrad-Weltmeisterschaften stattfanden. Von Mai bis September fast jeden Dienstagabend Rennen (Kasse ab 16:30 Uhr), auch mit Nachwuchskategorien – spannend zum Zuschauen.",
+  "desc_en": "Open-air cycling track from 1912 that hosted seven track world championships up to the 1980s. From May to September there are races almost every Tuesday evening (ticket desk from 4:30pm), including youth categories – fun to watch.",
+  "url": "https://www.rennbahn-oerlikon.ch/",
+  "tags": [
+   "sport",
+   "history",
+   "events",
+   "bike",
+   "outdoor"
+  ],
+  "details": {
+   "hours": "Renntage Di (Mai–Sept), Kasse ab 16:30",
+   "sources": [
+    "https://www.rennbahn-oerlikon.ch/",
+    "https://zop.zb.uzh.ch/bitstreams/5a9b2297-b1c9-4726-ad20-8852da30173a/download",
+    "https://www.openstreetmap.org/way/397162756"
+   ],
+   "walk_m": 2080,
+   "crow_m": 1723,
+   "walk_method": "osrm"
+  },
+  "source": "https://www.rennbahn-oerlikon.ch/"
+ },
+ {
+  "id": "cult-kubaa",
+  "name": "KulturBahnhof Affoltern (KuBaA)",
+  "cat": "culture",
+  "lat": 47.421566,
+  "lon": 8.505879,
+  "address": "Bachmannweg 16, 8046 Zürich",
+  "walk_min": 27,
+  "desc_de": "Vereinsgeführte Bühne im alten Bahnhofsgebäude von Affoltern (1877 für die Nationalbahn gebaut, seit 2004 Kulturort): Konzerte, Impro-Theater, Spieleabende und das «ZehntenKino» (12.11. und 10.12.2026). Für Familien: «Kreativatelier und Konzert» am So 31.1.2027 ab 13:30 Uhr für alle Altersstufen; am 22.1.2027 feiert der Quartierverein hier 150 Jahre Bahnhof Affoltern.",
+  "desc_en": "Volunteer-run stage in Affoltern's old station building (built 1877 for the Nationalbahn, a cultural venue since 2004): concerts, improv theatre, game nights and the 'ZehntenKino' film nights (12 Nov and 10 Dec 2026). For families: 'Kreativatelier und Konzert' on Sun 31 Jan 2027 from 1:30pm for all ages; on 22 Jan 2027 the Quartierverein celebrates 150 years of Affoltern station here.",
+  "url": "https://www.kubaa.ch",
+  "tags": [
+   "culture",
+   "history",
+   "events",
+   "family",
+   "off-board"
+  ],
+  "details": {
+   "operator": "Verein KulturBahnhof Affoltern",
+   "sources": [
+    "https://www.kubaa.ch",
+    "https://zop.zb.uzh.ch/bitstreams/983cb3d8-8bba-41f4-8e24-cb87d4e68d36/download",
+    "https://www.qvaffoltern.ch/veranstaltungen",
+    "https://api3.geo.admin.ch (Adresse Bachmannweg 16)"
+   ],
+   "walk_m": 2136,
+   "crow_m": 1965,
+   "walk_method": "osrm",
+   "off_board": true
+  },
+  "source": "https://www.kubaa.ch"
+ },
+ {
+  "id": "market-meh-als-gmues",
+  "name": "meh als gmües – Gemüsekooperative",
+  "cat": "market",
+  "lat": 47.424597,
+  "lon": 8.517534,
+  "address": "Reckenholzstrasse 150, 8046 Zürich",
+  "walk_min": 27,
+  "desc_de": "Genossenschaft für solidarische Landwirtschaft mit Bio-Suisse-Feld in Affoltern: Mitglieder erhalten wöchentlich (oder alle zwei Wochen) einen Ernteanteil, abzuholen Fr/Sa in Depots im Kreis 11. Richtwert rund CHF 1200 pro Jahr plus Anteilschein (ab CHF 250) und etwa 20 Stunden Mithilfe auf dem Feld.",
+  "desc_en": "Community-supported agriculture cooperative with a Bio Suisse field in Affoltern: members get a weekly (or fortnightly) harvest share, collected Fri/Sat at depots in Kreis 11. Guideline about CHF 1,200 a year plus a share certificate (from CHF 250) and roughly 20 hours of field work.",
+  "url": "https://mehalsgmues.ch/",
+  "tags": [
+   "sustainability",
+   "organic",
+   "local",
+   "volunteer",
+   "gardening"
+  ],
+  "details": {
+   "hours": "Depot-Abholung Fr–Sa",
+   "operator": "Genossenschaft meh als gmües",
+   "sources": [
+    "https://mehalsgmues.ch/",
+    "https://www.openstreetmap.org/node/13039093246"
+   ],
+   "walk_m": 2180,
+   "crow_m": 1493,
+   "walk_method": "osrm"
+  },
+  "source": "https://mehalsgmues.ch/"
+ },
+ {
+  "id": "sport-kunsteisbahn-oerlikon",
+  "name": "Kunsteisbahn Oerlikon",
+  "cat": "sport",
+  "lat": 47.412102,
+  "lon": 8.554688,
+  "address": "Siewerdtstrasse 80, 8050 Zürich",
+  "walk_min": 27,
+  "desc_de": "Städtische Kunsteisbahn mit Aussen- und Hallenfeld und Restaurant Stadiönli; Saison 17. Oktober 2026 bis 7. März 2027, das freie Eisfeld ist meist täglich offen. Schlittschuhe in fast allen Grössen vor Ort mietbar; freitags 19:30–21:30 Uhr freies Eishockey («Chneble»).",
+  "desc_en": "City ice rink with an outdoor and an indoor rink plus the Stadiönli restaurant; season 17 Oct 2026 to 7 Mar 2027, public skating usually daily. Skates in almost all sizes for hire on site; Fridays 7:30–9:30pm free-play ice hockey ('Chneble').",
+  "url": "https://www.stadt-zuerich.ch/de/stadtleben/sport-und-erholung/sport-und-badeanlagen/kunsteisbahnen/kunsteisbahn-oerlikon.html",
+  "tags": [
+   "sport",
+   "family",
+   "winter",
+   "outdoor",
+   "off-board"
+  ],
+  "details": {
+   "hours": "Saison 17.10.2026–7.3.2027; Publikumszeiten auf sportamt.ch/eislaufen",
+   "operator": "Stadt Zürich, Sportamt",
+   "sources": [
+    "https://www.stadt-zuerich.ch/de/stadtleben/sport-und-erholung/sport-und-badeanlagen/kunsteisbahnen/kunsteisbahn-oerlikon.html",
+    "https://famigros.migros.ch/de/ausfluege-und-freizeit/ausflugsziele/kunsteisbahn-oerlikon-zuerich",
+    "Stadt Zürich Open Data poi_eisbahn_view eb002"
+   ],
+   "walk_m": 2170,
+   "crow_m": 1916,
+   "walk_method": "osrm",
+   "off_board": true
+  },
+  "source": "https://www.stadt-zuerich.ch/de/stadtleben/sport-und-erholung/sport-und-badeanlagen/kunsteisbahnen/kunsteisbahn-oerlikon.html"
+ },
+ {
+  "id": "food-gelateria-diamante",
+  "name": "Diamante Gelateria & Café",
+  "cat": "food",
+  "lat": 47.403406,
+  "lon": 8.548319,
+  "address": "Berninaplatz 2, 8057 Zürich",
+  "walk_min": 28,
+  "desc_de": "Gelateria am Berninaplatz mit bis zu 20 saisonalen Sorten (auch Sorbets und vegane Glace), Spaghetti-Eis und kleiner Sonnenterrasse (rund 10 Plätze); Di–Sa 12–21, So 14–20 Uhr, Mo zu – in den Wintermonaten schon um 19 Uhr Schluss.",
+  "desc_en": "Gelateria on Berninaplatz with up to 20 seasonal flavours (incl. sorbets and vegan ice cream), spaghetti ice and a small sunny terrace (about 10 seats); Tue–Sat noon–9pm, Sun 2–8pm, closed Mon – closes at 7pm in the winter months.",
+  "url": "https://www.gelateria-diamante.ch/",
+  "tags": [
+   "ice-cream",
+   "family",
+   "terrace",
+   "off-board"
+  ],
+  "details": {
+   "hours": "Di–Sa 12–21, So 14–20, Mo zu; Winter bis 19 Uhr",
+   "sources": [
+    "https://www.gelateria-diamante.ch/",
+    "https://www.openstreetmap.org/node/2491353466"
+   ],
+   "walk_m": 2208,
+   "crow_m": 1837,
+   "walk_method": "osrm",
+   "off_board": true
+  },
+  "source": "https://www.gelateria-diamante.ch/"
+ },
+ {
+  "id": "sport-pumptrack-steinkluppe",
+  "name": "Pumptrack Steinkluppe",
+  "cat": "sport",
+  "lat": 47.401157,
+  "lon": 8.539501,
+  "address": "Rasensportanlage Steinkluppe, Anna-Heer-Strasse, 8057 Zürich",
+  "walk_min": 28,
+  "desc_de": "Kurzer, welliger Kinder-Pumptrack der Stadt mit leichten Wellen (20–30 cm) und Mini-Steilwandkurven – gut für erste Runden auf Kindervelo, Laufrad oder Trottinett. Rund 1,6 km südlich, beim Spielplatz Steinkluppenanlage.",
+  "desc_en": "Short, wavy children's pump track run by the city, with gentle 20–30 cm rollers and mini berms – good for first laps on a kids' bike, balance bike or scooter. About 1.6 km south, next to the Steinkluppenanlage playground.",
+  "url": "https://www.stadt-zuerich.ch/de/stadtleben/sport-und-erholung/sport-und-badeanlagen/biken.html",
+  "tags": [
+   "bike",
+   "family",
+   "free",
+   "outdoor"
+  ],
+  "details": {
+   "operator": "Stadt Zürich, Sportamt",
+   "sources": [
+    "https://www.stadt-zuerich.ch/de/stadtleben/sport-und-erholung/sport-und-badeanlagen/biken.html",
+    "Stadt Zürich Open Data poi_bikepark_view bp14405"
+   ],
+   "walk_m": 2223,
+   "crow_m": 1601,
+   "walk_method": "osrm"
+  },
+  "source": "https://www.stadt-zuerich.ch/de/stadtleben/sport-und-erholung/sport-und-badeanlagen/biken.html"
+ },
+ {
+  "id": "hist-alte-kirche-affoltern",
+  "name": "Alte Kirche Affoltern",
+  "cat": "history",
+  "lat": 47.424484,
+  "lon": 8.508918,
+  "address": "Zehntenhausstrasse 94, 8046 Zürich",
+  "walk_min": 29,
+  "desc_de": "Schlichter barocker Saalbau von 1683 mit Spitzhelm-Dachreiter, zwischen den beiden alten Dorfkernen Ober- und Unterdorf; ganz in der Nähe stand einst die Mühle am Dorfbach. Bis zum Kirchenbau gehörte Affoltern zur Kirchgemeinde Höngg – die Leute mussten jeden Sonntag über den Hönggerberg zum Gottesdienst.",
+  "desc_en": "Simple baroque hall church from 1683 with a spire-topped ridge turret, between the two old village cores of Oberdorf and Unterdorf; the village mill once stood nearby on the Dorfbach. Until it was built Affoltern belonged to the Höngg parish – people had to walk over the Hönggerberg to church every Sunday.",
+  "url": "https://reformiert-zuerich.ch/kirchenkreise/elf/",
+  "tags": [
+   "history",
+   "free",
+   "off-board"
+  ],
+  "details": {
+   "sources": [
+    "https://api.isos.bak.admin.ch/ob/5800/doc/ISOS_5800_Affoltern.pdf",
+    "https://zop.zb.uzh.ch/bitstreams/983cb3d8-8bba-41f4-8e24-cb87d4e68d36/download",
+    "https://www.openstreetmap.org/way/41949797"
+   ],
+   "walk_m": 2289,
+   "crow_m": 1942,
+   "walk_method": "osrm",
+   "off_board": true
+  },
+  "source": "https://api.isos.bak.admin.ch/ob/5800/doc/ISOS_5800_Affoltern.pdf"
+ },
+ {
+  "id": "food-wirtschaft-unterdorf",
+  "name": "Wirtschaft Unterdorf",
+  "cat": "food",
+  "lat": 47.426208,
+  "lon": 8.505413,
+  "address": "Katzenseestrasse 15, 8046 Zürich",
+  "walk_min": 34,
+  "desc_de": "Restaurant im alten Unterdorf von Affoltern mit grosszügiger Gartenwirtschaft unter schattigen Platanen; Di–Sa 11–22, So 11–21 Uhr, Mo Ruhetag (im Sommer länger offen). Guter Einkehrhalt auf dem Weg Richtung Katzensee.",
+  "desc_en": "Restaurant in Affoltern's old Unterdorf with a generous beer garden under shady plane trees; Tue–Sat 11am–10pm, Sun 11am–9pm, closed Mon (longer hours in summer). A good stop on the way to the Katzensee.",
+  "url": "https://wirtschaft-unterdorf.ch/",
+  "tags": [
+   "garden",
+   "regional",
+   "outdoor",
+   "off-board"
+  ],
+  "details": {
+   "hours": "Di–Sa 11–22, So 11–21, Mo zu (Sommer länger)",
+   "sources": [
+    "https://wirtschaft-unterdorf.ch/",
+    "https://www.openstreetmap.org/node/1975523704"
+   ],
+   "walk_m": 2690,
+   "crow_m": 2268,
+   "walk_method": "osrm",
+   "off_board": true
+  },
+  "source": "https://wirtschaft-unterdorf.ch/"
+ },
+ {
+  "id": "cult-science-pavilion-uzh",
+  "name": "Science Pavilion UZH",
+  "cat": "culture",
+  "lat": 47.397838,
+  "lon": 8.547337,
+  "address": "Winterthurerstrasse 190 (Gebäude Y10), 8057 Zürich",
+  "walk_min": 36,
+  "desc_de": "Kostenloses Ausstellungs- und Begegnungszentrum der Universität Zürich auf dem Campus Irchel (rund 2,2 km): Mo–Di und Do–So 12–17, Mi 12–18 Uhr, an einzelnen Samstagen Familienführungen. Der Irchelpark mit Weihern liegt gleich daneben.",
+  "desc_en": "Free exhibition and meeting centre of the University of Zurich on the Irchel campus (about 2.2 km): Mon–Tue and Thu–Sun noon–5pm, Wed noon–6pm, with family tours on some Saturdays. The Irchelpark with its ponds is right next door.",
+  "url": "https://www.sciencepavilion.uzh.ch/",
+  "tags": [
+   "culture",
+   "free",
+   "family",
+   "indoor",
+   "science",
+   "off-board"
+  ],
+  "details": {
+   "hours": "Mo–Di, Do–So 12–17; Mi 12–18",
+   "operator": "Universität Zürich",
+   "sources": [
+    "https://www.museums.ch/de/museumsbesuch/museen/museen/science-pavilion-uzh-3047.html",
+    "https://sciencepavilion.uzh.ch/dam/jcr:d3712147-2ba1-406a-88f7-0a83693975a3/Science%20Pavilion%20UZH%20Programm%20Sommer%2026.pdf",
+    "https://www.openstreetmap.org/node/14048330523"
+   ],
+   "walk_m": 2885,
+   "crow_m": 2233,
+   "walk_method": "osrm",
+   "off_board": true
+  },
+  "source": "https://www.museums.ch/de/museumsbesuch/museen/museen/science-pavilion-uzh-3047.html"
+ },
+ {
+  "id": "market-hoflaedeli-riedenholzhof",
+  "name": "Hoflädeli Riedenholzhof",
+  "cat": "market",
+  "lat": 47.432022,
+  "lon": 8.52861,
+  "address": "Riedenholzstrasse 122, 8052 Zürich",
+  "walk_min": 38,
+  "desc_de": "Bio-Suisse-Hof im Norden von Seebach, der Wasserbüffel hält; im Hoflädeli gibt es Honig, Konfitüre, Sirup, Eier sowie Rind-, Kalb- und Schweinefleisch. Di, Mi, Fr 13:30–18:30, Sa 9–14 Uhr; bar oder Twint.",
+  "desc_en": "Bio Suisse farm in northern Seebach that keeps water buffalo; the little farm shop sells honey, jam, syrup, eggs and beef, veal and pork. Tue, Wed, Fri 1:30–6:30pm, Sat 9am–2pm; cash or Twint.",
+  "url": "https://www.myfarm.ch/en/farm-shops/zuerich/farm-store-riedenholzhof_AX5ZEB3",
+  "tags": [
+   "organic",
+   "local",
+   "family",
+   "off-board"
+  ],
+  "details": {
+   "hours": "Di, Mi, Fr 13:30–18:30; Sa 9–14",
+   "sources": [
+    "https://www.myfarm.ch/en/farm-shops/zuerich/farm-store-riedenholzhof_AX5ZEB3",
+    "https://www.openstreetmap.org/node/4398856162"
+   ],
+   "walk_m": 3061,
+   "crow_m": 2026,
+   "walk_method": "osrm",
+   "off_board": true
+  },
+  "source": "https://www.myfarm.ch/en/farm-shops/zuerich/farm-store-riedenholzhof_AX5ZEB3"
+ },
+ {
+  "id": "food-waldhaus-katzensee",
+  "name": "Restaurant Waldhaus Katzensee",
+  "cat": "food",
+  "lat": 47.4292407,
+  "lon": 8.4893095,
+  "address": "Wehntalerstrasse 790, 8046 Zürich",
+  "walk_min": 51,
+  "desc_de": "Ausflugsrestaurant am Katzensee mit grossem Garten und Spielplatz – Gäste loben die vielen Spielgeräte; laut MySwitzerland Mo–Sa 8–22:30, So 9–22 Uhr. Rund 3,5 km von der Siedlung, ideal als Ziel für einen Familienausflug an den See.",
+  "desc_en": "Excursion restaurant by the Katzensee with a big garden and playground – guests praise the many play structures; per MySwitzerland Mon–Sat 8am–10:30pm, Sun 9am–10pm. About 3.5 km from the estate, a nice goal for a family outing to the lake.",
+  "url": "https://www.myswitzerland.com/en/experiences/food-wine/restaurant/restaurant-waldhaus-katzensee/",
+  "tags": [
+   "family",
+   "playground",
+   "garden",
+   "outdoor",
+   "off-board"
+  ],
+  "details": {
+   "hours": "Mo–Sa 8–22:30, So 9–22 (laut MySwitzerland)",
+   "sources": [
+    "https://www.myswitzerland.com/en/experiences/food-wine/restaurant/restaurant-waldhaus-katzensee/",
+    "https://zuri.net/de/zurich/essen/waldhaus-katzensee-11520.htm",
+    "https://www.openstreetmap.org/node/256437327"
+   ],
+   "walk_m": 4047,
+   "crow_m": 3467,
+   "walk_method": "osrm",
+   "off_board": true
+  },
+  "source": "https://www.myswitzerland.com/en/experiences/food-wine/restaurant/restaurant-waldhaus-katzensee/"
+ }
+]

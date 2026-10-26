@@ -1,0 +1,188 @@
+[
+ {
+  "id": "kita-morgen-pendeln",
+  "icon": "commute",
+  "n_de": "Kita-Morgen & Arbeitsweg nach Oerlikon",
+  "n_en": "Kita morning & commute to Oerlikon",
+  "sum_de": "Kind in die Kita gleich hinter der Siedlung bringen, dann mit Bus 80 ab Chaletweg in 3 Minuten an den Bahnhof Oerlikon.",
+  "sum_en": "Drop the child at the Kita right behind the estate, then take bus 80 from Chaletweg to Oerlikon station in 3 minutes.",
+  "legs": [
+   {
+    "mode": "foot",
+    "to": "kita-globegarden-huerststrasse",
+    "de": "3 Min. zu Fuss, laut GISA ohne eine Strasse zu queren; die Kita öffnet um 7 Uhr.",
+    "en": "3 min on foot, according to GISA without crossing a road; the Kita opens at 7am."
+   },
+   {
+    "mode": "foot",
+    "to": "bus-chaletweg",
+    "de": "5 Min. zurück zur Haltestelle Chaletweg direkt vor der Siedlung.",
+    "en": "5 min back to the Chaletweg stop right in front of the estate."
+   },
+   {
+    "mode": "bus",
+    "to": "bahnhof-oerlikon",
+    "de": "Bus 80 Richtung Oerlikon, morgens etwa alle 6 Minuten, 3 Min. Fahrt bis Bahnhof Oerlikon Nord.",
+    "en": "Bus 80 towards Oerlikon, about every 6 minutes in the morning, 3 min ride to Oerlikon station (north side)."
+   }
+  ],
+  "tail_de": "Abends gleich zurück: Bus 80 ab Bahnhof Nord bis Chaletweg, Abholen bis 19 Uhr. Kita-Alternative mit wöchentlichem Waldtag: Mariakäfer 2 an der Binzmühlestrasse 316 (ca. 4 Min.).",
+  "tail_en": "Same way back in the evening: bus 80 from the north side to Chaletweg, pick-up until 7pm. Kita alternative with a weekly forest day: Mariakäfer 2 at Binzmühlestrasse 316 (about 4 min)."
+ },
+ {
+  "id": "samstag-im-quartier",
+  "icon": "basket",
+  "n_de": "Samstag im Quartier: Markt, Bibliothek, Spielplatz",
+  "n_en": "Saturday in the quarter: market, library, playground",
+  "sum_de": "Vormittags Wochenmarkt und Bibliothek in Oerlikon, Zmittag am Max-Bill-Platz, Spielplatz im Oerliker Park und das «Krokodil» – am Nachmittag Indoor-Spielen im Familienzentrum ELCH.",
+  "sum_en": "Morning market and library in Oerlikon, lunch on Max-Bill-Platz, the Oerliker Park playground and the 'Crocodile' locomotive – indoor play at the ELCH family centre in the afternoon.",
+  "legs": [
+   {
+    "mode": "foot",
+    "to": "bus-chaletweg",
+    "de": "2 Min. zur Haltestelle vor der Siedlung.",
+    "en": "2 min to the stop in front of the estate."
+   },
+   {
+    "mode": "bus",
+    "to": "bahnhof-oerlikon",
+    "de": "Bus 80 bis Bahnhof Oerlikon Nord (3 Min.), dann durch die Unterführung auf die Südseite.",
+    "en": "Bus 80 to Oerlikon station north (3 min), then through the underpass to the south side."
+   },
+   {
+    "mode": "foot",
+    "to": "market-wochenmarkt-oerlikon",
+    "de": "2 Min. zum Wochenmarkt auf dem Marktplatz (Sa 6–12 Uhr) – Gemüse, Früchte, Blumen; kleiner Kleinkinder-Spielplatz direkt auf dem Platz.",
+    "en": "2 min to the weekly market on Marktplatz (Sat 6am–noon) – vegetables, fruit, flowers; a small toddler playground right on the square."
+   },
+   {
+    "mode": "foot",
+    "to": "pbz-oerlikon",
+    "de": "3 Min. zur PBZ-Bibliothek am Bahnhof (Sa 10–16 Uhr): Bilderbücher und Tonies tauschen, Wickeltisch vorhanden.",
+    "en": "3 min to the PBZ library at the station (Sat 10am–4pm): swap picture books and Tonies, changing table available."
+   },
+   {
+    "mode": "foot",
+    "to": "food-cafe-max-bill",
+    "de": "8 Min. auf die Nordseite zum Café Max Bill: Zmittag auf der Terrasse am autofreien Platz.",
+    "en": "8 min to the north side for Café Max Bill: lunch on the terrace of the car-free square."
+   },
+   {
+    "mode": "foot",
+    "to": "oerliker-park",
+    "de": "3 Min. zum Oerliker Park: Kletteranlage, Sandkasten und Wasserspiel unter den Bäumen.",
+    "en": "3 min to Oerliker Park: climbing frame, sandpit and water play under the trees."
+   },
+   {
+    "mode": "foot",
+    "to": "hist-krokodil-oerlikon",
+    "de": "4 Min. zur «Krokodil»-Lokomotive an der Birch-/Binzmühlestrasse – Zug-Begeisterung garantiert.",
+    "en": "4 min to the 'Crocodile' locomotive at Birch-/Binzmühlestrasse – guaranteed train excitement."
+   },
+   {
+    "mode": "foot",
+    "to": "elch-regensbergstrasse",
+    "de": "7 Min. zum Familienzentrum ELCH Regensbergstrasse: im Winterhalbjahr samstags 15–18 Uhr Gratis-Indoorspielplatz (Bewegungsraum am Holunderweg 27).",
+    "en": "7 min to the ELCH Regensbergstrasse family centre: free indoor playground on Saturdays 3–6pm in the winter half-year (movement room at Holunderweg 27)."
+   }
+  ],
+  "tail_de": "Zurück nach Hause zu Fuss (9 Min.). Sonntags-Variante: Gratis-Indoor-Spielplatz im GZ Oerlikon (So 14–18 Uhr).",
+  "tail_en": "Walk home (9 min). Sunday variant: free indoor playground at GZ Oerlikon (Sun 2–6pm)."
+ },
+ {
+  "id": "gruene-runde-kinderwagen",
+  "icon": "tree",
+  "n_de": "Grüne Runde mit dem Kinderwagen: Hürstwald & Bio-Hof",
+  "n_en": "Green loop with the pram: Hürstwald & organic farm",
+  "sum_de": "Rund 5,5 km: durch Affoltern zum Quartiergarten, in den Hürstwald, zum Hofladen mit Milchautomat und über einen Kleinkinder-Spielplatz zurück.",
+  "sum_en": "About 5.5 km: through Affoltern to the community garden, into the Hürstwald, to the farm shop with a milk vending machine and back via a toddler playground.",
+  "legs": [
+   {
+    "mode": "foot",
+    "to": "quartiergarten-aphaltra",
+    "de": "14 Min. nach Westen zum Gemeinschaftsgarten Aphaltra an der Fronwaldstrasse.",
+    "en": "14 min west to the Aphaltra community garden on Fronwaldstrasse."
+   },
+   {
+    "mode": "foot",
+    "to": "huerstwald",
+    "de": "10 Min. zur Hürstwiese am Waldrand – Picknickpause, dann auf den Waldstrassen in den Hürstwald.",
+    "en": "10 min to the Hürstwiese meadow at the forest edge – picnic break, then along the forest roads into the Hürstwald."
+   },
+   {
+    "mode": "foot",
+    "to": "market-hofladen-bio-waidhof",
+    "de": "12 Min. durch Wald und Felder zum Bio-Hof Waidhof: Selbstbedienungs-Hofladen (Mi 13–19, Do–Sa 7–19 Uhr), Milchautomat rund um die Uhr.",
+    "en": "12 min through forest and fields to the Waidhof organic farm: self-service farm shop (Wed 1–7pm, Thu–Sat 7am–7pm), milk vending machine 24/7."
+   },
+   {
+    "mode": "foot",
+    "to": "spielplatz-werkhof-zuerich-nord",
+    "de": "20 Min. zurück Richtung Siedlung bis zum kleinen Kleinkinder-Spielplatz Werkhof Zürich Nord.",
+    "en": "20 min back towards the estate to the small Werkhof Zürich Nord toddler playground."
+   }
+  ],
+  "tail_de": "Noch 11 Min. bis nach Hause. Variante Katzensee: ab Neuaffoltern mit Bus 32 bis Holzerhurd, dann zu Fuss zum Seebad (Eintritt frei, Spielplatz, Grillstellen).",
+  "tail_en": "Another 11 min home. Katzensee variant: bus 32 from Neuaffoltern to Holzerhurd, then walk to the lido (free entry, playground, barbecue spots)."
+ },
+ {
+  "id": "affoltern-dorf-geschichte",
+  "icon": "history",
+  "n_de": "Altes Affoltern: Zehntenhausplatz, Bahnhof von 1877, Kirche von 1683",
+  "n_en": "Old Affoltern: Zehntenhausplatz, 1877 station, 1683 church",
+  "sum_de": "Mit dem Bus ins alte Oberdorf von «Afaltraha» (870 erstmals erwähnt), am alten Nationalbahn-Bahnhof vorbei zur barocken Kirche, ins Unterdorf und zum GZ Affoltern.",
+  "sum_en": "By bus to the old upper village of 'Afaltraha' (first mentioned in 870), past the old Nationalbahn station to the baroque church, into the lower village and on to GZ Affoltern.",
+  "legs": [
+   {
+    "mode": "foot",
+    "to": "bus-neuaffoltern",
+    "de": "6 Min. zur Haltestelle Neuaffoltern an der Wehntalerstrasse.",
+    "en": "6 min to the Neuaffoltern stop on Wehntalerstrasse."
+   },
+   {
+    "mode": "bus",
+    "to": "bus-zehntenhausplatz",
+    "de": "Bus 61 oder 62 bis Zehntenhausplatz.",
+    "en": "Bus 61 or 62 to Zehntenhausplatz."
+   },
+   {
+    "mode": "foot",
+    "to": "hist-zehntenhausplatz-oberdorf",
+    "de": "Gleich beim Platz: altes Oberdorf mit Zehntenhaus (in Sanierung bis 2028) und Gasthof Löwen von 1827; 1934 wurde Affoltern eingemeindet.",
+    "en": "Right by the square: the old upper village with the tithe house (under renovation until 2028) and the 1827 Gasthof Löwen; Affoltern joined the city in 1934."
+   },
+   {
+    "mode": "foot",
+    "to": "cult-kubaa",
+    "de": "5 Min. zum KulturBahnhof im alten Bahnhofsgebäude von 1877 (Nationalbahn).",
+    "en": "5 min to the KulturBahnhof in the old 1877 station building (Nationalbahn)."
+   },
+   {
+    "mode": "foot",
+    "to": "hist-alte-kirche-affoltern",
+    "de": "7 Min. zur Alten Kirche von 1683 – vorher mussten die Affoltemer sonntags über den Hönggerberg zur Kirche.",
+    "en": "7 min to the Old Church of 1683 – before it, Affoltern's people walked over the Hönggerberg to church every Sunday."
+   },
+   {
+    "mode": "foot",
+    "to": "food-wirtschaft-unterdorf",
+    "de": "6 Min. ins alte Unterdorf: Gartenwirtschaft unter Platanen (Di–Sa).",
+    "en": "6 min into the old lower village: garden restaurant under plane trees (Tue–Sat)."
+   },
+   {
+    "mode": "foot",
+    "to": "gz-affoltern",
+    "de": "8 Min. zum GZ Affoltern mit Kafi-Treff und PBZ-Bibliothek (Sa 10–14 Uhr).",
+    "en": "8 min to GZ Affoltern with its café corner and the PBZ library (Sat 10am–2pm)."
+   },
+   {
+    "mode": "foot",
+    "to": "bahnhof-affoltern",
+    "de": "8 Min. zum Bahnhof Affoltern.",
+    "en": "8 min to Affoltern station."
+   }
+  ],
+  "tail_de": "Zurück mit Bus 61/62 ab Bahnhof Affoltern bis Neuaffoltern, dann 6 Min. zu Fuss. Am 1. Samstag im Monat lockt das ZehntenKafi am Zehntenhausplatz (10–15 Uhr).",
+  "tail_en": "Back by bus 61/62 from Affoltern station to Neuaffoltern, then 6 min on foot. On the first Saturday of the month the ZehntenKafi on Zehntenhausplatz is open (10am–3pm)."
+ }
+]

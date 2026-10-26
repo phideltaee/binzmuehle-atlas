@@ -1,0 +1,12 @@
+# build output (the deploy builds index.html itself)
+/index.html
+/_site/
+*.local.html
+binzmuehle-quartier-atlas.html
+personal-overlay.json
+
+# raw OpenStreetMap downloads (re-fetchable)
+/raw/
+
+.DS_Store
+__pycache__/
