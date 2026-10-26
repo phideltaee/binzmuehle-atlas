@@ -252,6 +252,7 @@ pre.snip{margin:0;padding:10px;border-radius:10px;background:var(--paper-2);bord
 .layers input:checked{background:var(--accent)}
 .layers input:checked::after{transform:translateX(12px)}
 
+.foot a{color:inherit;text-decoration:underline;text-underline-offset:2px}
 .foot{right:var(--gr);bottom:calc(12px + env(safe-area-inset-bottom,0px));display:flex;align-items:center;gap:12px;font:500 10.5px var(--f-num);color:var(--muted);background:color-mix(in srgb,var(--paper) 82%,transparent);border-radius:8px;padding:4px 8px;z-index:2}
 .scale{display:flex;align-items:center;gap:6px}
 .scale i{display:block;height:6px;border:1.5px solid var(--ink);border-top:0;width:80px}
@@ -426,7 +427,7 @@ button,a,.chip,.hl,.row,.ev{-webkit-tap-highlight-color:transparent}
       <div class="panel" id="panel" role="tabpanel"></div>
     </section>
   </aside>
-  <div class="ov foot" id="foot"><span class="scale"><i id="scaleBar"></i><b id="scaleTxt">200 m</b></span><span data-i="indie">Inoffiziell · Nachbarschaftsprojekt</span><span>© OpenStreetMap</span></div>
+  <div class="ov foot" id="foot"><span class="scale"><i id="scaleBar"></i><b id="scaleTxt">200 m</b></span><span data-i="indie">Inoffiziell · Nachbarschaftsprojekt</span><span><span data-i="byline">von</span> <a href="https://github.com/phideltaee" target="_blank" rel="noopener">Fidel Esquivel</a></span><span>© OpenStreetMap</span></div>
 
   <article class="ov placecard card" id="card" hidden aria-live="polite"></article>
 
@@ -510,7 +511,7 @@ const GROUP = Object.fromEntries(GROUPS.map(g => [g.id, g]));
 
 const T = {
   de: {
-    eyebrow: 'Quartier-Atlas · Kreis 11', indie: 'Inoffiziell · Nachbarschaftsprojekt', hlTitle: 'Highlights', hlNext: 'Nächster Anlass', hlDoor: 'Gleich nebenan', hlPark: 'Park & Spielplatz', hlWalk: 'Rundgang', hlStops: 'Stationen',
+    eyebrow: 'Quartier-Atlas · Kreis 11', indie: 'Inoffiziell · Nachbarschaftsprojekt', byline: 'von', authorP: 'Gebaut von', dAuthor: 'Autor', dCode: 'Code und Daten', hlTitle: 'Highlights', hlNext: 'Nächster Anlass', hlDoor: 'Gleich nebenan', hlPark: 'Park & Spielplatz', hlWalk: 'Rundgang', hlStops: 'Stationen',
     introKick: 'Rundflug um die Binzmühle', introSkip: 'Überspringen', details: 'Details', continue: 'Weiter',
     flyBtn: 'Rundflug um die Siedlung', flyBtnTitle: 'Ein langsamer Flug um die Siedlung Binzmühle, mit Orten in Gehdistanz',
     hoverHint: 'Klicken für Details und Fussweg', hoverHintOut: 'Klicken für Details',
@@ -560,7 +561,7 @@ const T = {
     det: { ages: 'Alter', hours: 'Öffnungszeiten', opening_hours: 'Öffnungszeiten', price_day: 'Preis pro Tag', price: 'Preis', subsidised: 'Subventionierte Plätze', subsidized: 'Subventionierte Plätze', labels: 'Labels', languages: 'Sprachen', operator: 'Trägerschaft', phone: 'Telefon', status: 'Stand', waitlist: 'Warteliste', places: 'Plätze', note: 'Hinweis', when: 'Wann', lines: 'Linien' },
   },
   en: {
-    eyebrow: 'Neighbourhood atlas · District 11', indie: 'Unofficial · neighbourhood project', hlTitle: 'Highlights', hlNext: 'Next event', hlDoor: 'Right next door', hlPark: 'park & playground', hlWalk: 'Walk', hlStops: 'stops',
+    eyebrow: 'Neighbourhood atlas · District 11', indie: 'Unofficial · neighbourhood project', byline: 'by', authorP: 'Made by', dAuthor: 'Author', dCode: 'Code and data', hlTitle: 'Highlights', hlNext: 'Next event', hlDoor: 'Right next door', hlPark: 'park & playground', hlWalk: 'Walk', hlStops: 'stops',
     introKick: 'Flying around Binzmühle', introSkip: 'Skip', details: 'Details', continue: 'Continue',
     flyBtn: 'Fly around the estate', flyBtnTitle: 'A slow flight around the Binzmühle estate, with places within walking distance',
     hoverHint: 'Click for details and the walking route', hoverHintOut: 'Click for details',
@@ -1944,7 +1945,7 @@ function renderInvolve(el) {
 }
 function renderAbout(el) {
   el.innerHTML = `
-    <div class="prose"><h3>${t('aboutTitle')}</h3><p>${t('about1')}</p><p>${t('about2')}</p></div>
+    <div class="prose"><h3>${t('aboutTitle')}</h3><p>${t('about1')}</p><p>${t('about2')}</p><p>${t('authorP')} <a href="https://github.com/phideltaee" target="_blank" rel="noopener">Fidel Esquivel (@phideltaee)</a>.</p></div>
     ${WALKTHROUGH ? `<a class="tour" href="${WALKTHROUGH}" target="_blank" rel="noopener" style="text-decoration:none;color:inherit">
       <div class="top"><span class="ico" style="background:var(--birch-soft);color:var(--birch)">${ico('ext')}</span><div><h3>${t('flatTour')}</h3><p class="note">${t('flatTourSub')}</p></div></div></a>` : ''}
     <div class="sh">${t('dataTitle')}</div>
@@ -1953,6 +1954,8 @@ function renderAbout(el) {
       <div><dt>${t('dPlaces')}</dt><dd>${t('dPlacesV')}</dd></div>
       <div><dt>${t('dWalk')}</dt><dd>${t('dWalkV')}</dd></div>
       <div><dt>${t('dSite')}</dt><dd>${t('dSiteV')}</dd></div>
+      <div><dt>${t('dAuthor')}</dt><dd><a href="https://github.com/phideltaee" target="_blank" rel="noopener">Fidel Esquivel (@phideltaee)</a></dd></div>
+      <div><dt>${t('dCode')}</dt><dd><a href="https://github.com/phideltaee/binzmuehle-atlas" target="_blank" rel="noopener">github.com/phideltaee/binzmuehle-atlas</a></dd></div>
       <div><dt>${t('dLicense')}</dt><dd>${t('dLicenseV')}</dd></div>
     </dl>
     <p class="note">${t('ringNote')}</p>`;

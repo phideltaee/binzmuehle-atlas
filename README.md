@@ -9,6 +9,8 @@ Rundgänge machen, Anlässe finden und Fehlendes ergänzen.*
 
 **Live:** https://phideltaee.github.io/binzmuehle-atlas/
 
+**Author:** Fidel Esquivel ([@phideltaee](https://github.com/phideltaee))
+
 > **Unofficial.** An independent neighbourhood project, not affiliated with Baugenossenschaft GISA. The official site
 > is [binzmuehle.ch](https://www.binzmuehle.ch). *Inoffiziell: ein unabhängiges Nachbarschaftsprojekt, nicht mit der
 > GISA verbunden.*
